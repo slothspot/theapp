@@ -1,0 +1,52 @@
+/*
+  User =>
+    login
+    logout
+    update
+      {addCompany: 'cmp'} <= make curator
+      {removeCompany: 'cmp'}
+    create
+        company
+        login
+        role
+        pass
+    stats
+
+  User management =>
+    list by company
+
+  Company =>
+    create
+      id
+      name
+      type
+      domain
+      site
+      address
+      primaryPhone
+      primaryEmail
+    update
+    stats
+
+  Companies contacts =>
+    newEvent
+    getEvents
+
+  Invoices =>
+    create
+    update
+      assign
+      start processing
+      update status
+      finish
+    status
+
+  Calendar =>
+    addEvent
+    updateEvent
+    getEvents
+
+  Notifications =>
+    send by email
+    send in place
+ */

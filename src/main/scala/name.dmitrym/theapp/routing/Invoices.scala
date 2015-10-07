@@ -3,19 +3,22 @@ package name.dmitrym.theapp.routing
 import akka.http.scaladsl.server.Directives._
 
 object Invoices extends Router {
-  val create = put {
+  private[this] val createInvoiceTimer = metrics.timer("createInvoice")
+  val createInvoice = createInvoiceTimer.time { put {
     complete(Responses.Stub)
-  }
+  }}
 
-  val update = post {
+  private[this] val updateInvoiceTimer = metrics.timer("updateInvoice")
+  val updateInvoice = updateInvoiceTimer.time { post {
     complete(Responses.Stub)
-  }
+  }}
 
-  val status = get {
+  private[this] val invoiceStatusTimer = metrics.timer("invoiceStatus")
+  val invoiceStatus = invoiceStatusTimer.time { get {
     complete(Responses.Stub)
-  }
+  }}
 
   def route = path("invoices") {
-    create ~ update ~ status
+    createInvoice ~ updateInvoice ~ invoiceStatus
   }
 }

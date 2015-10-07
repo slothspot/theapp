@@ -1,6 +1,3 @@
-Tools:
-    Build tool => sbt ( http://scala-sbt.org )
-
 Pre-requisites:
     0. Oracle JDK 8
         a. Download and install ( http://www.oracle.com/technetwork/java/javase/downloads/index.html )
@@ -14,8 +11,10 @@ Pre-requisites:
 
 Compile and run:
     1. Compile
-        # sbt compile
+        # ./sbt.sh compile
     2. Run
-        # sbt run
+        # ./sbt.sh run
+
+    * Note: On Windows, replace sbt.sh with sbt.bat
 
 Open configured host and port in browser (ex. http://localhost:8080), enjoy!

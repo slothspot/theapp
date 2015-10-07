@@ -5,6 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
+import com.codahale.metrics.MetricRegistry
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 
@@ -13,6 +14,8 @@ import scala.io.StdIn
 object TheApp extends App with LazyLogging {
   implicit val system = ActorSystem("theApp")
   implicit val materializer = ActorMaterializer()
+
+  val metricRegistry = new MetricRegistry
 
   val route = path("public" / Rest) { r =>
     getFromResource("public/" + r)

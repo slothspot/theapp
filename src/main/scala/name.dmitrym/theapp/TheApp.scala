@@ -17,9 +17,11 @@ object TheApp extends App with LazyLogging {
 
   val metricRegistry = new MetricRegistry
 
-  val route = path("public" / Rest) { r =>
-    getFromResource("public/" + r)
+  val route = pathPrefix("public") {
+    getFromResourceDirectory("public/")
   } ~ path("public") {
+    redirect("public/index.html", StatusCodes.MovedPermanently)
+  } ~ pathSingleSlash {
     redirect("public/index.html", StatusCodes.MovedPermanently)
   }
 

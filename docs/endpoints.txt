@@ -1,7 +1,8 @@
 /*
-  User =>
+  Sessions =>
     login
     logout
+  User =>
     update
       {addCompany: 'cmp'} <= make curator
       {removeCompany: 'cmp'}
@@ -45,8 +46,4 @@
     addEvent
     updateEvent
     getEvents
-
-  Notifications =>
-    send by email
-    send in place
  */

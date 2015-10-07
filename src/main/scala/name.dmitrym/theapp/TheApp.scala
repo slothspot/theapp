@@ -8,6 +8,7 @@ import akka.stream.ActorMaterializer
 import com.codahale.metrics.MetricRegistry
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
+import name.dmitrym.theapp.routing._
 
 import scala.io.StdIn
 
@@ -23,6 +24,10 @@ object TheApp extends App with LazyLogging {
     redirect("public/index.html", StatusCodes.MovedPermanently)
   } ~ pathSingleSlash {
     redirect("public/index.html", StatusCodes.MovedPermanently)
+  } ~ pathPrefix("api") {
+    pathPrefix("v0") {
+      Sessions.route ~ Calendar.route ~ Users.route ~ Companies.route ~ Invoices.route ~ CompanyEvents.route
+    }
   }
 
   val config = ConfigFactory.load("application.conf")

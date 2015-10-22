@@ -9,9 +9,9 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "com.typesafe" % "config" % "1.3.0",
   "com.typesafe.akka" %% "akka-http-experimental" % "1.0",
-  "org.mongodb.scala" %% "mongo-scala-driver" % "1.0.0-rc0",
+  "org.mongodb.scala" %% "mongo-scala-driver" % "1.0.0",
   "nl.grons" %% "metrics-scala" % "3.5.2_a2.3",
-  "org.specs2" %% "specs2-core" % "3.6.4" % "test"
+  "org.specs2" %% "specs2-core" % "3.6.5" % "test"
   )
 
 scalaVersion := "2.11.7"

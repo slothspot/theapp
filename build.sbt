@@ -9,7 +9,10 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "com.typesafe" % "config" % "1.3.0",
   "com.typesafe.akka" %% "akka-http-experimental" % "1.0",
-  "org.mongodb.scala" %% "mongo-scala-driver" % "1.0.0",
+  "com.softwaremill" %% "akka-http-session" % "0.1.4",
+  "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "1.0",
+  "org.mongodb" %% "casbah-core" % "3.0.0",
+  "org.mongodb" %% "casbah-gridfs" % "3.0.0",
   "nl.grons" %% "metrics-scala" % "3.5.2_a2.3",
   "org.specs2" %% "specs2-core" % "3.6.5" % "test"
   )
@@ -17,10 +20,11 @@ libraryDependencies ++= Seq(
 scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq(
-  "-deprecation"
+  "-deprecation", "-feature", "-optimise", "-unchecked", "-Xlint:_"
   )
 
 javacOptions ++= Seq(
+  "-deprecation", "-Xlint"
   )
 
 incOptions := incOptions.value.withNameHashing(true)

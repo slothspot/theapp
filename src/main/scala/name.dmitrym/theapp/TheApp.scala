@@ -26,7 +26,7 @@ object TheApp extends App with LazyLogging {
     redirect("public/index.html", StatusCodes.MovedPermanently)
   } ~ pathPrefix("api") {
     pathPrefix("v0") {
-      Sessions.route ~ Calendar.route ~ Users.route ~ Companies.route ~ Invoices.route ~ CompanyEvents.route
+      Sessions().route ~ Calendar.route ~ Users.route ~ Companies.route ~ Invoices.route ~ CompanyEvents.route
     }
   }
 

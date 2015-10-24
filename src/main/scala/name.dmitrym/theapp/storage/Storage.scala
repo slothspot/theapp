@@ -1,14 +1,15 @@
 package name.dmitrym.theapp.models
 
+import com.mongodb.casbah.{MongoClientURI, MongoClient}
 import com.typesafe.config.Config
-import org.mongodb.scala.MongoClient
 
 class Storage private(mongoUri: String) {
-  private[this] val mongoClient = MongoClient(mongoUri)
-  private[this] val database = mongoClient.getDatabase("theapp")
+  private[this] val mongoClient = MongoClient(MongoClientURI(mongoUri))
+  private[this] val database = mongoClient("theapp")
 
-  val companies = database.getCollection("companies")
-  val users = database.getCollection("users")
+  val sessions = database("sessions")
+  val companies = database("companies")
+  val users = database("users")
 }
 
 object Storage {

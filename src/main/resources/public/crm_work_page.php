@@ -13,7 +13,6 @@ include ("mysql.php");
     <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/responsive-calendar.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/circle.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,600' rel='stylesheet' type='text/css'>	
    <?
 if(!isset($_SESSION['login'])){
@@ -114,7 +113,7 @@ if (empty($login) or empty($password))
     </script>
     
    </div> 
-   </div>
+
    <div class="crm_footer">
   <div class="container">
     <div class="clear"></div>
@@ -211,7 +210,7 @@ if (empty($login) or empty($password))
               $('.prod-cnt').each(function(){
                   if(($(this).hasClass(CategoryID)) == false){
                      $(this).css({'display':'none'});
-                  };
+                  }
               });
               $('.'+CategoryID).fadeIn(); 
               
@@ -225,7 +224,7 @@ if (empty($login) or empty($password))
         $('#slider').nivoSlider({
           prevText: '',
           nextText: '',
-          controlNav: false,
+          controlNav: false
         });
     });
     </script>
@@ -246,7 +245,7 @@ if (empty($login) or empty($password))
           });
 
           // scroll body to 0px on click
-          $('#back-top a').click(function () {
+          $('#back-top').find('a').click(function () {
             $('body,html').animate({
               scrollTop: 0
             }, 800);
@@ -271,7 +270,6 @@ if (empty($login) or empty($password))
           }
       //-->
       </script>
-      <script type="text/javascript" src="js/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
       <script type="text/javascript">
       $(function() {

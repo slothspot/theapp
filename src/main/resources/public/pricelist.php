@@ -13,7 +13,6 @@ include ("mysql.php");
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/responsive-calendar.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/circle.css" rel="stylesheet">
     <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,600' rel='stylesheet' type='text/css'>	
     <script type="text/javascript" src="js/lightbox-plus-jquery.min.js"></script>
@@ -179,7 +178,7 @@ $list['product_about'] = mb_substr($list['product_about'], 0, 165, 'UTF-8') . '.
               $('.prod-cnt').each(function(){
                   if(($(this).hasClass(CategoryID)) == false){
                      $(this).css({'display':'none'});
-                  };
+                  }
               });
               $('.'+CategoryID).fadeIn(); 
               
@@ -193,7 +192,7 @@ $list['product_about'] = mb_substr($list['product_about'], 0, 165, 'UTF-8') . '.
         $('#slider').nivoSlider({
           prevText: '',
           nextText: '',
-          controlNav: false,
+          controlNav: false
         });
     });
     </script>
@@ -214,7 +213,7 @@ $list['product_about'] = mb_substr($list['product_about'], 0, 165, 'UTF-8') . '.
           });
 
           // scroll body to 0px on click
-          $('#back-top a').click(function () {
+          $('#back-top').find('a').click(function () {
             $('body,html').animate({
               scrollTop: 0
             }, 800);
@@ -239,7 +238,6 @@ $list['product_about'] = mb_substr($list['product_about'], 0, 165, 'UTF-8') . '.
           }
       //-->
       </script>
-      <script type="text/javascript" src="js/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
       <script type="text/javascript">
       $(function() {

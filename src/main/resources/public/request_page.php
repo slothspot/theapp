@@ -13,11 +13,9 @@ include ("mysql.php");
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <link rel="stylesheet" href="css/misc.css">
-<link href="css/circle.css" rel="stylesheet">
-<link href="css/jquery.bxslider.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/nivo-slider.css">
 <link href="http://fonts.googleapis.com/css?family=Raleway:400,100,600" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 </head>
 <body>
@@ -156,7 +154,7 @@ while ($result=mysql_fetch_array ($request)); ?></div>
         <div id="tablefooter">
            <div id="tablenav">
             	<div>
-                    <img src="/images/first.gif" width="5px" height="5px" alt="First Page" onclick="sorter.move(-1,true)" />
+                    <img src="images/first.gif" width="5px" height="5px" alt="First Page" onclick="sorter.move(-1,true)" />
                     <img src="images/previous.gif" width="5px" height="5px" alt="First Page" onclick="sorter.move(-1)" />
                     <img src="images/next.gif" width="5px" height="5px" alt="First Page" onclick="sorter.move(1)" />
                     <img src="images/last.gif" width="5px" height="5px" alt="Last Page" onclick="sorter.move(1,true)" />
@@ -407,7 +405,7 @@ printf('
               $('.prod-cnt').each(function(){
                   if(($(this).hasClass(CategoryID)) == false){
                      $(this).css({'display':'none'});
-                  };
+                  }
               });
               $('.'+CategoryID).fadeIn(); 
               
@@ -420,7 +418,7 @@ printf('
         $('#slider').nivoSlider({
           prevText: '',
           nextText: '',
-          controlNav: false,
+          controlNav: false
         });
     });
     </script> 
@@ -441,7 +439,7 @@ printf('
           });
 
           // scroll body to 0px on click
-          $('#back-top a').click(function () {
+          $('#back-top').find('a').click(function () {
             $('body,html').animate({
               scrollTop: 0
             }, 800);
@@ -466,7 +464,7 @@ printf('
           }
       //-->
       </script> 
-<script type="text/javascript" src="js/lib/jquery.mousewheel-3.0.6.pack.js"></script> 
+
 <script type="text/javascript">
       $(function() {
         $('a[href*=#]:not([href=#])').click(function() {

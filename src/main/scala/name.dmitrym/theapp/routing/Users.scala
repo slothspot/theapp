@@ -1,8 +1,10 @@
 package name.dmitrym.theapp.routing
 
 import akka.http.scaladsl.server.Directives._
+import akka.stream.ActorMaterializer
+import com.typesafe.scalalogging.LazyLogging
 
-object Users extends Router {
+class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   private[this] val createUserTimer = metrics.timer("createUser")
   val createUser = createUserTimer.time { put {
     complete(Responses.Stub)
@@ -21,4 +23,8 @@ object Users extends Router {
   def route = path("users") {
     createUser ~ updateUser ~ userStats
   }
+}
+
+object Users {
+  def apply()(implicit materializer: ActorMaterializer) = new Users
 }

@@ -1,8 +1,10 @@
 package name.dmitrym.theapp.routing
 
 import akka.http.scaladsl.server.Directives._
+import akka.stream.ActorMaterializer
+import com.typesafe.scalalogging.LazyLogging
 
-object Calendar extends Router {
+class Calendar(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   private[this] val addEventTimer = metrics.timer("addEvent")
   val addEvent = addEventTimer.time {put {
     complete(Responses.Stub)
@@ -21,4 +23,8 @@ object Calendar extends Router {
   def route = path("calendar") {
     addEvent ~ updateEvent ~ getEvents
   }
+}
+
+object Calendar {
+  def apply()(implicit materializer: ActorMaterializer) = new Calendar
 }

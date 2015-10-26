@@ -129,7 +129,8 @@ include ("mysql.php");
             </thead>
             <tbody>
                 <?
-				$query=mysql_query("SELECT ".$table_result." FROM `".$table_parametrs."` WHERE ".$search_parametrs."");                $result=mysql_fetch_assoc ($query);
+				$query=mysql_query("SELECT ".$table_result." FROM `".$table_parametrs."` WHERE ".$search_parametrs."");
+				$result=mysql_fetch_assoc ($query);
 										
 				do
 				{

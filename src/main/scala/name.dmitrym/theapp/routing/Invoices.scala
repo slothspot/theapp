@@ -1,8 +1,10 @@
 package name.dmitrym.theapp.routing
 
 import akka.http.scaladsl.server.Directives._
+import akka.stream.ActorMaterializer
+import com.typesafe.scalalogging.LazyLogging
 
-object Invoices extends Router {
+class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   private[this] val createInvoiceTimer = metrics.timer("createInvoice")
   val createInvoice = createInvoiceTimer.time { put {
     complete(Responses.Stub)
@@ -21,4 +23,8 @@ object Invoices extends Router {
   def route = path("invoices") {
     createInvoice ~ updateInvoice ~ invoiceStatus
   }
+}
+
+object Invoices {
+  def apply()(implicit materializer: ActorMaterializer) = new Invoices
 }

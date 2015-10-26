@@ -14,10 +14,8 @@ import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.models.Storage
 import name.dmitrym.theapp.utils.Marshallers._
 
-class Sessions(implicit val mat:ActorMaterializer) extends Router with LazyLogging {
-  private[this] val sessionConfig = SessionConfig.default(SessionUtil.randomServerSecret).withClientSessionEncryptData(true)
-  implicit val sessionManager = new SessionManager[String](sessionConfig)
-
+class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
+  import Sessions.sessionManager
   private[this] val storage = Storage(ConfigFactory.load("application.conf"))
 
   private[this] val loginTimer = metrics.timer("login")
@@ -58,5 +56,7 @@ class Sessions(implicit val mat:ActorMaterializer) extends Router with LazyLoggi
 }
 
 object Sessions {
+  private[this] val sessionConfig = SessionConfig.default(SessionUtil.randomServerSecret).withClientSessionEncryptData(true)
+  implicit val sessionManager = new SessionManager[String](sessionConfig)
   def apply()(implicit  materializer: ActorMaterializer) = new Sessions
 }

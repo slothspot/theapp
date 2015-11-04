@@ -29,7 +29,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
               val sessionId = UUID.randomUUID().toString
               storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
               setSession(sessionId) { ctx =>
-                ctx.complete(Responses.Ok)
+                ctx.complete(Responses.LoggedIn(lp.userName))
               }
             case None =>
               complete(Responses.Fail("User doesn't exist"))

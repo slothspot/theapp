@@ -10,4 +10,6 @@ object Responses {
   def InvoiceCreated(id: String) = "{ \"result\" : \"ok\", \"id\" : \"" + id + "\" }"
 
   def InvoiceUpdated(id: String) = "{ \"result\" : \"ok\", \"id\" : \"" + id + "\" }"
+
+  def LoggedIn(userName: String) = "{\"result\" : \"ok\", \"name\": \"" + userName + "\" }"
 }

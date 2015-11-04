@@ -28,3 +28,5 @@ javacOptions ++= Seq(
   )
 
 incOptions := incOptions.value.withNameHashing(true)
+
+parallelExecution in Test := false

@@ -10,6 +10,7 @@ class Storage private(mongoUri: String) {
   val sessions = database("sessions")
   val companies = database("companies")
   val users = database("users")
+  val invoices = database("invoices")
 }
 
 object Storage {

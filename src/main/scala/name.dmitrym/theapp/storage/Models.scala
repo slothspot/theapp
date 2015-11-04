@@ -25,6 +25,11 @@ object InvoiceType extends Enumeration {
 
 case class Invoice(`type`: InvoiceType, creator: User, assignee: User, description: String, qty: Int, reason: String, attachments: Option[Seq[String]])
 
+object InvoiceStatus extends Enumeration {
+  type InvoiceStatus = Value
+  val Created, Confirmed, Updated, Completed = Value
+}
+
 trait InvoiceHistory
 case class CreateInvoice() extends InvoiceHistory
 case class ProcessInvoice() extends InvoiceHistory

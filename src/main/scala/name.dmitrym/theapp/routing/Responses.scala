@@ -6,4 +6,8 @@ object Responses {
   val Ok = "{ \"result\" : \"ok\" }"
 
   def Fail(reason: String) = "{ \"result\" : \"error\", \"reason\" : \"" + reason + "\" }"
+
+  def InvoiceCreated(id: String) = "{ \"result\" : \"ok\", \"id\" : \"" + id + "\" }"
+
+  def InvoiceUpdated(id: String) = "{ \"result\" : \"ok\", \"id\" : \"" + id + "\" }"
 }

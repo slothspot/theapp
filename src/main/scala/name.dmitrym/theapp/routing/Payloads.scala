@@ -2,7 +2,8 @@ package name.dmitrym.theapp.routing
 
 import name.dmitrym.theapp.models.{CompanyInfo, Company}
 
-case class LoginPayload(companyId: String, userName: String, userPassword: String)
+case class LoginPayload(login: String, password: String)
+case class LoginResponsePayload(id: String, name: String, role: Int)
 
 case class CompanyItem(company: Company, companyInfo: CompanyInfo)
 

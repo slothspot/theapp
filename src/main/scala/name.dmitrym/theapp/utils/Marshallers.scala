@@ -1,11 +1,12 @@
 package name.dmitrym.theapp.utils
 
 import name.dmitrym.theapp.models.{CompanyInfo, Company}
-import name.dmitrym.theapp.routing.{InvoiceUpdatePayload, InvoiceCreatePayload, CompanyItem, LoginPayload}
+import name.dmitrym.theapp.routing._
 import spray.json._
 
 object Marshallers extends DefaultJsonProtocol {
-  implicit val loginPayloadJSONMarshaller = jsonFormat3(LoginPayload)
+  implicit val loginPayloadJSONMarshaller = jsonFormat2(LoginPayload)
+  implicit val loginResponsePayloadJSONMarshaller = jsonFormat3(LoginResponsePayload)
 
   implicit val companyJSONMarshaller = jsonFormat2(Company)
 

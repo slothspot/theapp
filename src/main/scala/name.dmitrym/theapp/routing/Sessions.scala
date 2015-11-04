@@ -13,6 +13,7 @@ import com.typesafe.scalalogging.LazyLogging
 
 import name.dmitrym.theapp.models.Storage
 import name.dmitrym.theapp.utils.Marshallers._
+import org.bson.types.ObjectId
 
 class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
@@ -21,21 +22,22 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
   private[this] val loginTimer = metrics.timer("login")
   val login = loginTimer.time { post {
     entity(as[LoginPayload]) { lp =>
-      logger.debug("received lp.cmpId => " + lp.companyId + " ; lp.user => " + lp.userName + " ; lp.pass => " + lp.userPassword)
-      storage.companies.findOne(MongoDBObject("id" -> lp.companyId)) match {
-        case Some(c) =>
-          storage.users.findOne(MongoDBObject("companyId" -> lp.companyId, "userName" -> lp.userName, "userPassHash" -> lp.userPassword)) match {
-            case Some(u) =>
-              val sessionId = UUID.randomUUID().toString
-              storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
-              setSession(sessionId) { ctx =>
-                ctx.complete(Responses.LoggedIn(lp.userName))
-              }
-            case None =>
-              complete(Responses.Fail("User doesn't exist"))
+      logger.debug("received lp.login => " + lp.login + " ; lp.password => " + lp.password)
+      storage.users.findOne(MongoDBObject("login" -> lp.login, "password" -> lp.password)) match {
+        case Some(u) =>
+          val sessionId = UUID.randomUUID().toString
+          storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
+          setSession(sessionId) { ctx =>
+            ctx.complete{
+              LoginResponsePayload(
+                u.get("_id").asInstanceOf[ObjectId].toHexString,
+                u.get("name").asInstanceOf[String],
+                u.get("role").asInstanceOf[Int]
+              )
+            }
           }
         case None =>
-          complete(Responses.Fail("Company doesn't exist"))
+          complete(Responses.Fail("User doesn't exist"))
       }
     }
   }}

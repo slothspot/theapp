@@ -17,27 +17,35 @@ import org.bson.types.ObjectId
 
 class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
-  private[this] val storage = Storage(ConfigFactory.load("application.conf"))
+  private[this] val config = ConfigFactory.load("application.conf")
+  private[this] val storage = Storage(config)
 
   private[this] val loginTimer = metrics.timer("login")
   val login = loginTimer.time { post {
     entity(as[LoginPayload]) { lp =>
       logger.debug("received lp.login => " + lp.login + " ; lp.password => " + lp.password)
-      storage.users.findOne(MongoDBObject("login" -> lp.login, "password" -> lp.password)) match {
-        case Some(u) =>
-          val sessionId = UUID.randomUUID().toString
-          storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
-          setSession(sessionId) { ctx =>
-            ctx.complete{
-              LoginResponsePayload(
-                u.get("_id").asInstanceOf[ObjectId].toHexString,
-                u.get("name").asInstanceOf[String],
-                u.get("role").asInstanceOf[Int]
-              )
+      if(lp.login == config.getString("defaults.admin.login") && lp.password == config.getString("defaults.admin.password")) {
+        storage.users.findOne(MongoDBObject("role" -> 0)) match {
+          case Some(u) => complete(Responses.Fail("Not a first admin authorization")) // found main admin in users collection
+          case None => complete(Responses.AdminFirstTime)
+        }
+      } else {
+        storage.users.findOne(MongoDBObject("login" -> lp.login, "password" -> lp.password)) match {
+          case Some(u) =>
+            val sessionId = UUID.randomUUID().toString
+            storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
+            setSession(sessionId) { ctx =>
+              ctx.complete {
+                LoginResponsePayload(
+                  u.get("_id").asInstanceOf[ObjectId].toHexString,
+                  u.get("name").asInstanceOf[String],
+                  u.get("role").asInstanceOf[Int]
+                )
+              }
             }
-          }
-        case None =>
-          complete(Responses.Fail("User doesn't exist"))
+          case None =>
+            complete(Responses.Fail("User doesn't exist"))
+        }
       }
     }
   }}

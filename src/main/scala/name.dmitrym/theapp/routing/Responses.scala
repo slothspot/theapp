@@ -12,4 +12,6 @@ object Responses {
   def InvoiceUpdated(id: String) = "{ \"result\" : \"ok\", \"id\" : \"" + id + "\" }"
 
   def LoggedIn(userName: String) = "{\"result\" : \"ok\", \"name\": \"" + userName + "\" }"
+
+  val AdminFirstTime = "{ \"result\" : \"ok\", \"needsSetup\" : true }"
 }

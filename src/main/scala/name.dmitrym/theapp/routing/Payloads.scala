@@ -11,3 +11,7 @@ case class InvoiceCreatePayload(companyId: String, userId: String, title: String
 
 case class InvoiceUpdatePayload(id: String, title: String, reqType: String, reqNeed: String, reqDescription: String,
   reqImg: String, startTime: String, finishTime: String, status: Int, responsible: String, result: String)
+
+case class CreateUserPayload(login: String, password: String, name: String, companyId: String, role: Int)
+
+case class UserInfo(login: String, name: String, company: Company, role: Int)

@@ -33,7 +33,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
         storage.users.findOne(MongoDBObject("login" -> lp.login, "password" -> lp.password)) match {
           case Some(u) =>
             val sessionId = UUID.randomUUID().toString
-            storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id")))
+            storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id"), "role" -> u.get("role"), "company" -> u.get("companyId")))
             setSession(sessionId) { ctx =>
               ctx.complete {
                 LoginResponsePayload(

@@ -14,4 +14,8 @@ object Responses {
   def LoggedIn(userName: String) = "{\"result\" : \"ok\", \"name\": \"" + userName + "\" }"
 
   val AdminFirstTime = "{ \"result\" : \"ok\", \"needsSetup\" : true }"
+
+  val NotAuthorized = Fail("Not authorized")
+
+  val NotAllowed = Fail("Not allowed")
 }

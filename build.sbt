@@ -23,6 +23,10 @@ scalacOptions ++= Seq(
   "-deprecation", "-feature", "-optimise", "-unchecked", "-Xlint:_"
   )
 
+scalacOptions in Test ++= Seq(
+  "-Yrangepos"
+  )
+
 javacOptions ++= Seq(
   "-deprecation", "-Xlint"
   )

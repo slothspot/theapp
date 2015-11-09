@@ -14,6 +14,8 @@ Compile and run:
         # ./sbt.sh compile
     2. Run
         # ./sbt.sh run
+    3. Execute tests
+        # ./sbt.sh "testOnly -- showtimes"
 
     * Note: On Windows, replace sbt.sh with sbt.bat
 

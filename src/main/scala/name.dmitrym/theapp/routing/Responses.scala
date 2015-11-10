@@ -18,4 +18,8 @@ object Responses {
   val NotAuthorized = Fail("Not authorized")
 
   val NotAllowed = Fail("Not allowed")
+
+  val AlreadyExists = Fail("Already exists")
+
+  val DoesntExist = Fail("Doesn't exist")
 }

@@ -32,7 +32,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
               ))
               complete(Responses.Ok)
             case Some(u) =>
-              complete(Responses.Fail("Already exists"))
+              complete(Responses.AlreadyExists)
           }
         } else {
           complete(Responses.NotAllowed)
@@ -49,7 +49,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
           if(s.get("role").asInstanceOf[Int] == 0 || (s.get("role").asInstanceOf[Int] == 1 && s.get("companyId") == pl.companyId && pl.role >= 1)) {
             storage.users.findOne(MongoDBObject("login" -> pl.login)) match {
               case None =>
-                complete(Responses.Fail("Doesn't exist"))
+                complete(Responses.DoesntExist)
               case Some(u) =>
                 storage.users.update(u, MongoDBObject(
                   "login" -> pl.login,

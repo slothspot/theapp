@@ -1,5 +1,0 @@
-.lang.Thread.run(Thread.java:745)
-[error] (*:update) java.io.FileNotFoundException: /home/sumrak/Загрузки/theapp/project/target/resolution-cache/default/theapp-build/scala_2.10/sbt_0.13/0.1-SNAPSHOT/resolved.xml.xml (Отказано в доступе)
-Project loading failed: (r)etry, (q)uit, (l)ast, or (i)gnore? 
-
-Чтобы не выбрал обрубывает.

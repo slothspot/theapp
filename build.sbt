@@ -35,6 +35,6 @@ incOptions := incOptions.value.withNameHashing(true)
 
 parallelExecution in Test := false
 
-coverageEnabled := true
+coverageEnabled in Test := true
 
-coverageHighlighting := true
+coverageHighlighting in Test := true

@@ -1,0 +1,35 @@
+﻿<div class="panel panel-default with-border" ng-controller="TableController as tableCtrl">
+    <div class="panel-heading bg-color-blue">
+        <strong><h4 align="center">Общий список компаний</h4></strong>
+    </div>
+    <div class="panel-blue ">
+        <a href="#" data-toggle="modal" data-target="#AddCompanyModal"><span class="fa fa-plus-circle fa-2x"></span>Добавить</a>
+    </div>
+    <div class="panel-body" >
+        <div class="table-responsive" ng-controller="editController as editCtrl"  >
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                <tr>
+                    <th>Код предприятия</th>
+                    <th>Названия предприятия</th>
+                    <th>Сфера деятельности</th>
+                    <th>О компании</th>
+                    <th>Контакты</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd gradeX" ng-repeat="content in tableCtrl.content">
+                    <td><a href="#" ng-click="editCtrl.edit({{content.companyid}})" data-toggle="modal" data-target="#EditCompanyModal">{{content.companyid}}</a></td>
+                    <td>{{content.companyName}}</td>
+                    <td>{{content.type}}</td>
+                    <td>{{content.aboutCompany}}</td>
+                    <td>{{content.contactDetail}}</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>   <!-- /. Таблица контрагентов  -->

@@ -1,3 +1,5 @@
+'use strict';
+
 var companyTable=[
     {
         companyid:'36046631',
@@ -182,27 +184,21 @@ var tasksTable=[];
 
     });
 
-    app.controller("userController", function() {
-        this.allUsersList=usersTable;
-        this.inSystem=function(){
-
-            for(var i=0; i<usersTable.length; i++) {
-                if(this.companyIdAutorization==usersTable[i].companyid&&this.loginAutorization==usersTable[i].login&&this.passwordAutorization==usersTable[i].password){
-                    this.inSystem=usersTable[i];
-                    alert( this.inSystem);
-                }
-                else
-                {
-                    alert('Не коректные даные, в базе отсутсвует такой пользователь либо некорректно введена информация, попробуйте еще раз');
-                    this.inSystem=[];
-
-                };
-
-
-            }
-
-        };
-    });
+    app.controller("userController", ['$scope', '$http', function($scope, $http) {
+        $scope.loginForm = {};
+        $scope.login = function () {
+            var loginPayload = { login: $scope.loginForm.login, password: md5($scope.loginForm.password)};
+            $http.post('/api/v0/sessions', loginPayload).then(
+            function success(data){
+                console.log('Success');
+                console.log(data.data);
+            },
+            function fail(data){
+                console.log('Fail');
+                console.log(data.data);
+            });
+        }
+    }]);
 
     app.controller("InfoController",function(){
         this.allcompany=companyTable.length;

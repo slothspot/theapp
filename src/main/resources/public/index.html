@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/s/bs/dt-1.10.10/datatables.min.js"></script>
     <script type="text/javascript" src="lib/js/jquery.knob.js"></script>
     <script type="text/javascript" src="lib/js/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="lib/js/md5.min.js"></script>
     <script type="text/javascript" src="lib/js/custom.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </head>
@@ -33,13 +34,12 @@
                     </div>
                     <div class="tab-content center-block" style="width: 300px;">
                         <div id="login" class="tab-pane active">
-                            <form action="index.html" class="form-signin">
+                            <form class="form-signin" ng-controller="userController" ng-submit="login()">
                                 <p class="text-muted text-center btn-block btn btn-primary btn-rect">
                                     Авторизация
                                 </p>
-                                <input type="text" placeholder="Код компании" class="form-control" ng-model="userCtrl.user.companyId" />
-                                <input type="text" placeholder="Логин пользователя" class="form-control" ng-model="userCtrl.user.login" />
-                                <input type="password" placeholder="Пароль" class="form-control" ng-model="userCtrl.user.password" />
+                                <input type="text" placeholder="Логин пользователя" class="form-control" ng-model="loginForm.login" />
+                                <input type="password" placeholder="Пароль" class="form-control" ng-model="loginForm.password" />
                                 <br />
                                 <button class="btn text-muted text-center btn-danger" type="submit">Войти</button> <br />
                             </form>

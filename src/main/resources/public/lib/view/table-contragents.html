@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                 <tr class="odd gradeX" ng-repeat="content in tableCtrl.content">
-                    <td><a href="#" ng-click="editCtrl.edit({{content.companyid}})" data-toggle="modal" data-target="#EditCompanyModal">{{content.companyid}}</a></td>
+                    <td><a href="#" ng-click="editCtrl.edit(content.companyid)" data-toggle="modal" data-target="#EditCompanyModal">{{content.companyid}}</a></td>
                     <td>{{content.companyName}}</td>
                     <td>{{content.type}}</td>
                     <td>{{content.aboutCompany}}</td>

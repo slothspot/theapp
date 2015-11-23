@@ -15,7 +15,7 @@ import org.specs2.specification.BeforeAfterAll
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class TestSessions extends Specification with LazyLogging with BeforeAfterAll {
+class TestWebAPI extends Specification with LazyLogging with BeforeAfterAll {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
 
@@ -48,7 +48,7 @@ class TestSessions extends Specification with LazyLogging with BeforeAfterAll {
       Http().singleRequest(HttpRequest(
         uri = "http://localhost:8080/api/v0/sessions",
         method = HttpMethods.POST,
-        entity = HttpEntity(ContentType(MediaTypes.`application/json`), "{\"login\" : \"admin\", \"password\" : \"456b7016a916a4b178dd72b947c152b7\"}")
+        entity = HttpEntity(ContentType(MediaTypes.`application/json`), "{\"login\" : \"admin\", \"password\" : \"21232f297a57a5a743894a0e4a801fc3\"}")
       )) must beNeedsSetup.awaitFor(30.seconds)
     }
     "succeeded for valid user" in {

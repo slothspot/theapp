@@ -3,9 +3,8 @@ package name.dmitrym.theapp.routing
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.mongodb.casbah.commons.MongoDBObject
-import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
-import name.dmitrym.theapp.models.{InvoiceStatus, Storage}
+import name.dmitrym.theapp.storage.{InvoiceStatus, Storage}
 import com.softwaremill.session.SessionDirectives._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import name.dmitrym.theapp.utils.Marshallers._
@@ -15,7 +14,7 @@ import com.mongodb.casbah.Imports._
 
 class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
-  private[this] val storage = Storage(ConfigFactory.load("application.conf"))
+  private[this] val storage = Storage()
 
   private[this] def createInvoiceFromPayload(inv: InvoiceCreatePayload) =
     MongoDBObject(

@@ -7,9 +7,9 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.codahale.metrics.MetricRegistry
-import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.routing._
+import name.dmitrym.theapp.utils.Configuration
 
 import scala.concurrent.Future
 
@@ -32,12 +32,7 @@ object TheApp extends App with LazyLogging {
       }
     }
 
-    val config = ConfigFactory.load("application.conf")
-    assert(config.hasPath("service.interface"), "Config doesn't have service.interface specified")
-    val listenInterface = config.getString("service.interface")
-    assert(config.hasPath("service.port"), "Config doesn't have service.port specified")
-    val listenPort = config.getInt("service.port")
-    bindingFuture = Http().bindAndHandle(route, listenInterface, listenPort)
+    bindingFuture = Http().bindAndHandle(route, Configuration.listenInterface, Configuration.listenPort)
     bindingFuture
   }
 

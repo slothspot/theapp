@@ -1,6 +1,6 @@
 package name.dmitrym.theapp.utils
 
-import name.dmitrym.theapp.models.{CompanyInfo, Company}
+import name.dmitrym.theapp.storage.{CompanyInfo, Company}
 import name.dmitrym.theapp.routing._
 import spray.json._
 

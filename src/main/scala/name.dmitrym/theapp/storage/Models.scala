@@ -1,9 +1,11 @@
-package name.dmitrym.theapp.models
+package name.dmitrym.theapp.storage
 
-import akka.http.scaladsl.model.Uri
-import name.dmitrym.theapp.models.EventType.EventType
-import name.dmitrym.theapp.models.InvoiceType.InvoiceType
-import name.dmitrym.theapp.models.UserRole.UserRole
+import name.dmitrym.theapp.storage.EventType.EventType
+import name.dmitrym.theapp.storage.InvoiceType.InvoiceType
+import name.dmitrym.theapp.storage.NotificationType.NotificationType
+import name.dmitrym.theapp.storage.UserRole.UserRole
+import org.joda.time.DateTime
+import spray.json.JsValue
 
 object UserRole extends Enumeration {
   type UserRole = Value
@@ -40,3 +42,34 @@ object EventType extends Enumeration {
   type EventType = Value
   val Call, Meeting, Note, Presentation, IncomingCall  = Value
 }
+
+// Notifications
+
+object NotificationType extends Enumeration {
+  type NotificationType = Value
+  val Create, Update = Value
+}
+
+trait Notification {
+  val date:DateTime
+  val notificationType:NotificationType
+  val changes:(Option[JsValue], Option[JsValue])
+}
+
+case class CreateNotification(newV: JsValue) extends Notification {
+  override val date: DateTime = DateTime.now()
+  override val changes = (None, Some(newV))
+  override val notificationType: NotificationType = NotificationType.Create
+}
+
+case class UpdateNotification(oldV: JsValue, newV: JsValue) extends Notification {
+  override val date: DateTime = DateTime.now()
+  override val changes = (Some(oldV), Some(newV))
+  override val notificationType: NotificationType = NotificationType.Update
+  val diff = ???
+}
+
+trait Change
+case class ChangeAdd(k: String, v: JsValue) extends Change
+case class ChangeMod(k: String, oldV: JsValue, newV: JsValue) extends Change
+case class ChangeDel(k: String) extends Change

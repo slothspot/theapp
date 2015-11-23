@@ -2,10 +2,9 @@ package name.dmitrym.theapp.routing
 
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import com.softwaremill.session.SessionDirectives._
-import name.dmitrym.theapp.models.{Company, Storage}
+import name.dmitrym.theapp.storage.{Company, Storage}
 import com.mongodb.casbah.Imports._
 import name.dmitrym.theapp.utils.Marshallers._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
@@ -13,8 +12,7 @@ import spray.json._
 
 class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
-  private[this] val config = ConfigFactory.load("application.conf")
-  private[this] val storage = Storage(config)
+  private[this] val storage = Storage()
   private[this] val createUserTimer = metrics.timer("createUser")
   val createUser = createUserTimer.time { put { requiredSession() { session =>
     (requestEntityPresent & entity(as[CreateUserPayload])) { (pl) =>

@@ -11,20 +11,20 @@ import com.softwaremill.session.{SessionManager, SessionUtil, SessionConfig}
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 
-import name.dmitrym.theapp.models.Storage
+import name.dmitrym.theapp.storage.Storage
+import name.dmitrym.theapp.utils.Configuration
 import name.dmitrym.theapp.utils.Marshallers._
 import org.bson.types.ObjectId
 
 class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
-  private[this] val config = ConfigFactory.load("application.conf")
-  private[this] val storage = Storage(config)
+  private[this] val storage = Storage()
 
   private[this] val loginTimer = metrics.timer("login")
   val login = loginTimer.time { post {
     entity(as[LoginPayload]) { lp =>
       logger.debug("received lp.login => " + lp.login + " ; lp.password => " + lp.password)
-      if(lp.login == config.getString("defaults.admin.login") && lp.password == config.getString("defaults.admin.password")) {
+      if(lp.login == Configuration.defaultAdminLogin && lp.password == Configuration.defaultAdminPassHash) {
         storage.users.findOne(MongoDBObject("role" -> 0)) match {
           case Some(u) => complete(Responses.Fail("Not a first admin authorization")) // found main admin in users collection
           case None => complete(Responses.AdminFirstTime)

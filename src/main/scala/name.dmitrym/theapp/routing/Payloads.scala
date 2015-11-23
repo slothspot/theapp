@@ -1,6 +1,6 @@
 package name.dmitrym.theapp.routing
 
-import name.dmitrym.theapp.models.{CompanyInfo, Company}
+import name.dmitrym.theapp.storage.{CompanyInfo, Company}
 
 case class LoginPayload(login: String, password: String)
 case class LoginResponsePayload(id: String, name: String, role: Int)

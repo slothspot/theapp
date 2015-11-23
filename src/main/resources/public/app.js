@@ -185,18 +185,41 @@ var tasksTable=[];
     });
 
     app.controller("userController", ['$scope', '$http', function($scope, $http) {
+        $scope.sessionData = {};
         $scope.loginForm = {};
         $scope.login = function () {
             var loginPayload = { login: $scope.loginForm.login, password: md5($scope.loginForm.password)};
             $http.post('/api/v0/sessions', loginPayload).then(
             function success(data){
-                console.log('Success');
-                console.log(data.data);
+                var resp = data.data;
+                if(resp.result) {
+                    if (resp.result === 'error') {
+                        alert('Login failed: ' + resp.reason);
+                    } else if(resp.result === 'ok') {
+                        if(resp.needsSetup && resp.needsSetup === true) {
+                            // Logged as admin for a first time, need to setup user account
+                            alert('Main admin user account should be updated');
+                        }
+                    }
+                } else if(resp.id && resp.name && resp.role) {
+                    $scope.sessionData = resp;
+                }
             },
             function fail(data){
-                console.log('Fail');
-                console.log(data.data);
+                alert('Login request can\'t be performed');
             });
+        };
+        $scope.logout = function() {
+            $http.get('/api/v0/sessions').then(
+                function success(data) {
+                    console.log('Logout successful');
+                    console.log(data.data);
+                },
+                function fail(data) {
+                    console.log('Logout failed');
+                    console.log(data.data);
+                }
+            );
         }
     }]);
 

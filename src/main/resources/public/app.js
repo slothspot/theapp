@@ -294,5 +294,11 @@ var tasksTable=[];
         };
     });
 
+    app.directive("requestFullForm", function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'lib/view/request-full-form.html'
+        };
+    });
 
 })();

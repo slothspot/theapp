@@ -8,7 +8,6 @@ import akka.stream.ActorMaterializer
 import com.mongodb.casbah.commons.MongoDBObject
 import com.softwaremill.session.SessionDirectives._
 import com.softwaremill.session.{SessionManager, SessionUtil, SessionConfig}
-import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 
 import name.dmitrym.theapp.storage.Storage
@@ -27,7 +26,12 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
       if(lp.login == Configuration.defaultAdminLogin && lp.password == Configuration.defaultAdminPassHash) {
         storage.users.findOne(MongoDBObject("role" -> 0)) match {
           case Some(u) => complete(Responses.Fail("Not a first admin authorization")) // found main admin in users collection
-          case None => complete(Responses.AdminFirstTime)
+          case None =>
+            val sessionId = UUID.randomUUID().toString
+            storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> 0, "role" -> 0, "tempSession" -> true))
+            setSession(sessionId) { ctx =>
+              ctx.complete(Responses.AdminFirstTime)
+            }
         }
       } else {
         storage.users.findOne(MongoDBObject("login" -> lp.login, "password" -> lp.password)) match {

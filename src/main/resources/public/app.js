@@ -301,4 +301,11 @@ var tasksTable=[];
         };
     });
 
+    app.directive("addCompanyModal", function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'lib/view/add-company-modal.html'
+        };
+    });
+
 })();

@@ -1,0 +1,92 @@
+<div class="modal fade" id="AddCompanyModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <form ng-controller="CompanyController as companyCtrl" ng-submit="companyCtrl.addCompany(company)" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" >
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="myModalLabel" align="center">Новый контрагент:</h3>
+                    <div class="row" style="margin: 15px">
+                        <div class="col-md-6">
+                            <label>Введите код предприятия:</label>
+                            <input class="form-control" placeholder="Код ЭДРПОУ" ng-model="companyCtrl.company.companyid" required/>
+                            <br>
+                            <label>Названия предприятия:</label>
+                            <input type="text" class="form-control" placeholder="Название предприятия" ng-model="companyCtrl.company.companyName" required/>
+                            <br>
+                            <label>Сфера деятельности:</label>
+                            <select class="form-control" ng-model="companyCtrl.company.type">
+                                <option value="Розничная торговля / Продажи">
+                                    Розничная торговля / Продажи
+                                </option>
+                                <option value="Транспорт / логистика">
+                                    Транспорт / логистика
+                                </option>
+                                <option value=" Строительство">
+                                    Строительство
+                                </option>
+                                <option value="Бары / рестораны">
+                                    Бары / рестораны
+                                </option>
+                                <option value="Юриспруденция и бухгалтерия">
+                                    Юриспруденция и бухгалтерия
+                                </option>
+                                <option value="Охрана / безопасность">
+                                    Охрана / безопасность
+                                </option>
+                                <option value="Домашний персонал">
+                                    Домашний персонал
+                                </option>
+                                <option  value="Красота / фитнес / спорт">
+                                    Красота / фитнес / спорт
+                                </option>
+                                <option value="Туризм / отдых / развлечения">
+                                    Туризм / отдых / развлечения
+                                </option>
+                                <option value="Образование">
+                                    Образование
+                                </option>
+                                <option  value="Культура / искусство">
+                                    Культура / искусство
+                                </option>
+                                <option value=" Медицина / фармация">
+                                    Медицина / фармация
+                                </option>
+                                <option value="  ИТ / телеком / компьютеры" >
+                                    ИТ / телеком / компьютеры
+                                </option>
+                                <option  value="Недвижимость">
+                                    Недвижимость
+                                </option>
+                                <option  value="Маркетинг / реклама / дизайн">
+                                    Маркетинг / реклама / дизайн
+                                </option>
+                                <option value="Производство / энергетика">
+                                    Производство / энергетика
+                                </option>
+                                <option value="Cекретариат / АХО">
+                                    Cекретариат / АХО
+                                </option>
+                                <option value=" Сервис и быт">
+                                    Сервис и быт
+                                </option>
+                                <option value=" Другие сферы занятий">
+                                    Другие сферы занятий
+                                </option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>О компании:</label>
+                            <textarea class="form-control" rows="3" placeholder="Пару слов о Вас" ng-model="companyCtrl.company.aboutCompany" required></textarea>
+                            <br>
+                            <label>Вашы контактние даные:</label>
+                            <textarea class="form-control" rows="3" placeholder="Укажите Вашы контакты (Адрес,контактный телефон, сайт, email" ng-model="companyCtrl.company.contactDetail" required></textarea>
+                            <br>
+                            <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button> <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div> <!--Модальная форма добавления нового контрагента -->

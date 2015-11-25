@@ -308,4 +308,11 @@ var tasksTable=[];
         };
     });
 
+    app.directive("addUserModal", function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'lib/view/add-user-modal.html'
+        };
+    });
+
 })();

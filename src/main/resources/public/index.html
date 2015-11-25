@@ -26,54 +26,7 @@
 <login-form></login-form>
 <request-full-form></request-full-form>
 <add-company-modal></add-company-modal>
-<div class="modal fade" id="AddUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <form ng-controller="CompanyController as companyCtrl" ng-submit="companyCtrl.addCompany(company)" >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body col-lg-6" >
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title"  align="center">Новый пользователь:</h3>
-                    <div class="row" style="margin: 15px">
-                        <div>
-                            <label>Введите Имя пользователя:</label>
-                            <input class="form-control" placeholder="Имя пользователя" ng-model="usersCtrl.userFirstName" required/>
-                            <br>
-                            <label>Введите Фамилию пользователя:</label>
-                            <input type="text" class="form-control" placeholder="Фамилия" ng-model="usersCtrl.userLastName" required/>
-                            <br>
-                            <label>Должность/Права:</label>
-                            <select class="form-control" placeholder="Должность" ng-model="usersCtrl.role">
-                                <option value="admin">
-                                    Администратор
-                                </option>
-                                <option value="userSnab">
-                                    Сотрудник отдела обеспечения
-                                </option>
-                                <option value="userSell">
-                                    Сотрудник отдела продаж
-                                </option>
-                                <option value="admin">
-                                    Администратор компании
-                                </option>
-                                <option value="main">
-                                    Руководитель отдела
-                                </option>
-
-                            </select>
-                            <label>Введите пароль:</label>
-                            <input type="password" class="form-control" placeholder="Пароль" ng-model="usersCtrl.password" required/>
-                            <br>
-                            <label>Повторите пароль:</label>
-                            <input type="password" class="form-control" placeholder="Повторно пароль" ng-model="usersCtrl.passwordConfirme" required/>
-                            <br>
-                            <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button> <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</div> <!--Модальная форма добавления нового пользователя -->
+<add-user-modal></add-user-modal>
 
 <div id="wrapper" ng-controller="ContentController as contentCtrl">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">

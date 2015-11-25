@@ -9,6 +9,8 @@ class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
   private[this] val mongoClient = MongoClient(MongoClientURI(mongoUri))
   private[this] val database = mongoClient(dbName)
 
+  def dropDB() = mongoClient.dropDatabase(dbName)
+
   val sessions = database("sessions")
   val companies = database("companies")
   val users = database("users")

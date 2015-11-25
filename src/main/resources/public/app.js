@@ -287,5 +287,12 @@ var tasksTable=[];
         };
     });
 
+    app.directive("loginForm", function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'lib/view/login-form.html'
+        };
+    });
+
 
 })();

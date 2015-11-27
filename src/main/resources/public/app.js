@@ -211,6 +211,7 @@ var tasksTable=[];
                             resp=autInfo;
                             resp.needsSetup=false;
                             $scope.sessionData=resp;
+                             $('#editProfileForm').modal('hide');
                         }
                     }
                 } else if(resp.id && resp.name && resp.role) {

@@ -187,6 +187,10 @@ var tasksTable=[];
     app.controller("userController", ['$scope', '$http', function($scope, $http) {
         $scope.sessionData = {};
         $scope.loginForm = {};
+        
+          if(typeof($scope.sessionData.login) !== undefined){
+            $('#loginForm').modal('show');
+        
         $scope.login = function () {
             var loginPayload = { login: $scope.loginForm.login, password: md5($scope.loginForm.password)};
             $http.post('/api/v0/sessions', loginPayload).then(
@@ -199,16 +203,25 @@ var tasksTable=[];
                         if(resp.needsSetup && resp.needsSetup === true) {
                             // Logged as admin for a first time, need to setup user account
                             alert('Main admin user account should be updated');
+                            $('#loginForm').modal('hide');
+                            $('#editProfileForm').modal('show');
+                            $scope.editProfileForm={};
+                            var autInfo={login:$scope.editProfileForm.userLogin,password:md5($scope.editProfileForm.password)};
+                            var otherInfo={fullname:$scope.editProfileForm.fullName,email:$scope.editProfileForm.email,phone:$scope.editProfileForm.phone,address:$scope.editProfileForm.address,role:$scope.editProfileForm.role}
+                            resp=autInfo;
+                            resp.needsSetup=false;
+                            $scope.sessionData=resp;
                         }
                     }
                 } else if(resp.id && resp.name && resp.role) {
                     $scope.sessionData = resp;
+                     $('#loginForm').modal('hide');
                 }
             },
             function fail(data){
                 alert('Login request can\'t be performed');
             });
-        };
+        };};
         $scope.logout = function() {
             $http.get('/api/v0/sessions').then(
                 function success(data) {
@@ -273,7 +286,7 @@ var tasksTable=[];
         };
     });
 
-    app.directive("editUser",function(){
+    app.directive("editProfileUser",function(){
         return {
             restrict: 'E',
             templateUrl: "lib/view/edit-user-profile.html"

@@ -1,69 +1,79 @@
-<div class="row col-md-10 center-block">
-    <div class="panel with-border">
-        <div class="page-header text-center">
-            <h4>Профиль пользователя</h4>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-2">
-                    <h4>Users1</h4>
-                    <img src="lib/img/photousers/no-img.jpg" class="img-rounded img-responsive with-border" height="300px" />
-                    <p>Сотрудник компании:<br> ТОВ УМТК</p>
-                    <p>Создан:<br>24.05.2014 г.</p>
-                    <p>Должность: Админ</p>
-                </div>
-                <div class="col-lg-10 text-justify">
+<div class="modal fade" id="editProfileForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" >
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="container">
+                    <div class="row col-md-10 center-block" style="color:black">
+                        <div class="panel with-border">
+                            <div class="page-header text-center">
+                                <h4>Профиль пользователя</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <h4>Users1</h4>
+                                        <img src="lib/img/photousers/no-img.jpg" class="img-rounded img-responsive with-border" height="300px" />
+                                        <p>Сотрудник компании:<br> ТОВ УМТК</p>
+                                        <p>Создан:<br>24.05.2014 г.</p>
+                                        <p>Должность: Админ</p>
+                                    </div>
+                                    <div class="col-lg-10 text-justify">
+                                        <div class="col-md-10">
+                                            <div class="nav-tabs-custom">
+                                                <ul class="nav nav-tabs">
+                                                    <li ><a href="#tab_1" data-toggle="tab">Персональние данные</a></li>
+                                                    <li class="active"><a href="#tab_2" data-toggle="tab">Системные</a></li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="tab_1">
+                                                        <div class="col-md-3">
+                                                            <p>Пользователь:</p>
+                                                            <p>e-mail:</p>
+                                                            <p>Контактный телефон:</p>
+                                                            <p>Адрес:</p>
+                                                            <p>Должность:</p>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <p><input type="text" id="fullName" name="fullName" class="form-control"/></p>
+                                                            <p><input type="email" id="email" name="email" class="form-control"/></p>
+                                                            <p> <input class="form-control" id="phone" type="text" data-mask="99/99/9999" /></p>
+                                                            <p><input type="text" id="digits" id="address" name="digits" class="form-control"></p>
+                                                            <p><select id="role">
+                                                                <option value='admin'>Администратор</option>
+                                                                <option value='supervisor'>Руководитель отдела</option>
+                                                                <option value='purchasing'>Сотрудник отдела продаж</option>
+                                                                <option value='sell'>Сотрудник отдела обеспечения</option>
+                                                            </select></p>
 
-                    <div class="col-md-10">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1" data-toggle="tab">Персональние данные</a></li>
-                                <li><a href="#tab_2" data-toggle="tab">Системные</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1">
-                                    <div class="col-md-3">
-                                        <p>Пользователь:</p>
-                                        <p>e-mail:</p>
-                                        <p>Контактный телефон:</p>
-                                        <p>Адрес:</p>
-                                        <p>Должность:</p>
+                                                        </div>
+                                                    </div><!-- /.tab-pane -->
+                                                    <div class="tab-pane" id="tab_2">
+                                                        <div class="col-md-3">
+                                                            <p>Логин:</p>
+                                                            <p>Пароль:</p>
+                                                            <p>Подтверждения пароля:</p>
+                                                            <p>Код организации:</p><br>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <p><input type="text" id="userLogin" name="userLogin" class="form-control"/></p>
+                                                            <p><input type="password" id="password" name="password" class="form-control"/></p>
+                                                            <p> <input  class="form-control" id="configePassword" type="password" /></p>
+                                                            <p><input type="text" id="idCompany" name="digits" class="form-control"></p>
+                                                        </div>
+                                                    </div><!-- /.tab-pane -->
+                                                </div><!-- /.tab-content -->
+                                            </div><!-- nav-tabs-custom -->
+                                        </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <p><input type="text" id="fullName" name="fullName" class="form-control"/></p>
-                                        <p><input type="email" id="email" name="email" class="form-control"/></p>
-                                        <p> <input class="form-control" type="text" data-mask="99/99/9999" /></p>
-                                        <p><input type="text" id="digits" name="digits" class="form-control"></p>
-                                        <p><select>
-                                            <option>Администратор</option>
-                                            <option>Руководитель отдела</option>
-                                            <option>Сотрудник отдела продаж</option>
-                                            <option>Сотрудник отдела обеспечения</option>
-                                        </select></p>
+                                </div>
+                            </div>
+                            <div align="right" class="panel-footer"><button type="submit" class="btn btn-success">Сохранить</button>      <button type="submit" class="btn btn-danger " data-dismiss="modal">Отмена</button></div>
 
-                                    </div>
-                                </div><!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_2">
-                                    <div class="col-md-3">
-                                        <p>Логин:</p>
-                                        <p>Пароль:</p>
-                                        <p>Подтверждения пароля:</p>
-                                        <p>Код организации:</p><br>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <p><input type="text" id="userLogin" name="userLogin" class="form-control"/></p>
-                                        <p><input type="password" id="password" name="password" class="form-control"/></p>
-                                        <p> <input class="form-control" type="password" /></p>
-                                        <p><input type="text" id="idCompany" name="digits" class="form-control"></p>
-                                    </div>
-                                </div><!-- /.tab-pane -->
-                            </div><!-- /.tab-content -->
-                        </div><!-- nav-tabs-custom -->
-                    </div>
+                        </div>
+                    </div> <!-- /.User Edit /PROFILE -->
                 </div>
             </div>
         </div>
-        <div align="right" class="panel-footer"><button type="submit" class="btn btn-success">Сохранить</button>      <button type="submit" class="btn btn-danger">Отмена</button></div>
-
     </div>
-</div> <!-- /.User Edit /PROFILE -->
+</div><!--/ Форма профиля-->

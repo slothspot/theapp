@@ -47,7 +47,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
   }
 
   private[this] val createInvoiceTimer = metrics.timer("createInvoice")
-  val createInvoice = createInvoiceTimer.time { put { requiredSession() { session =>
+  val createInvoice = createInvoiceTimer.time { put { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[InvoiceCreatePayload])) { (inv) =>
       val obj = createInvoiceFromPayload(inv)
       storage.invoices.insert(obj)
@@ -56,7 +56,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
   }}}
 
   private[this] val updateInvoiceTimer = metrics.timer("updateInvoice")
-  val updateInvoice = updateInvoiceTimer.time { post { requiredSession() { session =>
+  val updateInvoice = updateInvoiceTimer.time { post { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[InvoiceUpdatePayload])) { (inv) =>
       if(inv.id.isEmpty){
         complete(Responses.Fail("Missing Id"))
@@ -73,7 +73,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
   }}}
 
   private[this] val invoiceStatusTimer = metrics.timer("invoiceStatus")
-  val invoiceStatus = invoiceStatusTimer.time { get { requiredSession() { session =>
+  val invoiceStatus = invoiceStatusTimer.time { get { requiredSession(oneOff, usingCookies) { session =>
     complete(Responses.Stub)
   }}}
 

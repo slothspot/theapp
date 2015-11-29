@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "com.typesafe" % "config" % "1.3.0",
   "com.typesafe.akka" %% "akka-http-experimental" % "2.0-M1",
-  "com.softwaremill" %% "akka-http-session" % "0.1.4-2.0-M1",
+  "com.softwaremill.akka-http-session" %% "core" % "0.2.1",
   "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.0-M1",
   "org.mongodb" %% "casbah-core" % "3.0.0",
   "org.mongodb" %% "casbah-gridfs" % "3.0.0",

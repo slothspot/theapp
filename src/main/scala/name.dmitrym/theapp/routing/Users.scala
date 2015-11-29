@@ -14,7 +14,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   import Sessions.sessionManager
   private[this] val storage = Storage()
   private[this] val createUserTimer = metrics.timer("createUser")
-  val createUser = createUserTimer.time { put { requiredSession() { session =>
+  val createUser = createUserTimer.time { put { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[CreateUserPayload])) { (pl) =>
     storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
       case Some(s) =>
@@ -40,7 +40,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   }}}}
 
   private[this] val updateUserTimer = metrics.timer("updateUser")
-  val updateUser = updateUserTimer.time { post { requiredSession() { session =>
+  val updateUser = updateUserTimer.time { post { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[CreateUserPayload])) { (pl) =>
       storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
         case Some(s) =>
@@ -67,7 +67,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
   }}}
 
   private[this] val userStatsTimer = metrics.timer("userStats")
-  val userStats = userStatsTimer.time { get { requiredSession() { session =>
+  val userStats = userStatsTimer.time { get { requiredSession(oneOff, usingCookies) { session =>
     storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
       case Some(s) =>
         complete { s.get("role").asInstanceOf[Int] match {

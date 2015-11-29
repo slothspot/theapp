@@ -29,7 +29,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
           case None =>
             val sessionId = UUID.randomUUID().toString
             storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> 0, "role" -> 0, "tempSession" -> true))
-            setSession(sessionId) { ctx =>
+            setSession(oneOff, usingCookies, sessionId) { ctx =>
               ctx.complete(Responses.AdminFirstTime)
             }
         }
@@ -38,7 +38,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
           case Some(u) =>
             val sessionId = UUID.randomUUID().toString
             storage.sessions.insert(MongoDBObject("sessionId" -> sessionId, "userId" -> u.get("_id"), "role" -> u.get("role"), "company" -> u.get("companyId")))
-            setSession(sessionId) { ctx =>
+            setSession(oneOff, usingCookies, sessionId) { ctx =>
               ctx.complete {
                 LoginResponsePayload(
                   u.get("_id").asInstanceOf[ObjectId].toHexString,
@@ -56,8 +56,8 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
 
   private[this] val logoutTimer = metrics.timer("logout")
   val logout = logoutTimer.time { get {
-    requiredSession() { session =>
-      invalidateSession() {
+    requiredSession(oneOff, usingCookies) { session =>
+      invalidateSession(oneOff, usingCookies) {
         storage.sessions.remove(MongoDBObject("sessionId" -> session))
         complete(Responses.Ok)
       }
@@ -70,7 +70,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
 }
 
 object Sessions {
-  private[this] val sessionConfig = SessionConfig.default(SessionUtil.randomServerSecret).withClientSessionEncryptData(true)
+  private[this] val sessionConfig = SessionConfig.default(SessionUtil.randomServerSecret)
   implicit val sessionManager = new SessionManager[String](sessionConfig)
   def apply()(implicit  materializer: ActorMaterializer) = new Sessions
 }

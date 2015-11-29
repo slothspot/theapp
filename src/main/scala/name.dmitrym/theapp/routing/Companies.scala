@@ -16,7 +16,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
   private[this] val storage = Storage()
 
   private[this] val createCompanyTimer = metrics.timer("createCompanyTimer")
-  val createCompany = createCompanyTimer.time { put { requiredSession() { session =>
+  val createCompany = createCompanyTimer.time { put { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[CompanyItem])) { (companyItem) =>
       storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
         case None => complete(Responses.NotAuthorized)
@@ -37,7 +37,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
   }}}
 
   private[this] val updateCompanyTimer = metrics.timer("updateCompanyTimer")
-  val updateCompany = updateCompanyTimer.time { post { requiredSession() { session =>
+  val updateCompany = updateCompanyTimer.time { post { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[CompanyItem])) {  (companyItem) =>
       storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
         case None => complete(Responses.NotAuthorized)
@@ -68,7 +68,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
   }}}
 
   private[this] val companiesInfoTimer = metrics.timer("companiesInfoTimer")
-  val companiesInfo = companiesInfoTimer.time { get { requiredSession() { session =>
+  val companiesInfo = companiesInfoTimer.time { get { requiredSession(oneOff, usingCookies) { session =>
     storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
       case Some(s) =>
         complete {

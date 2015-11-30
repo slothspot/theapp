@@ -208,8 +208,7 @@ var tasksTable=[];
                             $scope.editProfileForm={};
                             var autInfo={login:$scope.editProfileForm.userLogin,password:md5($scope.editProfileForm.password)};
                             var otherInfo={fullname:$scope.editProfileForm.fullName,email:$scope.editProfileForm.email,phone:$scope.editProfileForm.phone,address:$scope.editProfileForm.address,role:$scope.editProfileForm.role}
-                            resp=autInfo;
-                            $scope.sessionData=resp;
+                            $scope.sessionData=autInfo;
                              $('#editProfileForm').modal('hide');
                         }
                     }

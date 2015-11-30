@@ -27,6 +27,7 @@
 <request-full-form></request-full-form>
 <add-company-modal></add-company-modal>
 <add-user-modal></add-user-modal>
+<edit-user-profile></edit-user-profile>
 
 <div id="wrapper" ng-controller="ContentController as contentCtrl">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
@@ -201,7 +202,6 @@
         <div class="row">
             <div ng-show="contentCtrl.isSet('request')" ng-include="'lib/view/table-request.html'"></div>
             <div ng-show="contentCtrl.isSet('users')" ng-include="'lib/view/table-users.html'"></div>
-            <div ng-show="contentCtrl.isSet('users')" ng-include="'lib/view/edit-user-profile.html'"></div>
             <div ng-show="contentCtrl.isSet('contragents')" ng-include="'lib/view/table-contragents.html'"></div>
             <div ng-show="contentCtrl.isSet('contragents')" ng-include="'lib/view/edit-company-profile.html'"></div>
         </div><!-- TABLE -->

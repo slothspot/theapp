@@ -209,7 +209,6 @@ var tasksTable=[];
                             var autInfo={login:$scope.editProfileForm.userLogin,password:md5($scope.editProfileForm.password)};
                             var otherInfo={fullname:$scope.editProfileForm.fullName,email:$scope.editProfileForm.email,phone:$scope.editProfileForm.phone,address:$scope.editProfileForm.address,role:$scope.editProfileForm.role}
                             resp=autInfo;
-                            resp.needsSetup=false;
                             $scope.sessionData=resp;
                              $('#editProfileForm').modal('hide');
                         }

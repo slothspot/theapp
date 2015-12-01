@@ -187,7 +187,7 @@ var tasksTable=[];
     app.controller("userController", ['$scope', '$http', function($scope, $http) {
         $scope.sessionData = {};
         $scope.loginForm = {};
-        
+
           if(typeof($scope.sessionData.login) !== undefined){
             $('#loginForm').modal('show');
         
@@ -205,11 +205,7 @@ var tasksTable=[];
                             alert('Main admin user account should be updated');
                             $('#loginForm').modal('hide');
                             $('#editProfileForm').modal('show');
-                            $scope.editProfileForm={};
-                            var autInfo={login:$scope.editProfileForm.userLogin,password:md5($scope.editProfileForm.password)};
-                             $scope.sessionData=autInfo;
-                             $('#editProfileForm').modal('hide');
-                        }
+                            }
                     }
                 } else if(resp.id && resp.name && resp.role) {
                     $scope.sessionData = resp;
@@ -218,8 +214,9 @@ var tasksTable=[];
             },
             function fail(data){
                 alert('Login request can\'t be performed');
+               
             });
-        };};
+        };
         $scope.logout = function() {
             $http.get('/api/v0/sessions').then(
                 function success(data) {
@@ -231,7 +228,27 @@ var tasksTable=[];
                     console.log(data.data);
                 }
             );
-        }
+        };
+          };
+              $scope.editProfileForm={};
+        $scope.saveData = function() {
+
+
+            if($scope.editProfileForm.password==$scope.editProfileForm.cfmPassword){
+                $scope.SystemUser={userLogin:$scope.editProfileForm.userLogin,password:$scope.editProfileForm.password,role:$scope.editProfileForm.role};
+                $scope.OthersUsersInfo={fullName:$scope.editProfileForm.fullName,email:$scope.editProfileForm.email,phone:$scope.editProfileForm.phone,address:$scope.editProfileForm.address,companyId:$scope.editProfileForm.companyId};
+                $('#editProfileForm').modal('hide');
+                alert('Hello '+$scope.SystemUser.userLogin+'. You have successfully changed your data and can now get to work ');
+                
+            }
+            else if($scope.editProfileForm.password!==$scope.editProfileForm.cfmPassword)
+            {
+                alert('Password and Confirm Password do not match. Please try again ');
+                $('#editProfileForm').modal('show');
+            }
+        };
+
+
     }]);
 
     app.controller("InfoController",function(){

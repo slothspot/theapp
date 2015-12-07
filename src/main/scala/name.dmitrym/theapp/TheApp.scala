@@ -1,7 +1,11 @@
 package name.dmitrym.theapp
 
+import java.security.{KeyStore, SecureRandom}
+import javax.net.ssl.{KeyManagerFactory, SSLContext}
+
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.HttpsContext
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
@@ -32,7 +36,20 @@ object TheApp extends App with LazyLogging {
       }
     }
 
-    bindingFuture = Http().bindAndHandle(route, Configuration.listenInterface, Configuration.listenPort)
+    val ksPath = Configuration.keyStorage
+    val ksPass = Configuration.keyStoragePass.toCharArray
+
+    val ks = KeyStore.getInstance("pkcs12", "SunJSSE")
+    val is = getClass.getClassLoader.getResourceAsStream(ksPath)
+    ks.load(is, ksPass)
+
+    val kmf = KeyManagerFactory.getInstance("SunX509", "SunJSSE")
+    kmf.init(ks, ksPass)
+
+    val context = SSLContext.getInstance("TLS")
+    context.init(kmf.getKeyManagers, null, new SecureRandom)
+
+    bindingFuture = Http().bindAndHandle(route, Configuration.listenInterface, Configuration.listenPort, httpsContext = Some(HttpsContext(context)))
     bindingFuture
   }
 

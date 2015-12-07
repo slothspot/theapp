@@ -20,6 +20,9 @@ object Configuration extends LazyLogging {
   val defaultAdminLogin = cfg.getString("defaults.admin.login")
   val defaultAdminPassHash = cfg.getString("defaults.admin.passhash")
 
+  val keyStorage = cfg.getString("service.security.keystorage")
+  val keyStoragePass = cfg.getString("service.security.keystoragepass")
+
   val dbUri = cfg.getString("mongo.uri")
   val dbName = cfg.getString("mongo.db")
 }

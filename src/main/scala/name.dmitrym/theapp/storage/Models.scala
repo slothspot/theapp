@@ -5,7 +5,7 @@ import name.dmitrym.theapp.storage.InvoiceType.InvoiceType
 import name.dmitrym.theapp.storage.NotificationType.NotificationType
 import name.dmitrym.theapp.storage.UserRole.UserRole
 import org.joda.time.DateTime
-import spray.json.JsValue
+import spray.json.{JsObject, JsValue}
 
 object UserRole extends Enumeration {
   type UserRole = Value
@@ -53,23 +53,47 @@ object NotificationType extends Enumeration {
 trait Notification {
   val date:DateTime
   val notificationType:NotificationType
-  val changes:(Option[JsValue], Option[JsValue])
+  def diff:Seq[Change]
 }
 
-case class CreateNotification(newV: JsValue) extends Notification {
+case class CreateNotification(newV: JsObject) extends Notification {
   override val date: DateTime = DateTime.now()
-  override val changes = (None, Some(newV))
   override val notificationType: NotificationType = NotificationType.Create
+  override def diff: Seq[Change] = {
+    newV.fields.map { case (k, v) =>
+      ChangeAdd(k, v)
+    }.toSeq
+  }
 }
 
-case class UpdateNotification(oldV: JsValue, newV: JsValue) extends Notification {
+case class UpdateNotification(oldV: JsObject, newV: JsObject) extends Notification {
   override val date: DateTime = DateTime.now()
-  override val changes = (Some(oldV), Some(newV))
   override val notificationType: NotificationType = NotificationType.Update
-  val diff = ???
+  override def diff:Seq[Change] = {
+    val oldF = oldV.fields
+    val newF = newV.fields
+
+    val addedKeys = newF.keys.filterNot(k => oldF.contains(k))
+    val removedKeys = oldF.keys.filterNot(k => newF.contains(k))
+    val modifiedKeys = newF.filter{ case (k,v) =>
+      oldF.contains(k) && (oldF(k) != v)
+    }.keys
+
+    addedKeys.map { k =>
+      ChangeAdd(k, newF(k))
+    }.toSeq ++
+    removedKeys.map { k =>
+      ChangeDel(k)
+    }.toSeq ++
+    modifiedKeys.map { k =>
+      ChangeMod(k, oldF(k), newF(k))
+    }.toSeq
+  }
 }
 
-trait Change
+abstract class Change {
+  def k: String
+}
 case class ChangeAdd(k: String, v: JsValue) extends Change
 case class ChangeMod(k: String, oldV: JsValue, newV: JsValue) extends Change
 case class ChangeDel(k: String) extends Change

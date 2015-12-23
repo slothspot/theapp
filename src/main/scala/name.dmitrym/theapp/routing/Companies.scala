@@ -6,6 +6,7 @@ import com.mongodb.util.JSON
 import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.storage.{CompanyInfo, Company, Storage}
 import com.softwaremill.session.SessionDirectives._
+import com.softwaremill.session.SessionOptions._
 import com.mongodb.casbah.Imports._
 import name.dmitrym.theapp.utils.Marshallers._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._

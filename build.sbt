@@ -8,11 +8,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
   "ch.qos.logback" % "logback-classic" % "1.1.3",
   "com.typesafe" % "config" % "1.3.0",
-  "com.typesafe.akka" %% "akka-http-experimental" % "2.0-M1",
-  "com.softwaremill.akka-http-session" %% "core" % "0.2.1",
-  "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.0-M1",
-  "org.mongodb" %% "casbah-core" % "3.0.0",
-  "org.mongodb" %% "casbah-gridfs" % "3.0.0",
+  "com.typesafe.akka" %% "akka-http-experimental" % "2.0",
+  "com.softwaremill.akka-http-session" %% "core" % "0.2.3",
+  "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.0",
+  "org.mongodb" %% "casbah" % "3.1.0",
   "nl.grons" %% "metrics-scala" % "3.5.2_a2.3",
   "org.specs2" %% "specs2-core" % "3.6.5" % "test"
   )

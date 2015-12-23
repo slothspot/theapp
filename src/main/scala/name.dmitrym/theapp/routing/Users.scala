@@ -4,6 +4,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.LazyLogging
 import com.softwaremill.session.SessionDirectives._
+import com.softwaremill.session.SessionOptions._
 import name.dmitrym.theapp.storage.{Company, Storage}
 import com.mongodb.casbah.Imports._
 import name.dmitrym.theapp.utils.Marshallers._

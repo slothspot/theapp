@@ -6,6 +6,7 @@ import com.mongodb.casbah.commons.MongoDBObject
 import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.storage.{InvoiceStatus, Storage}
 import com.softwaremill.session.SessionDirectives._
+import com.softwaremill.session.SessionOptions._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import name.dmitrym.theapp.utils.Marshallers._
 import org.bson.types.ObjectId

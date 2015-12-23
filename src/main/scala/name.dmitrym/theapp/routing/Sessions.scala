@@ -7,6 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.mongodb.casbah.commons.MongoDBObject
 import com.softwaremill.session.SessionDirectives._
+import com.softwaremill.session.SessionOptions._
 import com.softwaremill.session.{SessionManager, SessionUtil, SessionConfig}
 import com.typesafe.scalalogging.LazyLogging
 

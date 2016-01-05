@@ -48,30 +48,6 @@ var companyTable=[
 
 ];
 
-var usersTable=[
-    {
-
-        companyid:'36046631',
-        companyName:'UITC',
-        login:'admin',
-        name:'Vasy',
-        role:'globalAdmin',
-        password:'1234',
-        stat:'online',
-        createdOn:'default'
-    },
-    {
-        companyid:'12345',
-        companyName:'Test',
-        login:'User1',
-        name:'Petro',
-        role:"snab",
-        password:'1234',
-        stat:'online',
-        createdOn:'default'
-    }
-];
-
 var requestTable=[
     {
         number:'1',
@@ -253,7 +229,6 @@ var tasksTable=[];
 
     app.controller("InfoController",function(){
         this.allcompany=companyTable.length;
-        this.allusers=usersTable.length;
         this.allrequest=requestTable.length;
         this.alltodo=todoTable.length;
         this.alltasks=tasksTable.length;

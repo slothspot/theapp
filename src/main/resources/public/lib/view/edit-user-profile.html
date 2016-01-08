@@ -36,11 +36,13 @@
                                                             <p>Должность:</p>
                                                         </div>
                                                         <div class="col-md-5">
+                                                            <form>
                                                             <p><input type="text" id="fullName" name="fullName" class="form-control" ng-model="editProfileForm.fullName"/></p>
                                                             <p><input type="email" id="email" name="email" class="form-control" ng-model="editProfileForm.email"/></p>
                                                             <p> <input class="form-control" id="phone" type="text" data-mask="99/99/9999" ng-model="editProfileForm.phone" /></p>
                                                             <p><input type="text" id="digits" id="address" name="digits" class="form-control" ng-model="editProfileForm.address"></p>
                                                             <p><input type="text" id="idCompany" name="digits" class="form-control" ng-model="editProfileForm.idCompany"></p>
+                                                            </form>
 
                                                         </div>
                                                     </div><!-- /.tab-pane -->
@@ -52,15 +54,17 @@
                                                             <p>Код организации:</p><br>
                                                         </div>
                                                         <div class="col-md-5">
+                                                            <form>
                                                             <p><input type="text" id="userLogin" name="userLogin" class="form-control" ng-model="editProfileForm.userLogin"/></p>
                                                             <p><input type="password" id="password" name="password" class="form-control" ng-model="editProfileForm.password"/></p>
-                                                            <p> <input  class="form-control" id="cfmPassword" name="cfmPassword" type="password" ng-model="editProfileForm.cfmPassword" /></p>
+                                                            <p> <input  class="form-control" id="cfmPassword" name="cfmPassword" type="password" ng-model="editProfileForm.cfmPassword"/></p>
                                                             <p><select id="role">
                                                                 <option value='admin'>Администратор</option>
                                                                 <option value='supervisor'>Руководитель отдела</option>
                                                                 <option value='purchasing'>Сотрудник отдела продаж</option>
                                                                 <option value='sell'>Сотрудник отдела обеспечения</option>
                                                             </select></p>
+                                                            </form>
                                                         </div>
                                                     </div><!-- /.tab-pane -->
                                                 </div><!-- /.tab-content -->

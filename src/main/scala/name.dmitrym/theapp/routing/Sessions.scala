@@ -43,6 +43,7 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
               ctx.complete {
                 LoginResponsePayload(
                   u.get("_id").asInstanceOf[ObjectId].toHexString,
+                  u.get("login").asInstanceOf[String],
                   u.get("name").asInstanceOf[String],
                   u.get("role").asInstanceOf[Int]
                 )

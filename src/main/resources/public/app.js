@@ -357,4 +357,11 @@ var tasksTable = [];
         };
     });
 
+    app.directive('navigationSidebar', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'lib/view/navigation-sidebar.html'
+        };
+    });
+
 })();

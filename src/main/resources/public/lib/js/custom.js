@@ -4,7 +4,7 @@
 
         main_fun: function () {
             /*====================================
-            METIS MENU 
+            METIS MENU
             ======================================*/
             $('#main-menu').metisMenu();
 
@@ -13,20 +13,17 @@
            ======================================*/
             $(window).bind("load resize", function () {
                 if ($(this).width() < 768) {
-                    $('div.sidebar-collapse').addClass('collapse')
+                    $('div.sidebar-collapse').addClass('collapse');
                 } else {
-                    $('div.sidebar-collapse').removeClass('collapse')
+                    $('div.sidebar-collapse').removeClass('collapse');
                 }
             });
-     
         },
 
         initialization: function () {
             mainApp.main_fun();
-
         }
-
-    }
+    };
     // Initializing ///
 
     $(document).ready(function () {

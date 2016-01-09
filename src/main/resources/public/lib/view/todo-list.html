@@ -1,30 +1,28 @@
 <div class="col-md-3" >
     <div class="panel panel-blue" ng-controller="TodoController as todoCtrl">
-        <form ng-submit="todoCtrl.addTodo()">
-        <div class="panel-heading dark-overlay">Заментки на сегодня:</div>
-        <div class="panel-body">
-            <ul class="todo-list">
-                <span>Осталось {{todoCtrl.remaining()}} из {{todoCtrl.todos.length}}</span>
-                <li class="todo-list-item" ng-repeat="todo in todoCtrl.todos">
-                    <div class="checkbox">
-                        <input type="checkbox" id="checkbox" ng-model="todo.done" />
-                        <label for="checkbox">{{todo.text}}</label>
-                    </div>
-                </li>
-            </ul>
-        </div>
+      <form ng-submit="todoCtrl.addTodo()">
+          <div class="panel-heading dark-overlay">Заментки на сегодня:</div>
+          <div class="panel-body">
+              <ul class="todo-list">
+                  <span>Осталось {{todoCtrl.remaining()}} из {{todoCtrl.todos.length}}</span>
+                  <li class="todo-list-item" ng-repeat="todo in todoCtrl.todos">
+                      <div class="checkbox">
+                          <input type="checkbox" id="checkbox" ng-model="todo.done" />
+                          <label for="checkbox">{{todo.text}}</label>
+                      </div>
+                  </li>
+              </ul>
+          </div>
 
-            <div class="panel-footer">
-                <div class="input-group">
-                    <input id="btn-input" type="text" class="form-control input-md" placeholder="Напишите заметку" ng-model="todoCtrl.todoText" />
-							<span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-todo">Добавить</button>
-							</span>
-                </div>
+          <div class="panel-footer">
+            <div class="input-group">
+              <input id="btn-input" type="text" class="form-control input-md" placeholder="Напишите заметку" ng-model="todoCtrl.todoText" />
+              <span class="input-group-btn">
+                <button class="btn btn-primary btn-md" id="btn-todo">Добавить</button>
+              </span>
             </div>
-        </form>
+          </div>
+      </form>
     </div>
 </div>
-
-
 <!--TODOLIST-->

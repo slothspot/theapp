@@ -1,5 +1,3 @@
-'use strict';
-
 var companyTable = [
     {
         companyid: '36046631',
@@ -132,6 +130,7 @@ var todoTable = [
 var tasksTable = [];
 
 (function () {
+  'use strict';
     var app = angular.module('store', []);
 
     app.controller('TableController', function () {
@@ -151,11 +150,9 @@ var tasksTable = [];
 
     app.controller("editController", function () {
         this.editCtrl = function (edit) {
-
             this.id = edit;
             alert(this.id);
-
-        }
+        };
 
 
     });
@@ -182,7 +179,7 @@ var tasksTable = [];
                                     $('#AddUserModal').modal('show');
                                 }
                             }
-                        } else if (resp.id != undefined && resp.name != undefined && resp.role != undefined) {
+                        } else if (resp.id !== undefined && resp.name !== undefined && resp.role !== undefined) {
                             $scope.sessionData = resp;
                             $('#loginForm').modal('hide');
                         }

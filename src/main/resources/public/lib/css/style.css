@@ -386,7 +386,7 @@ p {
 
 @media(min-width:768px) {
     #page-wrapper{
-        margin: 0 0 0 160px;
+        margin: 0 0 0 190px;
         padding: 15px 30px;
         min-height: 1200px;
 
@@ -396,7 +396,7 @@ p {
     .navbar-side {
         z-index: 1;
         position: absolute;
-        width: 160px;
+        width: 190px;
     }
 
     .navbar {

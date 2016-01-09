@@ -34,25 +34,25 @@
 <edit-user-profile></edit-user-profile>
 
 <div id="wrapper" ng-controller="ContentController as contentCtrl">
-    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">CRM</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="dropdown messages-menu">
-                <a  ng-click="contentCtrl.setTab('users')" href="#" class="dropdown-toggle with-border img-rounded " data-toggle="dropdown"><i class="fa fa-users fa-2x"></i>Пользователи</a>
-            </li>
-            <li class="dropdown messages-menu">
-                <a  ng-click="contentCtrl.setTab('contragents')" href="#" class="dropdown-toggle with-border img-rounded" data-toggle="dropdown"><i class="fa fa-building-o fa-2x"></i>Компании</a>
-            </li>
-        </ul>
-    </nav>    <!-- /. NAV TOP  -->
     <nav class="navbar-default navbar-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
-                <li >
+                <li>
                     <a ng-class="{ active:contentCtrl.isSet('main') }" href="index.html" ng-click="contentCtrl.setTab('main')"><i class="fa fa-hdd-o fa-1x"></i> Главная</a>
                 </li>
+
+                <li ng-class="{ active:contentCtrl.isSet('administration') }">
+                    <a href="#" ng-click="contentCtrl.setTab('administration')"><i class="fa fa-gears fa-1x"></i>Администрирование</a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#" ng-click="contentCtrl.setTab('users')"><i class="fa fa-users fa-1x"></i>Пользователи</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="contentCtrl.setTab('contragents')"><i class="fa fa-building fa-1x"></i>Компании</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li ng-class="{ active:contentCtrl.isSet('request') }">
                     <a  href ng-click="contentCtrl.setTab('request')"><i class="fa fa-tasks fa-1x"></i> Запросы</a>
                 </li>

@@ -38,3 +38,5 @@ parallelExecution in Test := false
 coverageEnabled in Test := true
 
 coverageHighlighting in Test := true
+
+cancelable in Global := true

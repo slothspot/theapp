@@ -128,6 +128,13 @@ var tasksTable = [];
                   requiresLogin: true
               }
           })
+          .state('dashboard.requests', {
+              url: '/requests',
+              templateUrl: 'lib/view/table-request.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
         ;
     });
 

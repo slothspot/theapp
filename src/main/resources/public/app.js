@@ -1,51 +1,3 @@
-var companyTable = [
-    {
-        companyid: '36046631',
-        companyName: 'UITC',
-        type: 'Buy/Sell',
-        aboutCompany: 'TEST',
-        contactDetail: 'Номер телефона: +38 (044) 220-18-73, Адрес:Ахматовой 13Д, e-mail:test@test.ua',
-        clients: [
-            {
-                companyUsers: '1',
-                clientsId: '4555789',
-                contactsUsers: '5'
-            }
-        ],
-        request: [
-            {
-                number: '1',
-                companyUser: '1',
-                name: 'Test',
-                type: 'BUY',
-                need: 'TENDER',
-                createdOn: '18-08-2011',
-                stat: 'WARNING',
-                DateTake: '-',
-                DateFinish: '-',
-                Curator: '-',
-                result: '-'
-            }
-        ]
-    },
-    {
-        companyid: '12345',
-        companyName: 'TEST',
-        type: 'Buy/Sell',
-        aboutCompany: 'TEST',
-        contactDetail: 'Номер телефона: +38 (044) 220-18-73, Адрес:Ахматовой 13Д, e-mail:test@test.ua',
-        clients: [
-            {
-                companyUsers: '1',
-                clientsId: '4555789',
-                contactsUsers: '5'
-            }
-        ]
-    }
-
-
-];
-
 var requestTable = [
     {
         number: '1',
@@ -146,26 +98,26 @@ var tasksTable = [];
 
     app.factory('sessionService', function(){
        var sessionService = {
-           isLogged : false
+           isLogged : false,
+           sessionData : undefined
        };
 
         return sessionService;
     });
 
-    app.controller('TableController', function () {
-        this.content = companyTable;
-
-    });
-
-    app.controller("CompanyController", function () {
-
-        this.company = companyTable;
+    app.controller("CompanyController", ['$http', '$resource', 'sessionService', function ($http, $resource, sessionService) {
+        var vm = this;
 
         this.addCompany = function (company) {
-            companyTable.push(this.company);
-            this.company = {};
+            alert('Not implemented yet');
         };
-    });
+
+        if(sessionService.sessionData !== undefined) {
+            $resource('/api/v0/companies').query().$promise.then(function(companies){
+                vm.allCompaniesList = companies;
+            });
+        }
+    }]);
 
     app.controller("editController", function () {
         this.editCtrl = function (edit) {
@@ -289,7 +241,7 @@ var tasksTable = [];
     }]);
 
     app.controller("InfoController", function () {
-        this.allcompany = companyTable.length;
+        this.allcompany = -1;
         this.allrequest = requestTable.length;
         this.alltodo = todoTable.length;
         this.alltasks = tasksTable.length;

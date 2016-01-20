@@ -77,7 +77,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
             case 0 =>
               storage.companies.find().map { c =>
                 JSON.serialize(c).parseJson.convertTo[CompanyItem].toJson.toString
-              }.toArray.flatten.mkString("[", ",", "]")
+              }.toArray.mkString("[", ",", "]")
             case 1 =>
               storage.companies.findOne(MongoDBObject("company.id" -> s.getAs[String]("companyId").get)) match {
                 case Some(c) => JSON.serialize(c).parseJson.convertTo[CompanyItem].toJson.toString

@@ -83,27 +83,59 @@ var tasksTable = [];
 
 (function () {
   'use strict';
-    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute']);
+    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router']);
 
-    app.config(function($routeProvider, $locationProvider){
-       $routeProvider
-           .when('/UsersList', {
-               templateUrl: 'lib/view/table-users.html'
-           })
-           .when('/CompaniesList', {
-               templateUrl: 'lib/view/table-contragents.html'
-           })
-       ;
+    app.config(function($stateProvider, $urlRouterProvider){
+      $urlRouterProvider.otherwise('/login');
+
+      $stateProvider
+        .state('login',{
+          url: "/login",
+          templateUrl: 'lib/view/login-form.html'
+        })
+        .state('dashboard', {
+          url: "/dashboard",
+          templateUrl: 'lib/view/dashboard.html',
+          access: {
+            requiresLogin: true
+          }
+        })
+        .state('dashboard.users', {
+          url: '/users',
+          templateUrl: 'lib/view/table-users.html',
+          access: {
+            requiresLogin: true
+          }
+        })
+        .state('dashboard.companies', {
+          url: '/companies',
+          templateUrl: 'lib/view/table-contragents.html',
+          access: {
+            requiresLogin: true
+          }
+        })
+        ;
     });
 
     app.factory('sessionService', function(){
-       var sessionService = {
-           isLogged : false,
-           sessionData : undefined
-       };
+        var sessionService = {
+            isLogged : false,
+            sessionData : undefined
+        };
 
         return sessionService;
     });
+
+    app.run(['$rootScope', '$location', 'sessionService', function($rootScope, $location, sessionService){
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+            if(toState.access !== undefined){
+                if(sessionService.sessionData === undefined) {
+                    $location.path('/login');
+                    event.preventDefault();
+                }
+            }
+        });
+    }]);
 
     app.controller("CompanyController", ['$http', '$resource', 'sessionService', function ($http, $resource, sessionService) {
         var vm = this;
@@ -128,15 +160,11 @@ var tasksTable = [];
 
     });
 
-    app.controller("userController", ['$scope', '$http', '$resource', 'sessionService', function ($scope, $http, $resource, sessionService) {
+    app.controller("userController", ['$scope', '$http', '$resource', '$location', 'sessionService', function ($scope, $http, $resource, $location, sessionService) {
         $scope.loginForm = {};
         $scope.editProfileForm = {};
 
         var vm = this;
-
-        if (sessionService.sessionData === undefined) {
-            $('#loginForm').modal('show');
-        }
 
         $scope.login = function () {
             var loginPayload = {login: $scope.loginForm.login, password: md5($scope.loginForm.password)};
@@ -155,7 +183,7 @@ var tasksTable = [];
                     } else if (resp.id !== undefined && resp.name !== undefined && resp.role !== undefined) {
                         sessionService.sessionData = resp;
                         sessionService.isLogged = true;
-                        $('#loginForm').modal('hide');
+                        $location.path('/dashboard').replace();
                     }
                 },
                 function fail(data) {
@@ -300,13 +328,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: "lib/view/edit-company-profile.html"
-        };
-    });
-
-    app.directive("loginForm", function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'lib/view/login-form.html'
         };
     });
 

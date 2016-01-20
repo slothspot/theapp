@@ -1,41 +1,17 @@
-<div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" >
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="container">
-                    <div class="text-center" align="center">
-                        <img src="lib/img/photousers/no-img.jpg" class="img-circle" height="200px"  alt=" Logo" />
-                    </div>
-                    <div class="tab-content center-block" style="width: 300px;">
-                        <div id="login" class="tab-pane active">
-                            <form class="form-signin" ng-controller="userController" ng-submit="login()">
-                                <p class="text-muted text-center btn-block btn btn-primary btn-rect">
-                                    Авторизация
-                                </p>
-                                <input type="text" placeholder="Логин пользователя" class="form-control" ng-model="loginForm.login" />
-                                <input type="password" placeholder="Пароль" class="form-control" ng-model="loginForm.password" />
-                                <br />
-                                <button class="btn text-muted text-center btn-danger" type="submit">Войти</button> <br />
-                            </form>
-                        </div>
-                        <div id="forgot" class="tab-pane tab">
-                            <form action="index.html" >
-                                <p class="text-muted text-center btn-block btn btn-primary btn-rect">Введите Ваш e-mail для востановления </p>
-                                <input type="email"  required="required" placeholder="Ваш E-mail"  class="form-control" />
-                                <br />
-                                <button class="btn text-muted text-center btn-success" type="submit">Востановить пароль</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <br />
-                        <ul class="list-inline">
-                            <li><a class="text-muted" href="#login" data-toggle="tab">Вход</a></li>
-                            <li><a class="text-muted" href="#forgot" data-toggle="tab">Забыли пароль</a></li>
-                        </ul>
-                    </div>
-                </div>
+<div id="loginForm">
+    <div class="container">
+        <div class="text-center" align="center">
+            <img src="lib/img/photousers/no-img.jpg" class="img-circle" height="200px"  alt=" Logo" />
+        </div>
+        <div class="tab-content center-block" style="width: 300px;">
+            <div id="login" class="tab-pane active">
+                <form class="form-signin" ng-controller="userController" ng-submit="login()">
+                    <input type="text" placeholder="Логин пользователя" class="form-control" ng-model="loginForm.login" />
+                    <input type="password" placeholder="Пароль" class="form-control" ng-model="loginForm.password" />
+                    <!--<br />-->
+                    <button class="btn text-muted text-center btn-success" type="submit">Войти</button>
+                    <!--<br />-->
+                </form>
             </div>
         </div>
     </div>

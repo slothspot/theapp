@@ -114,6 +114,13 @@ var tasksTable = [];
                   requiresLogin: true
               }
           })
+          .state('dashboard.editUser', {
+              url: '/editUser',
+              templateUrl: 'lib/view/edit-user-profile.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
         .state('dashboard.companies', {
           url: '/companies',
           templateUrl: 'lib/view/table-companies.html',
@@ -348,13 +355,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: "lib/view/todo-list.html"
-        };
-    });
-
-    app.directive("editUserProfile", function () {
-        return {
-            restrict: 'E',
-            templateUrl: "lib/view/edit-user-profile.html"
         };
     });
 

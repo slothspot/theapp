@@ -20,7 +20,7 @@
                 <tbody>
                 <tr class="odd gradeX" ng-repeat="content in userCtrl.allUsersList">
                     <td>{{content.company.name}}</td>
-                    <td>{{content.login}}</td>
+                    <td><a ui-sref="dashboard.editUser">{{content.login}}</a></td>
                     <td>{{content.name}}</td>
                     <td>{{content.role}}</td>
                 </tr>

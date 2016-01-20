@@ -108,7 +108,7 @@ var tasksTable = [];
           }
         })
           .state('dashboard.addUser', {
-              url: '/addUsers',
+              url: '/addUser',
               templateUrl: 'lib/view/add-user.html',
               access: {
                   requiresLogin: true
@@ -143,7 +143,7 @@ var tasksTable = [];
     app.run(['$rootScope', '$location', 'sessionService', function($rootScope, $location, sessionService){
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
             if(toState.access !== undefined){
-                if(sessionService.sessionData === undefined) {
+                if(sessionService.isLogged === false) {
                     $location.path('/login');
                     event.preventDefault();
                 }
@@ -199,8 +199,8 @@ var tasksTable = [];
                             alert('Login failed: ' + resp.reason);
                         } else if (resp.result === 'ok') {
                             if (resp.needsSetup && resp.needsSetup === true) {
-                                $('#loginForm').modal('hide');
-                                $('#AddUserModal').modal('show');
+                                sessionService.isLogged = true;
+                                $location.path('/dashboard/addUser').replace();
                             }
                         }
                     } else if (resp.id !== undefined && resp.name !== undefined && resp.role !== undefined) {

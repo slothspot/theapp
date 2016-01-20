@@ -109,11 +109,18 @@ var tasksTable = [];
         })
         .state('dashboard.companies', {
           url: '/companies',
-          templateUrl: 'lib/view/table-contragents.html',
+          templateUrl: 'lib/view/table-companies.html',
           access: {
             requiresLogin: true
           }
         })
+          .state('dashboard.addCompany', {
+              url: '/addCompany',
+              templateUrl: 'lib/view/add-company.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
         ;
     });
 
@@ -137,11 +144,20 @@ var tasksTable = [];
         });
     }]);
 
-    app.controller("CompanyController", ['$http', '$resource', 'sessionService', function ($http, $resource, sessionService) {
+    app.controller("CompanyController", ['$scope', '$http', '$resource', '$location', 'sessionService', function ($scope, $http, $resource, $location, sessionService) {
         var vm = this;
+        $scope.company = {};
 
-        this.addCompany = function (company) {
-            alert('Not implemented yet');
+        this.addCompany = function () {
+            var payload = $scope.company;
+            $http.put('/api/v0/companies', payload).then(
+                function success(data){
+                    $location.path('/dashboard/companies').replace();
+                },
+                function fail(data){
+                    alert('Something went wrong');
+                }
+            );
         };
 
         if(sessionService.sessionData !== undefined) {
@@ -262,7 +278,6 @@ var tasksTable = [];
 
         if(sessionService.sessionData !== undefined) {
             $resource('/api/v0/users').query().$promise.then(function (persons) {
-                console.log(persons.d);
                 vm.allUsersList = persons;
             });
         }
@@ -335,13 +350,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: 'lib/view/request-full-form.html'
-        };
-    });
-
-    app.directive("addCompanyModal", function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'lib/view/add-company-modal.html'
         };
     });
 

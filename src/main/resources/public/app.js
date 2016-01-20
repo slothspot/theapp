@@ -107,6 +107,13 @@ var tasksTable = [];
             requiresLogin: true
           }
         })
+          .state('dashboard.addUser', {
+              url: '/addUsers',
+              templateUrl: 'lib/view/add-user.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
         .state('dashboard.companies', {
           url: '/companies',
           templateUrl: 'lib/view/table-companies.html',
@@ -263,12 +270,10 @@ var tasksTable = [];
                     role: roleToId($scope.user.role)};
                 $http.put('/api/v0/users', addUserPayload).then(
                     function success(data) {
-                        console.log('Created user with response: ' + data);
-                        $('#AddUserModal').modal('hide');
-                        //$('#loginForm').modal('show');
+                        $location.path('/dashboard/users').replace();
                     },
                     function fail(data) {
-                        console.log("Can't create user: " + data);
+                        alert('Somethong went wrong');
                     }
                 );
             } else {
@@ -350,13 +355,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: 'lib/view/request-full-form.html'
-        };
-    });
-
-    app.directive("addUserModal", function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'lib/view/add-user-modal.html'
         };
     });
 

@@ -1,0 +1,39 @@
+<form ng-controller="userController" ng-submit="addUser()" >
+    <div class="row" style="margin: 15px">
+        <div>
+            <label>Введите Логин пользователя:</label>
+            <input class="form-control" placeholder="Логин" ng-model="user.login" required/>
+            <label>Введите Имя пользователя:</label>
+            <input class="form-control" placeholder="Имя пользователя" ng-model="user.userFirstName" required/>
+            <br>
+            <label>Введите Фамилию пользователя:</label>
+            <input type="text" class="form-control" placeholder="Фамилия" ng-model="user.userLastName" required/>
+            <br>
+            <label>Должность/Права:</label>
+            <select class="form-control" placeholder="Должность" ng-model="user.role">
+                <option value="admin">
+                    Администратор
+                </option>
+                <option value="provider">
+                    Сотрудник отдела обеспечения
+                </option>
+                <option value="sale">
+                    Сотрудник отдела продаж
+                </option>
+                <option value="companyAdmin">
+                    Администратор компании
+                </option>
+                <option value="deptHead">
+                    Руководитель отдела
+                </option>
+            </select>
+            <label>Введите пароль:</label>
+            <input type="password" class="form-control" placeholder="Пароль" ng-model="user.password" required/>
+            <br>
+            <label>Повторите пароль:</label>
+            <input type="password" class="form-control" placeholder="Повторно пароль" ng-model="user.passwordConfirme" required/>
+            <br>
+            <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button> <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
+        </div>
+    </div>
+</form>

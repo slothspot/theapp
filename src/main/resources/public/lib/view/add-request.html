@@ -1,0 +1,37 @@
+<h3 class="modal-title"  align="center">Зявка № {{requestCtrl.selected.number}} от {{requestCtrl.selected.DateCreat}}:</h3>
+<div class="row" style="margin: 15px">
+    <form class="center-block">
+        <h4>{{requestCtrl.selected.request}}</h4>
+        <div class="img-responsive col-lg-2">
+            <img align="left" class="img-responsive img-rounded with-border" src="lib/img/requestphotos/1.jpg" />
+        </div>
+        <div class="container  col-lg-10">
+            <div class="text col-lg-5">
+                <p align="left" >Модель мужских сапоги предназначена для защиты ног от<br>воды. Область применения данной модели сапог в основном
+                    связана с работой в условиях повышенной влажности.</p>
+                <br>Запрос от: Силенко С.В.</br>
+                <p>Создан:25-09-2015</p>
+                <p>Принят в работу:30-09-2015</p>
+                <p>Сроки выполнения:25-10-2015</p>
+                <p>Причина: ТЕНДЕР</p>
+            </div>
+            <div class="col-lg-5">
+                <p>Статус :<br>
+                    <select class="form-control" data-width="30px">
+                        <option value="info">Ожидает</option>
+                        <option value="danger">Отказ</option>
+                        <option value="succes">В работе</option>
+                        <option value="succes" class="active">Выполнено</option>
+                    </select></p>
+                <p>Ответствений : <select class="form-control">
+                    <option >Петрович</option>
+                    <option>Василий</option>
+                    <option class="active">Семен</option>
+                </select></p>
+                <p>Срок выполнения :<input class="form-control" type="datetime-local" ></p>
+                <p>Результат:<input class="form-control" type="text" ></p>
+
+            </div>
+            <p><button class="btn btn-success" type="submit">Сохранить изменения</button> <button class="btn btn-success" type="submit">Отмена</button>  </div></p>
+    </form>
+</div>

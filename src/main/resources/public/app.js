@@ -135,6 +135,13 @@ var tasksTable = [];
                   requiresLogin: true
               }
           })
+          .state('dashboard.addRequest', {
+              url: '/addRequest',
+              templateUrl: 'lib/view/add-request.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
         ;
     });
 
@@ -355,13 +362,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: "lib/view/edit-company-profile.html"
-        };
-    });
-
-    app.directive("requestFullForm", function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'lib/view/request-full-form.html'
         };
     });
 

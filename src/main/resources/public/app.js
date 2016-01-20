@@ -131,7 +131,26 @@ var tasksTable = [];
 
 (function () {
   'use strict';
-    var app = angular.module('store', ['datatables', 'ngResource']);
+    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute']);
+
+    app.config(function($routeProvider, $locationProvider){
+       $routeProvider
+           .when('/UsersList', {
+               templateUrl: 'lib/view/table-users.html'
+           })
+           .when('/CompaniesList', {
+               templateUrl: 'lib/view/table-contragents.html'
+           })
+       ;
+    });
+
+    app.factory('sessionService', function(){
+       var sessionService = {
+           isLogged : false
+       };
+
+        return sessionService;
+    });
 
     app.controller('TableController', function () {
         this.content = companyTable;
@@ -157,14 +176,13 @@ var tasksTable = [];
 
     });
 
-    app.controller("userController", ['$scope', '$http', '$resource', function ($scope, $http, $resource) {
-        $scope.sessionData = {};
+    app.controller("userController", ['$scope', '$http', '$resource', 'sessionService', function ($scope, $http, $resource, sessionService) {
         $scope.loginForm = {};
         $scope.editProfileForm = {};
 
         var vm = this;
 
-        if ($scope.sessionData.login === undefined) {
+        if (sessionService.sessionData === undefined) {
             $('#loginForm').modal('show');
         }
 
@@ -183,7 +201,8 @@ var tasksTable = [];
                             }
                         }
                     } else if (resp.id !== undefined && resp.name !== undefined && resp.role !== undefined) {
-                        $scope.sessionData = resp;
+                        sessionService.sessionData = resp;
+                        sessionService.isLogged = true;
                         $('#loginForm').modal('hide');
                     }
                 },
@@ -203,6 +222,8 @@ var tasksTable = [];
                     console.log(data.data);
                 }
             );
+            sessionService.isLogged = false;
+            sessionService.sessionData = undefined;
         };
 
         $scope.saveData = function () {
@@ -259,7 +280,7 @@ var tasksTable = [];
             }
         };
 
-        if($scope.sessionData.id !== undefined) {
+        if(sessionService.sessionData !== undefined) {
             $resource('/api/v0/users').query().$promise.then(function (persons) {
                 console.log(persons.d);
                 vm.allUsersList = persons;
@@ -296,7 +317,7 @@ var tasksTable = [];
         this.request = requestTable;
     });
 
-    app.controller("ContentController", function () {
+    app.controller("ContentController", ['sessionService', function (sessionService) {
         this.contentCtrl = 'main';
 
         this.isSet = function (checkTab) {
@@ -304,9 +325,10 @@ var tasksTable = [];
         };
 
         this.setTab = function (setTab) {
+            console.log('Session: ' + sessionService.isLogged);
             this.contentCtrl = setTab;
         };
-    });
+    }]);
 
     app.directive("todoList", function () {
         return {

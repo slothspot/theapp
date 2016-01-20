@@ -16,6 +16,7 @@
     <script type="text/javascript" src="lib/js/md5.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
     <script type="text/javascript" src="lib/js/angular-datatables.min.js"></script>
     <script type="text/javascript" src="lib/js/angular-datatables.bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="lib/css/datatables.bootstrap.min.css" />
@@ -146,12 +147,7 @@
             Авторизация
         </a>
 
-        <div class="row">
-            <div ng-show="contentCtrl.isSet('request')" ng-include="'lib/view/table-request.html'"></div>
-            <div ng-show="contentCtrl.isSet('users')" ng-include="'lib/view/table-users.html'"></div>
-            <div ng-show="contentCtrl.isSet('contragents')" ng-include="'lib/view/table-contragents.html'"></div>
-            <div ng-show="contentCtrl.isSet('contragents')" ng-include="'lib/view/edit-company-profile.html'"></div>
-        </div><!-- TABLE -->
+        <div class="row" ng-view></div>
 
     </div>
 

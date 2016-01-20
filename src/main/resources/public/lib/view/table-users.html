@@ -1,4 +1,4 @@
-<div ng-if="userController.sessionData.id !== undefined" class="panel panel-default with-border" ng-controller="userController as userCtrl">
+<div class="panel panel-default with-border" ng-controller="userController as userCtrl">
     <div class="panel-heading">
         <h4 align="center"><strong>Общий список пользователей</strong></h4>
     </div>
@@ -15,23 +15,17 @@
                     <th>Логин</th>
                     <th>Имя</th>
                     <th>Права</th>
-                    <th>Статус</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="odd gradeX" ng-repeat="content in userCtrl.allUsersList">
-                    <td>{{content.companyName}}</td>
+                    <td>{{content.company.name}}</td>
                     <td>{{content.login}}</td>
                     <td>{{content.name}}</td>
                     <td>{{content.role}}</td>
-                    <td>{{content.stat}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>    <!-- /.Таблица пользователей  -->
-
-<div ng-if="userController.sessionData.id === undefined">
-    <h4>Not allowed</h4>
-</div>

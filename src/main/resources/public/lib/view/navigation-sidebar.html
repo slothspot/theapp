@@ -2,23 +2,23 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li>
-                <a ng-class="{ active:contentCtrl.isSet('main') }" href="index.html" ng-click="contentCtrl.setTab('main')"><i class="fa fa-hdd-o fa-1x"></i> Главная</a>
+                <a href="index.html"><i class="fa fa-hdd-o fa-1x"></i> Главная</a>
             </li>
 
-            <li ng-class="{ active:contentCtrl.isSet('administration') }">
-                <a href="#" ng-click="contentCtrl.setTab('administration')"><i class="fa fa-gears fa-1x"></i>Администрирование</a>
+            <li>
+                <a href="#"><i class="fa fa-gears fa-1x"></i>Администрирование</a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#" ng-click="contentCtrl.setTab('users')"><i class="fa fa-users fa-1x"></i>Пользователи</a>
+                        <a href="#/UsersList"><i class="fa fa-users fa-1x"></i>Пользователи</a>
                     </li>
                     <li>
-                        <a href="#" ng-click="contentCtrl.setTab('contragents')"><i class="fa fa-building fa-1x"></i>Компании</a>
+                        <a href="#/CompaniesList"><i class="fa fa-building fa-1x"></i>Компании</a>
                     </li>
                 </ul>
             </li>
 
-            <li ng-class="{ active:contentCtrl.isSet('request') }">
-                <a  href ng-click="contentCtrl.setTab('request')"><i class="fa fa-tasks fa-1x"></i> Запросы</a>
+            <li>
+                <a  href="#/Requests"><i class="fa fa-tasks fa-1x"></i> Запросы</a>
             </li>
             <li ng-class="{ active:contentCtrl.isSet('contragents') }">
                 <a href="#" ng-click="contentCtrl.setTab('contragents')"><i class="fa fa-users fa-1x"></i>Контрагенты</a>

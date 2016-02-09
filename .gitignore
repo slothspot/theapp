@@ -1,3 +1,6 @@
 project/
 target/
 .idea/
+.classpath
+.ensime
+.ensime_cache/

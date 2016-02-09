@@ -1,0 +1,9 @@
+.ensime_cache/
+.git/
+.idea/
+docs/
+project/
+sbt/
+src/
+target/
+!target/scala-2.11/theapp-assembly*.jar

@@ -19,4 +19,7 @@ Compile and run:
 
     * Note: On Windows, replace sbt.sh with sbt.bat
 
-Open configured host and port in browser (ex. http://localhost:8080), enjoy!
+Open configured host and port in browser (ex. https://localhost:8443), enjoy!
+
+IN PROGRESS:
+  => Packaging of application in Docker containers explained in docs/build.adoc file.

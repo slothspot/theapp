@@ -1,0 +1,29 @@
+= TheApp Build Instruction
+Dmitry Melnichenko <dmytro.i.am@gmail.com>
+:toc:
+v0.1, 2016-02-09
+
+== Environment setup
+Install docker. (follow https://docs.docker.com/engine/installation/[Docker installation manual])
+
+Create directory for persistent data storage:
+----
+mkdir -p /usr/local/var/mongodb
+----
+
+== Build process
+In the root directory of the project run following commands:
+----
+sbt clean assembly
+docker build -t dmitrym/mongo -f Dockerfile.mongo .
+docker build -t dmitrym/app -f Dockerfile.app .
+----
+
+== Run process
+To launch containers with mongodb and application execute following commands:
+----
+docker run -d -p 27017:27017 --name mongo -v /usr/local/var/mongodb:/data/db -t dmitrym/mongo
+docker run -d -p 8443:8443 --name app --link mongo:mongo -t dmitrym/app
+----
+
+Finally, open https://192.168.99.100:8443 in browser.

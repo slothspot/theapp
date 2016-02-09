@@ -10,7 +10,20 @@
                             <i class="fa fa-users fa-4x"></i>
                         </div>
                         <div class="col-sm-9 col-lg-7 widget-right">
-                            <div class="large">{{infoCtrl.allcompany}}</div>
+                            <div class="large">{{infoCtrl.users.count}}</div>
+                            <div class="text-muted">Пользователей</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-3">
+                <div class="panel panel-blue panel-widget without-border  ">
+                    <div class="row no-padding">
+                        <div class="col-sm-3 col-lg-5 widget-left">
+                            <i class="fa fa-building fa-4x"></i>
+                        </div>
+                        <div class="col-sm-9 col-lg-7 widget-right">
+                            <div class="large">{{infoCtrl.companies.count}}</div>
                             <div class="text-muted">Контрагентов</div>
                         </div>
                     </div>
@@ -23,7 +36,7 @@
                             <i class="fa fa-th-list fa-4x"></i>
                         </div>
                         <div class="col-sm-9 col-lg-7 widget-right">
-                            <div class="large">{{infoCtrl.allrequest}}</div>
+                            <div class="large">{{infoCtrl.invoices.count}}</div>
                             <div class="text-muted">Запросов</div>
                         </div>
                     </div>

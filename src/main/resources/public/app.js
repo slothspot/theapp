@@ -309,13 +309,20 @@ var tasksTable = [];
         }
     }]);
 
-    app.controller("InfoController", function () {
-        this.allcompany = -1;
-        this.allrequest = requestTable.length;
+    app.controller("InfoController", ['$resource', function ($resource) {
+      var vm = this;
+      $resource('/api/v0/stats/users').get().$promise.then(function(users){
+        vm.users = users;
+      });
+      $resource('/api/v0/stats/companies').get().$promise.then(function(companies){
+        vm.companies = companies;
+      });
+      $resource('/api/v0/stats/invoices').get().$promise.then(function(invoices){
+        vm.invoices = invoices;
+      })
         this.alltodo = todoTable.length;
         this.alltasks = tasksTable.length;
-
-    });
+    }]);
 
     app.controller('TodoController', function () {
         this.todos = todoTable;

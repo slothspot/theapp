@@ -4,11 +4,6 @@
 
         main_fun: function () {
             /*====================================
-            METIS MENU
-            ======================================*/
-            $('#main-menu').metisMenu();
-
-            /*====================================
               LOAD APPROPRIATE MENU BAR
            ======================================*/
             $(window).bind("load resize", function () {

@@ -7,7 +7,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.HttpsContext
 import akka.http.scaladsl.Http.ServerBinding
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.codahale.metrics.MetricRegistry
@@ -24,12 +24,14 @@ object TheApp extends App with LazyLogging {
   val metricRegistry = new MetricRegistry
 
   def start() = {
-    val route = pathPrefix("public") {
+    val route = pathPrefix("webjars") {
+      getFromResourceDirectory("META-INF/resources/webjars")
+    } ~ pathPrefix("public") {
       getFromResourceDirectory("public/")
     } ~ path("public") {
-      redirect("public/index.html", StatusCodes.MovedPermanently)
+      redirect("public/index.html", MovedPermanently)
     } ~ pathSingleSlash {
-      redirect("public/index.html", StatusCodes.MovedPermanently)
+      redirect("public/index.html", MovedPermanently)
     } ~ pathPrefix("api") {
       pathPrefix("v0") {
         Sessions().route ~ Calendar().route ~ Users().route ~ Companies().route ~ Invoices().route ~ CompanyEvents().route

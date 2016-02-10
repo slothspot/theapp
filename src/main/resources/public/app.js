@@ -39,6 +39,13 @@ var tasksTable = [];
             requiresLogin: true
           }
         })
+        .state('dashboard.main', {
+          url: '/main',
+          templateUrl: 'lib/view/info.html',
+          access: {
+            requiresLogin: true
+          }
+        })
         .state('dashboard.users', {
           url: '/users',
           templateUrl: 'lib/view/table-users.html',
@@ -178,7 +185,7 @@ var tasksTable = [];
                     } else if (resp.id !== undefined && resp.name !== undefined && resp.role !== undefined) {
                         sessionService.sessionData = resp;
                         sessionService.isLogged = true;
-                        $location.path('/dashboard').replace();
+                        $location.path('/dashboard/main').replace();
                     }
                 },
                 function fail(data) {
@@ -309,13 +316,6 @@ var tasksTable = [];
         return {
             restrict: 'E',
             templateUrl: "lib/view/todo-list.html"
-        };
-    });
-
-    app.directive("editCompany", function () {
-        return {
-            restrict: 'E',
-            templateUrl: "lib/view/edit-company-profile.html"
         };
     });
 

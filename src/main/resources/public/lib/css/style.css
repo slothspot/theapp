@@ -685,3 +685,14 @@ p {
     width: 51px;
     height: 51px;
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+}
+
+.muted-text {
+  color: #777;
+}

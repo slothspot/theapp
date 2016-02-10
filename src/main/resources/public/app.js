@@ -135,8 +135,8 @@ var tasksTable = [];
                   requiresLogin: true
               }
           })
-          .state('dashboard.requests', {
-              url: '/requests',
+          .state('dashboard.invoices', {
+              url: '/invoices',
               templateUrl: 'lib/view/table-request.html',
               access: {
                   requiresLogin: true

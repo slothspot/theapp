@@ -299,19 +299,6 @@ var tasksTable = [];
 
     });
 
-    app.controller("ContentController", ['sessionService', function (sessionService) {
-        this.contentCtrl = 'main';
-
-        this.isSet = function (checkTab) {
-            return this.contentCtrl === checkTab;
-        };
-
-        this.setTab = function (setTab) {
-            console.log('Session: ' + sessionService.isLogged);
-            this.contentCtrl = setTab;
-        };
-    }]);
-
     app.directive("todoList", function () {
         return {
             restrict: 'E',

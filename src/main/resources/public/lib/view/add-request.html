@@ -1,4 +1,4 @@
-<h3 class="modal-title"  align="center">Новая зявка:</h3>
+<h3 align="center">Новая зявка:</h3>
 <div class="row" style="margin: 15px">
     <form class="center-block" ng-controller="invoiceController as invoiceCtrl" ng-submit="invoiceCtrl.addInvoice()">
       <label>Тема заявки</label>
@@ -24,6 +24,6 @@
       <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.qty" required class="form-control"/>
       <br/>
       <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button>
-      <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
+      <button type="submit" class="btn btn-danger" aria-hidden="true">Отмена</button>
     </form>
 </div>

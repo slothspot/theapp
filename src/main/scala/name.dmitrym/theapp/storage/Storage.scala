@@ -1,8 +1,10 @@
 package name.dmitrym.theapp.storage
 
 import com.mongodb.casbah.{MongoClientURI, MongoClient}
+import com.mongodb.casbah.commons.conversions.scala._
 import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.utils.Configuration
+
 
 class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
   logger.debug(s"New instance of Storage created with uri $mongoUri")
@@ -18,6 +20,7 @@ class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
 }
 
 object Storage {
+  RegisterJodaTimeConversionHelpers()
   private[this] val cache = Map[(String, String), Storage]()
 
   def apply():Storage = {

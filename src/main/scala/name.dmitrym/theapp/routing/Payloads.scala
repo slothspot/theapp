@@ -7,7 +7,14 @@ case class LoginResponsePayload(id: String, login: String, name: String, role: I
 
 case class CompanyItem(company: Company, companyInfo: CompanyInfo)
 
-case class InvoiceCreatePayload(companyId: String, userId: String, title: String, reqType: String, reqNeed: String, reqDescription: String, reqImg: String, priority: Int)
+case class InvoiceCreatePayload(
+  title: String,
+  reqType: String,
+  reqNeed: String,
+  reqDescription: String,
+  priority: String,
+  qty: Int
+)
 
 case class InvoiceUpdatePayload(id: String, title: String, reqType: String, reqNeed: String, reqDescription: String,
   reqImg: String, startTime: String, finishTime: String, status: Int, responsible: String, result: String)

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-default with-border"  ng-controller="requestController as requestCtrl">
+        <div class="panel panel-default with-border"  ng-controller="invoiceController as invoiceCtrl">
             <div class="panel-heading bg-color-blue">
                 <strong><h4 align="center">Заявки</h4></strong>
             </div>
@@ -9,68 +9,34 @@
             </div>
             <div class="panel-body" >
                 <div class="table-responsive"   >
-                    <table class="table table-striped table-bordered table-hover" >
+                    <table class="table table-striped table-bordered table-hover row-border hover" datatable="ng" >
                         <thead>
                         <tr>
-                            <th>№</th>
                             <th>Заявка</th>
                             <th>Автор</th>
                             <th>Тип</th>
                             <th>Описание</th>
+                            <th>Количество</th>
+                            <th>Причина</th>
                             <th>Создано</th>
                             <th>Статус</th>
-                            <th>Принята</th>
-                            <th>Срок до</th>
-                            <th>Ответсвеный</th>
-                            <th>Результат</th>
-
-
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="request in requestCtrl.request">
-                            <request-edit-modal-form></request-edit-modal-form>
-
-                            <td><a href="#" data-toggle="modal" data-target="#requestFullForm">{{request.number}}</a></td>
-                            <td><img align="center" class="request-img" ng-attr-src="{{request.requestImg}}"/><br/> {{request.request}}<br /> </td>
-                            <td>{{request.CreateBy}}</td>
-                            <td>
-                                <select>
-                                    <option>{{request.requestType}}</option>
-                                    <option>Просчет</option>
-                                    <option>Закупка</option>
-                                </select>
-                            </td>
-                            <td>{{request.requestAbout}}</td>
-                            <td>{{request.DateCreat}}.</td>
-                            <td>
-                                <select>
-                                    <option>{{request.Stat}}</option>
-                                    <option value="info">Ожидает</option>
-                                    <option value="danger">Отказ</option>
-                                    <option value="succes">В работе</option>
-                                    <option value="succes" class="active">Выполнено</option>
-                                </select>
-                            </td>
-                            <td>{{request.DateTake}}</td>
-                            <td>{{request.DateFinish}}</td>
-                            <td>
-                                <select>
-                                    <option>{{request.curator}}</option>
-                                    <option >Петрович</option>
-                                    <option>Василий</option>
-                                    <option class="active">Семен</option>
-                                </select>
-                            </td>
-                            <td>{{request.result}}</td>
+                        <tr ng-repeat="invoice in invoiceCtrl.allInvoices">
+                            <td>{{invoice.title}}</td>
+                            <td>{{invoice.userId}}</td>
+                            <td>{{invoice.reqType}}</td>
+                            <td>{{invoice.reqDescription}}</td>
+                            <td>{{invoice.quantity}}</td>
+                            <td>{{invoice.reqType}}</td>
+                            <td>{{invoice.creationTime.$date}}.</td>
+                            <td>{{invoice.status}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div><!-- /.Таблица заявок  -->
-
-
     </div>
 </div>

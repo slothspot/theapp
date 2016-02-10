@@ -195,14 +195,26 @@ var tasksTable = [];
         }
     }]);
 
-    app.controller("editController", function () {
-        this.editCtrl = function (edit) {
-            this.id = edit;
-            alert(this.id);
-        };
-
-
-    });
+    app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', 'sessionService', function($scope, $http, $resource, $location, sessionService){
+      var vm = this;
+      $scope.invoice = {};
+      this.addInvoice = function(){
+        var payload = $scope.invoice;
+        $http.put('/api/v0/invoices', payload).then(
+          function success(data){
+            $location.path('/dashboard/invoices').replace();
+          },
+          function fail(data){
+            alert('Can\'t add invoice');
+          }
+        )
+      };
+      if(sessionService.sessionData !== undefined) {
+        $resource('/api/v0/invoices').query().$promise.then(function(invoices){
+          vm.allInvoices = invoices;
+        });
+      }
+    }]);
 
     app.controller("userController", ['$scope', '$http', '$resource', '$location', 'sessionService', function ($scope, $http, $resource, $location, sessionService) {
         $scope.loginForm = {};
@@ -339,10 +351,6 @@ var tasksTable = [];
             return count;
         };
 
-    });
-
-    app.controller('requestController', function () {
-        this.request = requestTable;
     });
 
     app.controller("ContentController", ['sessionService', function (sessionService) {

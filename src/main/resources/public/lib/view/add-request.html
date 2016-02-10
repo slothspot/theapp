@@ -1,37 +1,29 @@
-<h3 class="modal-title"  align="center">Зявка № {{requestCtrl.selected.number}} от {{requestCtrl.selected.DateCreat}}:</h3>
+<h3 class="modal-title"  align="center">Новая зявка:</h3>
 <div class="row" style="margin: 15px">
-    <form class="center-block">
-        <h4>{{requestCtrl.selected.request}}</h4>
-        <div class="img-responsive col-lg-2">
-            <img align="left" class="img-responsive img-rounded with-border" src="lib/img/requestphotos/1.jpg" />
-        </div>
-        <div class="container  col-lg-10">
-            <div class="text col-lg-5">
-                <p align="left" >Модель мужских сапоги предназначена для защиты ног от<br>воды. Область применения данной модели сапог в основном
-                    связана с работой в условиях повышенной влажности.</p>
-                <br>Запрос от: Силенко С.В.</br>
-                <p>Создан:25-09-2015</p>
-                <p>Принят в работу:30-09-2015</p>
-                <p>Сроки выполнения:25-10-2015</p>
-                <p>Причина: ТЕНДЕР</p>
-            </div>
-            <div class="col-lg-5">
-                <p>Статус :<br>
-                    <select class="form-control" data-width="30px">
-                        <option value="info">Ожидает</option>
-                        <option value="danger">Отказ</option>
-                        <option value="succes">В работе</option>
-                        <option value="succes" class="active">Выполнено</option>
-                    </select></p>
-                <p>Ответствений : <select class="form-control">
-                    <option >Петрович</option>
-                    <option>Василий</option>
-                    <option class="active">Семен</option>
-                </select></p>
-                <p>Срок выполнения :<input class="form-control" type="datetime-local" ></p>
-                <p>Результат:<input class="form-control" type="text" ></p>
-
-            </div>
-            <p><button class="btn btn-success" type="submit">Сохранить изменения</button> <button class="btn btn-success" type="submit">Отмена</button>  </div></p>
+    <form class="center-block" ng-controller="invoiceController as invoiceCtrl" ng-submit="invoiceCtrl.addInvoice()">
+      <label>Тема заявки</label>
+      <input type="text" placeholder="тема" ng-model="invoice.title" required class="form-control"/>
+      <label>Тип заявки</label>
+      <select class="form-control" ng-model="invoice.reqType" required>
+        <option value="" disabled selected>тип</option>
+        <option value="inquiry">Запрос</option>
+        <option value="order">Заявка</option>
+      </select>
+      <label>Причина</label>
+      <input type="text" placeholder="причина" ng-model="invoice.reqNeed" required class="form-control"/>
+      <label>Описание</label>
+      <textarea placeholder="описание" ng-model="invoice.reqDescription" required class="form-control"/>
+      <label>Приоритет</label>
+      <select class="form-control" ng-model="invoice.priority" required class="form-control">
+        <option value="" disabled selected>приоритет</option>
+        <option value="0">Normal</option>
+        <option value="1">High</option>
+        <option value="2">Low</option>
+      </select>
+      <label>Количество</label>
+      <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.qty" required class="form-control"/>
+      <br/>
+      <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button>
+      <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
     </form>
 </div>

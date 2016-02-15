@@ -42,10 +42,10 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
 
   private[this] val updateUserTimer = metrics.timer("updateUser")
   val updateUser = updateUserTimer.time { post { requiredSession(oneOff, usingCookies) { session =>
-    (requestEntityPresent & entity(as[CreateUserPayload])) { (pl) =>
+    (requestEntityPresent & entity(as[UpdateUserPayload])) { (pl) =>
       storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
         case Some(s) =>
-          if(s.get("role").asInstanceOf[Int] == 0 || (s.get("role").asInstanceOf[Int] == 1 && s.get("companyId") == pl.companyId && pl.role >= 1)) {
+          if(s.get("role").asInstanceOf[Int] == 0) {
             storage.users.findOne(MongoDBObject("login" -> pl.login)) match {
               case None =>
                 complete(Responses.DoesntExist)
@@ -54,8 +54,11 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                   "login" -> pl.login,
                   "password" -> pl.password,
                   "name" -> pl.name,
-                  "companyId" -> pl.companyId,
-                  "role" -> pl.role
+                  "email" -> pl.email,
+                  "phone" -> pl.phone,
+                  "address" -> pl.address,
+                  "companyId" -> u.getAs[String]("companyId"),
+                  "role" -> u.getAs[Int]("role")
                 ))
                 complete(Responses.Ok)
             }
@@ -73,17 +76,25 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
       case Some(s) =>
         complete { s.get("role").asInstanceOf[Int] match {
           case 0 =>
-            storage.users.find().map{ u =>
-              val c = storage.companies.findOne(MongoDBObject("id" -> u.getAs[String]("companyId"))) match {
-                case Some(cmp) => cmp.asInstanceOf[Company]
-                case None => Company("", "N/A")
+            val users = storage.users.find().map{ u =>
+              val cId = u.getAs[String]("companyId")
+              val c = cId match {
+                case None | Some("") => Company("", "N/A")
+                case Some(id) => storage.companies.findOne(MongoDBObject("id" -> cId)) match {
+                  case Some(cmp) => cmp.asInstanceOf[Company]
+                  case None => Company(id, "Invalid")
+                }
               }
-              UserInfo(u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
-            }.toArray.mkString("[", ",", "]")
+
+              UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
+            }
+            val usersArray = users.toArray
+            val usersStr = usersArray.mkString("[", ",", "]")
+            usersStr
           case 1 =>
             storage.users.find(MongoDBObject("companyId" -> s.getAs[String]("company").get)).map{ u =>
               val c = storage.companies.findOne(MongoDBObject("id" -> u.getAs[String]("companyId"))).get.asInstanceOf[Company]
-              UserInfo(u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
+              UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
             }.toArray.mkString("[", ",", "]")
           case _ => Responses.NotAllowed
         }}
@@ -91,8 +102,31 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
     }
   }}}
 
+  private[this] val getUserInfoTimer = metrics.timer("getUserInfo")
+  val getUserInfo = getUserInfoTimer.time {
+    get { requiredSession(oneOff, usingCookies) { session =>
+      extractUnmatchedPath { userId =>
+        storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
+          case Some(s) =>
+            storage.users.findOne(MongoDBObject("_id" -> new ObjectId(userId.tail.toString()))) match {
+              case Some(u) =>
+                val c = storage.companies.findOne(MongoDBObject("id" -> u.getAs[String]("companyId"))) match {
+                  case Some(cmp) => cmp.asInstanceOf[Company]
+                  case None => Company("", "N/A")
+                }
+                complete(UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson)
+              case None => complete(Responses.DoesntExist)
+            }
+          case None => complete(Responses.NotAuthorized)
+        }
+      }
+    }}
+  }
+
   def route = path("users") {
     createUser ~ updateUser ~ userStats
+  } ~ pathPrefix("user") {
+    getUserInfo
   }
 }
 

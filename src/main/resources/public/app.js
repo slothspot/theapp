@@ -61,8 +61,9 @@ var tasksTable = [];
               }
           })
           .state('dashboard.editUser', {
-              url: '/editUser',
+              url: '/editUser/:id',
               templateUrl: 'lib/view/edit-user-profile.html',
+              controller: 'userController',
               access: {
                   requiresLogin: true
               }
@@ -162,11 +163,40 @@ var tasksTable = [];
       }
     }]);
 
-    app.controller("userController", ['$scope', '$http', '$resource', '$location', 'sessionService', function ($scope, $http, $resource, $location, sessionService) {
+    app.controller("userController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function ($scope, $http, $resource, $location, $state, $stateParams, sessionService) {
         $scope.loginForm = {};
         $scope.editProfileForm = {};
 
+        if($stateParams.id !== undefined) {
+            $scope.userId = $stateParams.id;
+            $resource('/api/v0/user/' + $scope.userId).get().$promise.then(function(user){
+                $scope.user = user;
+            })
+        }
+
         var vm = this;
+
+        this.updateUser = function (){
+            var user = $scope.user;
+            var userId = $scope.userId;
+            var userPayload = {
+                id: userId,
+                login: user.login,
+                password: md5(user.password),
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                address: user.address
+            };
+            $http.post('/api/v0/users', userPayload).then(
+                function success(data){
+                    $location.path('/dashboard/users').replace();
+                },
+                function fail(data){
+                    alert('User update failed');
+                }
+            );
+        };
 
         $scope.login = function () {
             var loginPayload = {login: $scope.loginForm.login, password: md5($scope.loginForm.password)};
@@ -206,28 +236,6 @@ var tasksTable = [];
             );
             sessionService.isLogged = false;
             sessionService.sessionData = undefined;
-        };
-
-        $scope.saveData = function () {
-            if ($scope.editProfileForm.password === undefined || ($scope.editProfileForm.password !== $scope.editProfileForm.cfmPassword)) {
-                alert('Password and Confirm Password do not match. Please try again ');
-                $('#AddUserModal').modal('show');
-                return;
-            }
-            $scope.SystemUser = {
-                userLogin: $scope.editProfileForm.userLogin,
-                password: $scope.editProfileForm.password,
-                role: $scope.editProfileForm.role
-            };
-            $scope.OthersUsersInfo = {
-                fullName: $scope.editProfileForm.fullName,
-                email: $scope.editProfileForm.email,
-                phone: $scope.editProfileForm.phone,
-                address: $scope.editProfileForm.address,
-                companyId: $scope.editProfileForm.companyId
-            };
-            $('#AddUserModal').modal('hide');
-            alert('Hello ' + $scope.SystemUser.userLogin + '. You have successfully changed your data and can now get to work ');
         };
 
         function roleToId(role) {
@@ -277,7 +285,7 @@ var tasksTable = [];
       });
       $resource('/api/v0/stats/invoices').get().$promise.then(function(invoices){
         vm.invoices = invoices;
-      })
+      });
         this.alltodo = todoTable.length;
         this.alltasks = tasksTable.length;
     }]);

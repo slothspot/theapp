@@ -20,5 +20,6 @@ case class InvoiceUpdatePayload(id: String, title: String, reqType: String, reqN
   reqImg: String, startTime: String, finishTime: String, status: Int, responsible: String, result: String)
 
 case class CreateUserPayload(login: String, password: String, name: String, companyId: String, role: Int)
+case class UpdateUserPayload(id: String, login: String, password: String, name: String, email: String, phone: String, address: String)
 
-case class UserInfo(login: String, name: String, company: Company, role: Int)
+case class UserInfo(id: String, login: String, name: String, company: Company, role: Int)

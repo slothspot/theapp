@@ -90,8 +90,26 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
     }
   }}}
 
+  private[this] val getCompanyInfoTimer = metrics.timer("getCompanyInfoTimer")
+  val getCompanyInfo = getCompanyInfoTimer.time {
+    get { requiredSession(oneOff, usingCookies) { session =>
+      extractUnmatchedPath { companyId =>
+        storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
+          case Some(s) =>
+            storage.companies.findOne(MongoDBObject("company.id" -> companyId.tail.toString)) match {
+              case Some(c) => complete(JSON.serialize(c).parseJson.convertTo[CompanyItem].toJson.toString)
+              case None => complete(Responses.DoesntExist)
+            }
+          case None => complete(Responses.NotAuthorized)
+        }
+      }
+    }}
+  }
+
   def route = path("companies") {
     createCompany ~ updateCompany ~ companiesInfo
+  } ~ pathPrefix("company") {
+    getCompanyInfo
   }
 }
 

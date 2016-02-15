@@ -1,127 +1,123 @@
-<div class="row col-md-12">
+<div class="row col-md-12" ng-controller="CompanyController as companyCtrl">
     <div class="panel with-border">
         <div class="page-header text-center">
             <h4 align="center">Профиль компании</h4>
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-lg-3">
-                    <h4>ТОВ "Украинская международная торговая компания"</h4><br/>
-                    <img src="lib/img/photousers/no-img.jpg" alt="Logo" class=" with-border img-circle" height="150px" />
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="companyId">Код по ЕГРПОУ</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="companyId" class="form-control" ng-model="company.company.id" readonly/>
+                  </div>
                 </div>
-                <div class="col-lg-9 text-justify">
-
-                    <div class="col-md-10">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1" data-toggle="tab">Основные данные о предприятие</a></li>
-                                <li><a href="#tab_2" data-toggle="tab">Дополнительные данные</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1">
-                                    <div class="col-md-6">
-                                        <p>Код по ЕГРПОУ:</p><br/>
-                                        <p>Полное Юридическое название:</p>
-                                        <p>Сокращенное название:</p>
-                                        <p>Вид деятельности:</p><br/>
-                                        <p>ИНН:</p>
-                                        <p>Юридический адрес</p>
-                                        <p>О компании:</p>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><input type="text" id="companyId" name="companyId" class="form-control"/></p>
-                                        <p><input type="text" id="companyName" name="companyName" class="form-control"/></p>
-                                        <p><input type="text" id="smallName" name="smallName" class="form-control"/></p>
-                                        <p> <select>
-                                            <option>
-                                                Розничная торговля / Продажи
-                                            </option>
-                                            <option>
-                                                Транспорт / логистика
-                                            </option>
-                                            <option>
-                                                Строительство
-                                            </option>
-                                            <option >
-                                                Бары / рестораны
-                                            </option>
-                                            <option>
-                                                Юриспруденция и бухгалтерия
-                                            </option>
-                                            <option>
-                                                Охрана / безопасность
-                                            </option>
-                                            <option>
-                                                Домашний персонал
-                                            </option>
-                                            <option >
-                                                Красота / фитнес / спорт
-                                            </option>
-                                            <option>
-                                                Туризм / отдых / развлечения
-                                            </option>
-                                            <option>
-                                                Образование
-                                            </option>
-                                            <option >
-                                                Культура / искусство
-                                            </option>
-                                            <option>
-                                                Медицина / фармация
-                                            </option>
-                                            <option >
-                                                ИТ / телеком / компьютеры
-                                            </option>
-                                            <option >
-                                                Недвижимость
-                                            </option>
-                                            <option >
-                                                Маркетинг / реклама / дизайн
-                                            </option>
-                                            <option >
-                                                Производство / энергетика
-                                            </option>
-                                            <option>
-                                                Cекретариат / АХО
-                                            </option>
-                                            <option>
-                                                Начало карьеры / Студенты
-                                            </option>
-                                            <option >
-                                                Сервис и быт
-                                            </option>
-                                            <option >
-                                                Другие сферы занятий
-                                            </option>
-
-                                        </select></p>
-                                        <p><input type="text" id="companyInn" name="companyInn" class="form-control"/></p>
-                                        <p><input type="text" id="adress" name="adress" class="form-control"/></p>
-                                        <p><textarea rows="3"></textarea></p>
-                                    </div>
-                                </div><!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_2">
-                                    <div class="col-md-3">
-                                        <p>Почтовый адрес:</p>
-                                        <p>Контактный телефон:</p>
-                                        <p>Сайт:</p>
-                                        <p>Руководитель:</p><br>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <p><input type="text" id="mailcompanyAdress" name="mailcompanyAdress" class="form-control"/></p>
-                                        <p><input type="text" id="companyPhoneNumber" name="companyPhoneNumber" class="form-control"/></p>
-                                        <p> <input class="form-control" type="url" id="companySite" name="companySite" /></p>
-                                        <p><input type="text" id="director" name="director" class="form-control"></p>
-                                    </div>
-                                </div><!-- /.tab-pane -->
-                            </div><!-- /.tab-content -->
-                        </div><!-- nav-tabs-custom -->
-                    </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="companyName">Название</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="companyName" class="form-control" ng-model="company.company.name"/>
+                  </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="companyType">Тип</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="companyType" class="form-control" ng-model="company.companyInfo.type"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="companyDomain">Сфера деятельности:</label>
+                  <div class="col-sm-10">
+                    <select id="companyDomain" class="form-control" ng-model="company.companyInfo.domain">
+                        <option value="Розничная торговля / Продажи">
+                            Розничная торговля / Продажи
+                        </option>
+                        <option value="Транспорт / логистика">
+                            Транспорт / логистика
+                        </option>
+                        <option value="Строительство">
+                            Строительство
+                        </option>
+                        <option value="Бары / рестораны">
+                            Бары / рестораны
+                        </option>
+                        <option value="Юриспруденция и бухгалтерия">
+                            Юриспруденция и бухгалтерия
+                        </option>
+                        <option value="Охрана / безопасность">
+                            Охрана / безопасность
+                        </option>
+                        <option value="Домашний персонал">
+                            Домашний персонал
+                        </option>
+                        <option  value="Красота / фитнес / спорт">
+                            Красота / фитнес / спорт
+                        </option>
+                        <option value="Туризм / отдых / развлечения">
+                            Туризм / отдых / развлечения
+                        </option>
+                        <option value="Образование">
+                            Образование
+                        </option>
+                        <option  value="Культура / искусство">
+                            Культура / искусство
+                        </option>
+                        <option value="Медицина / фармация">
+                            Медицина / фармация
+                        </option>
+                        <option value="ИТ / телеком / компьютеры" >
+                            ИТ / телеком / компьютеры
+                        </option>
+                        <option  value="Недвижимость">
+                            Недвижимость
+                        </option>
+                        <option  value="Маркетинг / реклама / дизайн">
+                            Маркетинг / реклама / дизайн
+                        </option>
+                        <option value="Производство / энергетика">
+                            Производство / энергетика
+                        </option>
+                        <option value="Cекретариат / АХО">
+                            Cекретариат / АХО
+                        </option>
+                        <option value="Сервис и быт">
+                            Сервис и быт
+                        </option>
+                        <option value="Другие сферы занятий">
+                            Другие сферы занятий
+                        </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="companyAddress">Адрес</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="companyAddress" class="form-control" ng-model="company.companyInfo.address"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="contactPhone">Телефон</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="contactPhone" class="form-control" ng-model="company.companyInfo.contactPhone"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="contactEmail">Электронная почта</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="contactEmail" class="form-control" ng-model="company.companyInfo.contactEmail"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="web">Web</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="web" class="form-control" ng-model="company.companyInfo.web"/>
+                  </div>
+                </div>
+              </form>
             </div>
         </div>
-        <div align="right" class="panel-footer"><button type="submit" class="btn btn-success">Сохранить</button>      <button type="submit" class="btn btn-danger">Отмена</button></div>
-
+        <div align="right" class="panel-footer">
+            <button type="submit" class="btn btn-success" ng-click="companyCtrl.updateCompany()">Сохранить</button>
+            <button type="submit" class="btn btn-danger">Отмена</button>
+        </div>
     </div>
 </div> <!-- /.Company Edit /PROFILE -->

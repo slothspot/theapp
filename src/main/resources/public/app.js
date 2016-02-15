@@ -82,6 +82,13 @@ var tasksTable = [];
                   requiresLogin: true
               }
           })
+          .state('dashboard.editCompany', {
+              url: '/editCompany/:id',
+              templateUrl: 'lib/view/edit-company-profile.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
           .state('dashboard.invoices', {
               url: '/invoices',
               templateUrl: 'lib/view/table-request.html',
@@ -119,13 +126,31 @@ var tasksTable = [];
         });
     }]);
 
-    app.controller("CompanyController", ['$scope', '$http', '$resource', '$location', 'sessionService', function ($scope, $http, $resource, $location, sessionService) {
+    app.controller("CompanyController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function ($scope, $http, $resource, $location, $state, $stateParams, sessionService) {
         var vm = this;
         $scope.company = {};
+
+        if($stateParams.id !== undefined) {
+          $resource('/api/v0/company/' + $stateParams.id).get().$promise.then(function(company){
+            $scope.company = company;
+          });
+        }
 
         this.addCompany = function () {
             var payload = $scope.company;
             $http.put('/api/v0/companies', payload).then(
+                function success(data){
+                    $location.path('/dashboard/companies').replace();
+                },
+                function fail(data){
+                    alert('Something went wrong');
+                }
+            );
+        };
+
+        this.updateCompany = function () {
+            var payload = $scope.company;
+            $http.post('/api/v0/companies', payload).then(
                 function success(data){
                     $location.path('/dashboard/companies').replace();
                 },

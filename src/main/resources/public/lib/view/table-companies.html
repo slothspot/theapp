@@ -10,7 +10,6 @@
             <table class="table table-striped table-bordered table-hover row-border hover" datatable="ng">
                 <thead>
                 <tr>
-                    <th>Идентификатор</th>
                     <th>Названия</th>
                     <th>Тип</th>
                     <th>Сфера деятельности</th>
@@ -20,8 +19,7 @@
                 </thead>
                 <tbody>
                 <tr class="odd gradeX" ng-repeat="content in companyCtrl.allCompaniesList">
-                    <td>{{content.company.id}}</td>
-                    <td>{{content.company.name}}</td>
+                    <td><a ui-sref="dashboard.editCompany({id: content.company.id})">{{content.company.name}}</a></td>
                     <td>{{content.companyInfo.type}}</td>
                     <td>{{content.companyInfo.domain}}</td>
                     <td>{{content.companyInfo.web}}</td>

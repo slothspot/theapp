@@ -6,7 +6,7 @@ import spray.json._
 
 object Marshallers extends DefaultJsonProtocol {
   implicit val loginPayloadJSONMarshaller = jsonFormat2(LoginPayload)
-  implicit val loginResponsePayloadJSONMarshaller = jsonFormat4(LoginResponsePayload)
+  implicit val loginResponsePayloadJSONMarshaller = jsonFormat5(LoginResponsePayload)
 
   implicit val companyJSONMarshaller = jsonFormat2(Company)
 
@@ -16,7 +16,7 @@ object Marshallers extends DefaultJsonProtocol {
 
   implicit val userInfoJSONMarshaller = jsonFormat5(UserInfo)
 
-  implicit val InvoiceCreatePayloadJSONMarshaller = jsonFormat6(InvoiceCreatePayload)
+  implicit val InvoiceCreatePayloadJSONMarshaller = jsonFormat8(InvoiceCreatePayload)
 
   implicit val InvoiceUpdatePayloadJSONMarshaller = jsonFormat11(InvoiceUpdatePayload)
 

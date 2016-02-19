@@ -3,7 +3,7 @@ package name.dmitrym.theapp.routing
 import name.dmitrym.theapp.storage.{CompanyInfo, Company}
 
 case class LoginPayload(login: String, password: String)
-case class LoginResponsePayload(id: String, login: String, name: String, role: Int)
+case class LoginResponsePayload(id: String, login: String, name: String, role: Int, companyId: String)
 
 case class CompanyItem(company: Company, companyInfo: CompanyInfo)
 
@@ -13,7 +13,9 @@ case class InvoiceCreatePayload(
   reqNeed: String,
   reqDescription: String,
   priority: String,
-  qty: Int
+  qty: Int,
+  assigneeId: String,
+  creatorId: String
 )
 
 case class InvoiceUpdatePayload(id: String, title: String, reqType: String, reqNeed: String, reqDescription: String,

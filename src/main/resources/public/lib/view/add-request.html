@@ -1,6 +1,8 @@
 <h3 align="center">Новая зявка:</h3>
 <div class="row" style="margin: 15px">
     <form class="center-block" ng-controller="invoiceController as invoiceCtrl" ng-submit="invoiceCtrl.addInvoice()">
+      <label>Автор</label>
+      <input type="text" ng-model="invoiceCtrl.sessionData.name" class="form-control" readonly/>
       <label>Тема заявки</label>
       <input type="text" placeholder="тема" ng-model="invoice.title" required class="form-control"/>
       <label>Тип заявки</label>
@@ -14,7 +16,7 @@
       <label>Описание</label>
       <textarea placeholder="описание" ng-model="invoice.reqDescription" required class="form-control"/>
       <label>Приоритет</label>
-      <select class="form-control" ng-model="invoice.priority" required class="form-control">
+      <select class="form-control" ng-model="invoice.priority" required>
         <option value="" disabled selected>приоритет</option>
         <option value="0">Normal</option>
         <option value="1">High</option>
@@ -22,6 +24,11 @@
       </select>
       <label>Количество</label>
       <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.qty" required class="form-control"/>
+      <label>Исполнитель</label>
+      <select class="form-control" ng-model="invoice.assigneeId" required>
+        <option value="" disabled selected>Исполнитель</option>
+        <option ng-repeat="user in invoiceCtrl.users" value="{{user.id}}">{{user.name}}</option>
+      </select>
       <br/>
       <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button>
       <button type="submit" class="btn btn-danger" aria-hidden="true">Отмена</button>

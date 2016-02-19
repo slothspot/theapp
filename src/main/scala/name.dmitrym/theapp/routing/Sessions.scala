@@ -45,7 +45,8 @@ class Sessions(implicit mat:ActorMaterializer) extends Router with LazyLogging {
                   u.get("_id").asInstanceOf[ObjectId].toHexString,
                   u.get("login").asInstanceOf[String],
                   u.get("name").asInstanceOf[String],
-                  u.get("role").asInstanceOf[Int]
+                  u.get("role").asInstanceOf[Int],
+                  u.get("companyId").asInstanceOf[String]
                 )
               }
             }

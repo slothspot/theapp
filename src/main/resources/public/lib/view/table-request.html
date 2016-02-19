@@ -13,7 +13,9 @@
                         <thead>
                         <tr>
                             <th>Заявка</th>
+                            <th>Приоритет</th>
                             <th>Автор</th>
+                            <th>Исполнитель</th>
                             <th>Тип</th>
                             <th>Описание</th>
                             <th>Количество</th>
@@ -25,11 +27,13 @@
                         <tbody>
                         <tr ng-repeat="invoice in invoiceCtrl.allInvoices">
                             <td>{{invoice.title}}</td>
-                            <td>{{invoice.userId}}</td>
+                            <td>{{invoice.priority | priorityToText}}</td>
+                            <td>{{invoice.creator}}</td>
+                            <td>{{invoice.assignee}}</td>
                             <td>{{invoice.reqType}}</td>
                             <td>{{invoice.reqDescription}}</td>
                             <td>{{invoice.quantity}}</td>
-                            <td>{{invoice.reqType}}</td>
+                            <td>{{invoice.reqNeed}}</td>
                             <td>{{invoice.creationTime.$date}}.</td>
                             <td>{{invoice.status}}</td>
                         </tr>

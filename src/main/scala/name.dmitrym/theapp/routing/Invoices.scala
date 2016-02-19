@@ -27,7 +27,9 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
       "priority" -> inv.priority,
       "status" -> InvoiceStatus.Created.id,
       "creationTime" -> new DateTime(),
-      "quantity" -> inv.qty
+      "quantity" -> inv.qty,
+      "assigneeId" -> inv.assigneeId,
+      "creatorId" -> inv.creatorId
     )
 
   private[this] def updateInvoiceFromPayload(o: MongoDBObject, inv: InvoiceUpdatePayload) = {
@@ -51,8 +53,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
     (requestEntityPresent & entity(as[InvoiceCreatePayload])) { (inv) =>
       storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
         case Some(s) =>
-          val uid = s.get("userId").asInstanceOf[ObjectId].toString
-          val obj = createInvoiceFromPayload(inv) ++ ("userId" -> uid)
+          val obj = createInvoiceFromPayload(inv)
           storage.invoices.insert(obj)
           complete(Responses.InvoiceCreated(obj.getAs[ObjectId]("_id").get.toString))
         case None => complete(Responses.NotAuthorized)
@@ -85,11 +86,15 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
           s.get("role").asInstanceOf[Int] match {
             case 0 =>
               storage.invoices.find().map { i =>
-                JSON.serialize(i).toString
+                val assigneeId = i.getAs[String]("assigneeId").get
+                val creatorId = i.getAs[String]("creatorId").get
+                val assignee = storage.users.findOne(MongoDBObject("_id" -> new ObjectId(assigneeId))).get.getAs[String]("name").get
+                val creator = storage.users.findOne(MongoDBObject("_id" -> new ObjectId(creatorId))).get.getAs[String]("name").get
+                JSON.serialize(i ++ ("assignee" -> assignee, "creator" -> creator))
               }.toArray.mkString("[", ",", "]")
             case 1 =>
               storage.invoices.find(MongoDBObject("companyId" -> s.getAs[String]("companyId").get)).map { i =>
-                  JSON.serialize(i).toString
+                  JSON.serialize(i)
               }.toArray.mkString("[", ",", "]")
             case _ => Responses.NotAllowed
           }

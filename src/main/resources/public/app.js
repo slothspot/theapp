@@ -45,6 +45,13 @@ var tasksTable = [];
             return idToRole(input);
         };
     });
+    app.filter('priorityToText', function () {
+       return function(input){
+           if(input === "0") return "Normal";
+           if(input === "1") return "High";
+           if(input === "2") return "Low";
+       }
+    });
 
     app.config(function($stateProvider, $urlRouterProvider){
       $urlRouterProvider.otherwise('/login');
@@ -194,6 +201,7 @@ var tasksTable = [];
       $scope.invoice = {};
       this.addInvoice = function(){
         var payload = $scope.invoice;
+        payload.creatorId = sessionService.sessionData.id;
         $http.put('/api/v0/invoices', payload).then(
           function success(data){
             $location.path('/dashboard/invoices').replace();
@@ -201,12 +209,16 @@ var tasksTable = [];
           function fail(data){
             alert('Can\'t add invoice');
           }
-        )
+        );
       };
       if(sessionService.sessionData !== undefined) {
         $resource('/api/v0/invoices').query().$promise.then(function(invoices){
           vm.allInvoices = invoices;
         });
+        $resource('/api/v0/users').query().$promise.then(function (users){
+          vm.users = users;
+        });
+        vm.sessionData = sessionService.sessionData;
       }
     }]);
 
@@ -219,7 +231,7 @@ var tasksTable = [];
             $resource('/api/v0/user/' + $scope.userId).get().$promise.then(function(user){
                 $scope.user = user;
                 $scope.user.role = idToRole(user.role);
-            })
+            });
         }
 
         var vm = this;
@@ -313,7 +325,7 @@ var tasksTable = [];
             });
             $resource('/api/v0/companies').query().$promise.then(function (companies){
                 vm.companies = companies;
-            })
+            });
         }
     }]);
 

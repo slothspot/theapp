@@ -1,4 +1,4 @@
-<form ng-controller="userController" ng-submit="addUser()" >
+<form ng-controller="userController as userCtrl" ng-submit="addUser()" >
     <div class="row" style="margin: 15px">
         <div>
             <label>Введите Логин пользователя:</label>
@@ -9,6 +9,12 @@
             <label>Введите Фамилию пользователя:</label>
             <input type="text" class="form-control" placeholder="Фамилия" ng-model="user.userLastName" required/>
             <br>
+            <label>Компания</label>
+            <select class="form-control" ng-model="user.companyId">
+                <option value="" selected>N/A</option>
+                <option ng-repeat="company in userCtrl.companies" value="{{company.company.id}}">{{company.company.name}}</option>
+            </select>
+            <br/>
             <label>Должность/Права:</label>
             <select class="form-control" placeholder="Должность" ng-model="user.role">
                 <option value="admin">

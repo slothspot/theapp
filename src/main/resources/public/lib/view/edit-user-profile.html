@@ -40,11 +40,22 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="role">Должность</label>
                             <div class="col-sm-10">
-                                <select id="role" class="form-control">
-                                    <option value='admin'>Администратор</option>
-                                    <option value='supervisor'>Руководитель отдела</option>
-                                    <option value='purchasing'>Сотрудник отдела продаж</option>
-                                    <option value='sell'>Сотрудник отдела обеспечения</option>
+                                <select id="role" class="form-control" ng-model="user.role">
+                                    <option value="admin">
+                                        Администратор
+                                    </option>
+                                    <option value="provider">
+                                        Сотрудник отдела обеспечения
+                                    </option>
+                                    <option value="sale">
+                                        Сотрудник отдела продаж
+                                    </option>
+                                    <option value="companyAdmin">
+                                        Администратор компании
+                                    </option>
+                                    <option value="deptHead">
+                                        Руководитель отдела
+                                    </option>
                                 </select>
                             </div>
                         </div>

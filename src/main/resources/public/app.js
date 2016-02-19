@@ -22,7 +22,29 @@ var tasksTable = [];
 
 (function () {
   'use strict';
+    function roleToId(role) {
+        if(role === 'admin') return 0;
+        if(role === 'companyAdmin') return 1;
+        if(role === 'deptHead') return 2;
+        if(role === 'sale') return 3;
+        if(role === 'provider') return 4;
+    }
+
+    function idToRole(id) {
+        if(id === 0) return 'admin';
+        if(id === 1) return 'companyAdmin';
+        if(id === 2) return 'deptHead';
+        if(id === 3) return 'sale';
+        if(id === 4) return 'provider';
+    }
+
     var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router']);
+
+    app.filter('idtorole', function(){
+        return function(input){
+            return idToRole(input);
+        };
+    });
 
     app.config(function($stateProvider, $urlRouterProvider){
       $urlRouterProvider.otherwise('/login');
@@ -196,6 +218,7 @@ var tasksTable = [];
             $scope.userId = $stateParams.id;
             $resource('/api/v0/user/' + $scope.userId).get().$promise.then(function(user){
                 $scope.user = user;
+                $scope.user.role = idToRole(user.role);
             })
         }
 
@@ -263,22 +286,13 @@ var tasksTable = [];
             sessionService.sessionData = undefined;
         };
 
-        function roleToId(role) {
-            if(role === 'admin') return 0;
-            if(role === 'companyAdmin') return 1;
-            if(role === 'deptHead') return 2;
-            if(role === 'sale') return 3;
-            if(role === 'provider') return 4;
-        }
-
         $scope.addUser = function() {
             if($scope.user) {
-                console.log($scope.user);
                 var addUserPayload = {
                     login: $scope.user.login,
                     password: md5($scope.user.password),
                     name: $scope.user.userFirstName + ' ' + $scope.user.userLastName,
-                    companyId: '',
+                    companyId: ($scope.user.companyId === undefined) ? "" : $scope.user.companyId,
                     role: roleToId($scope.user.role)};
                 $http.put('/api/v0/users', addUserPayload).then(
                     function success(data) {
@@ -297,6 +311,9 @@ var tasksTable = [];
             $resource('/api/v0/users').query().$promise.then(function (persons) {
                 vm.allUsersList = persons;
             });
+            $resource('/api/v0/companies').query().$promise.then(function (companies){
+                vm.companies = companies;
+            })
         }
     }]);
 

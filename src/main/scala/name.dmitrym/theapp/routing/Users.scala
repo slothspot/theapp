@@ -80,8 +80,8 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
               val cId = u.getAs[String]("companyId")
               val c = cId match {
                 case None | Some("") => Company("", "N/A")
-                case Some(id) => storage.companies.findOne(MongoDBObject("id" -> cId)) match {
-                  case Some(cmp) => cmp.asInstanceOf[Company]
+                case Some(id) => storage.companies.findOne(MongoDBObject("company.id" -> cId)) match {
+                  case Some(cmp) => Company(cmp.getAs[String]("company.id").get, cmp.getAs[String]("company.name").get)
                   case None => Company(id, "Invalid")
                 }
               }
@@ -93,7 +93,8 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
             usersStr
           case 1 =>
             storage.users.find(MongoDBObject("companyId" -> s.getAs[String]("company").get)).map{ u =>
-              val c = storage.companies.findOne(MongoDBObject("id" -> u.getAs[String]("companyId"))).get.asInstanceOf[Company]
+              val cmp = storage.companies.findOne(MongoDBObject("company.id" -> u.getAs[String]("companyId"))).get
+              val c = Company(cmp.getAs[String]("company.id").get, cmp.getAs[String]("company.name").get)
               UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
             }.toArray.mkString("[", ",", "]")
           case _ => Responses.NotAllowed
@@ -110,8 +111,8 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
           case Some(s) =>
             storage.users.findOne(MongoDBObject("_id" -> new ObjectId(userId.tail.toString()))) match {
               case Some(u) =>
-                val c = storage.companies.findOne(MongoDBObject("id" -> u.getAs[String]("companyId"))) match {
-                  case Some(cmp) => cmp.asInstanceOf[Company]
+                val c = storage.companies.findOne(MongoDBObject("company.id" -> u.getAs[String]("companyId"))) match {
+                  case Some(cmp) => Company(cmp.getAs[String]("company.id").get, cmp.getAs[String]("company.name").get)
                   case None => Company("", "N/A")
                 }
                 complete(UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson)

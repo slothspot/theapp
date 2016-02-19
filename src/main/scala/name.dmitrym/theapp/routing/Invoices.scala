@@ -29,7 +29,8 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
       "creationTime" -> new DateTime(),
       "quantity" -> inv.qty,
       "assigneeId" -> inv.assigneeId,
-      "creatorId" -> inv.creatorId
+      "creatorId" -> inv.creatorId,
+      "companyId" -> inv.companyId
     )
 
   private[this] def updateInvoiceFromPayload(o: MongoDBObject, inv: InvoiceUpdatePayload) = {
@@ -92,11 +93,14 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
                 val creator = storage.users.findOne(MongoDBObject("_id" -> new ObjectId(creatorId))).get.getAs[String]("name").get
                 JSON.serialize(i ++ ("assignee" -> assignee, "creator" -> creator))
               }.toArray.mkString("[", ",", "]")
-            case 1 =>
-              storage.invoices.find(MongoDBObject("companyId" -> s.getAs[String]("companyId").get)).map { i =>
-                  JSON.serialize(i)
+            case _ =>
+              storage.invoices.find(MongoDBObject("companyId" -> s.getAs[String]("company").get)).map { i =>
+                val assigneeId = i.getAs[String]("assigneeId").get
+                val creatorId = i.getAs[String]("creatorId").get
+                val assignee = storage.users.findOne(MongoDBObject("_id" -> new ObjectId(assigneeId))).get.getAs[String]("name").get
+                val creator = storage.users.findOne(MongoDBObject("_id" -> new ObjectId(creatorId))).get.getAs[String]("name").get
+                JSON.serialize(i ++ ("assignee" -> assignee, "creator" -> creator))
               }.toArray.mkString("[", ",", "]")
-            case _ => Responses.NotAllowed
           }
         }
       case None =>

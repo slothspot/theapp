@@ -202,6 +202,7 @@ var tasksTable = [];
       this.addInvoice = function(){
         var payload = $scope.invoice;
         payload.creatorId = sessionService.sessionData.id;
+        payload.companyId = sessionService.sessionData.companyId;
         $http.put('/api/v0/invoices', payload).then(
           function success(data){
             $location.path('/dashboard/invoices').replace();

@@ -91,13 +91,12 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
             val usersArray = users.toArray
             val usersStr = usersArray.mkString("[", ",", "]")
             usersStr
-          case 1 =>
+          case _ =>
             storage.users.find(MongoDBObject("companyId" -> s.getAs[String]("company").get)).map{ u =>
               val cmp = storage.companies.findOne(MongoDBObject("company.id" -> u.getAs[String]("companyId"))).get
               val c = Company(cmp.getAs[String]("company.id").get, cmp.getAs[String]("company.name").get)
               UserInfo(u.getAs[ObjectId]("_id").get.toString, u.getAs[String]("login").get, u.getAs[String]("name").get, c, u.getAs[Int]("role").get).toJson.toString
             }.toArray.mkString("[", ",", "]")
-          case _ => Responses.NotAllowed
         }}
       case None => complete(Responses.NotAuthorized)
     }

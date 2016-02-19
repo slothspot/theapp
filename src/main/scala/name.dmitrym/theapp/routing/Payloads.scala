@@ -15,7 +15,8 @@ case class InvoiceCreatePayload(
   priority: String,
   qty: Int,
   assigneeId: String,
-  creatorId: String
+  creatorId: String,
+  companyId: String
 )
 
 case class InvoiceUpdatePayload(id: String, title: String, reqType: String, reqNeed: String, reqDescription: String,

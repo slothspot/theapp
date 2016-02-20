@@ -5,7 +5,7 @@ import javax.net.ssl.{KeyManagerFactory, SSLContext}
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.HttpsContext
+import akka.http.scaladsl.ConnectionContext
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
@@ -51,14 +51,14 @@ object TheApp extends App with LazyLogging {
     val context = SSLContext.getInstance("TLS")
     context.init(kmf.getKeyManagers, null, new SecureRandom)
 
-    bindingFuture = Http().bindAndHandle(route, Configuration.listenInterface, Configuration.listenPort, httpsContext = Some(HttpsContext(context)))
-    bindingFuture
+    val bf = Http().bindAndHandle(route, Configuration.listenInterface, Configuration.listenPort, connectionContext = ConnectionContext.https(context))
+    bf
   }
 
-  private[this] var bindingFuture:Future[ServerBinding] = start()
+  private[this] val bindingFuture:Future[ServerBinding] = start()
 
   def stop(): Unit = {
     import system.dispatcher
-    bindingFuture.flatMap(_.unbind()).onComplete( _ => system.shutdown() )
+    bindingFuture.flatMap(_.unbind()).onComplete( _ => system.terminate() )
   }
 }

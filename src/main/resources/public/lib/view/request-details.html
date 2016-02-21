@@ -1,6 +1,7 @@
-<h3 align="center">Новая зявка:</h3>
 <div class="row" style="margin: 15px">
-    <form class="center-block" ng-controller="invoiceController as invoiceCtrl" ng-submit="invoiceCtrl.addInvoice()">
+    <form class="center-block" ng-controller="invoiceController as invoiceCtrl" ng-submit="invoiceCtrl.processInvoice()">
+      <h3 align="center" ng-hide="invoiceCtrl.isEditMode">Новая зявка:</h3>
+      <h3 ng-show="invoiceCtrl.isEditMode()">Заявка {{invoiceId}}:</h3>
       <label>Автор</label>
       <input type="text" ng-model="invoiceCtrl.sessionData.name" class="form-control" readonly/>
       <label>Тема заявки</label>
@@ -20,7 +21,7 @@
         <option ng-repeat="priority in invoiceCtrl.requestsPriorities" value="{{priority.id}}">{{priority.title}}</option>
       </select>
       <label>Количество</label>
-      <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.qty" required class="form-control"/>
+      <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.quantity" required class="form-control"/>
       <label>Исполнитель</label>
       <select class="form-control" ng-model="invoice.assigneeId" required>
         <option value="" disabled selected>Исполнитель</option>

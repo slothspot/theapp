@@ -26,7 +26,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="invoice in invoiceCtrl.allInvoices">
-                            <td>{{invoice.title}}</td>
+                            <td><a ui-sref="dashboard.editRequest({id: invoice._id.$oid})">{{invoice.title}}</a></td>
                             <td>{{invoice.priority | priorityToText}}</td>
                             <td>{{invoice.creator}}</td>
                             <td>{{invoice.assignee}}</td>

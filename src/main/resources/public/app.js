@@ -205,7 +205,14 @@ var tasksTable = [];
           })
           .state('dashboard.addRequest', {
               url: '/addRequest',
-              templateUrl: 'lib/view/add-request.html',
+              templateUrl: 'lib/view/request-details.html',
+              access: {
+                  requiresLogin: true
+              }
+          })
+          .state('dashboard.editRequest', {
+              url: '/editRequest/:id',
+              templateUrl: 'lib/view/request-details.html',
               access: {
                   requiresLogin: true
               }
@@ -280,11 +287,29 @@ var tasksTable = [];
         }
     }]);
 
-    app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', 'sessionService', function($scope, $http, $resource, $location, sessionService){
+    app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function($scope, $http, $resource, $location, $state, $stateParams, sessionService){
       var vm = this;
       $scope.invoice = {};
 
+        if($stateParams.id !== undefined) {
+            $scope.invoiceId = $stateParams.id;
+            $resource('/api/v0/invoice/' + $scope.invoiceId).get().$promise.then(function(invoice){
+                $scope.invoice = invoice;
+            });
+        }
+
       this.requestsPriorities = requestsPriorities;
+
+        this.isEditMode = function(){
+          return $scope.invoiceId !== undefined;
+        };
+
+        this.processInvoice = function(){
+            if(this.isEditMode())
+                this.updateInvoice();
+            else
+                this.addInvoice();
+        };
 
       this.addInvoice = function(){
         var payload = $scope.invoice;
@@ -299,6 +324,22 @@ var tasksTable = [];
           }
         );
       };
+
+        this.updateInvoice = function(){
+            var payload = $scope.invoice;
+            var invoiceId = $scope.invoiceId;
+            payload.id = invoiceId;
+            payload.creationTime = $scope.invoice.creationTime.$date;
+            $http.post('/api/v0/invoices', payload).then(
+                function success(data){
+                    $location.path('/dashboard/invoices').replace();
+                },
+                function fail(data){
+                    alert('Can\'t update invoice');
+                }
+            );
+        };
+
       if(sessionService.sessionData !== undefined) {
         $resource('/api/v0/invoices').query().$promise.then(function(invoices){
           vm.allInvoices = invoices;

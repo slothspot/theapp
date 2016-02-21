@@ -18,7 +18,7 @@ object Marshallers extends DefaultJsonProtocol {
 
   implicit val InvoiceCreatePayloadJSONMarshaller = jsonFormat9(InvoiceCreatePayload)
 
-  implicit val InvoiceUpdatePayloadJSONMarshaller = jsonFormat11(InvoiceUpdatePayload)
+  implicit val InvoiceUpdatePayloadJSONMarshaller = jsonFormat12(InvoiceUpdatePayload)
 
   implicit val CreateUserPayloadJSONMarshaller = jsonFormat5(CreateUserPayload)
 

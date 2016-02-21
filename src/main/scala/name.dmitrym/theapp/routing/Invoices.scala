@@ -27,7 +27,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
       "priority" -> inv.priority,
       "status" -> InvoiceStatus.Created.id,
       "creationTime" -> new DateTime(),
-      "quantity" -> inv.qty,
+      "quantity" -> inv.quantity,
       "assigneeId" -> inv.assigneeId,
       "creatorId" -> inv.creatorId,
       "companyId" -> inv.companyId
@@ -39,12 +39,13 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
       "reqType" -> inv.reqType,
       "reqNeed" -> inv.reqNeed,
       "reqDescription" -> inv.reqDescription,
-      "reqImg" -> inv.reqImg,
-      "startTime" -> new DateTime(inv.startTime),
-      "finishTime" -> new DateTime(inv.finishTime),
-      "status" -> Integer.valueOf(InvoiceStatus.Updated.id),
-      "responsible" -> inv.responsible,
-      "result" -> inv.result
+      "priority" -> Integer.valueOf(inv.priority),
+      "quantity" -> Integer.valueOf(inv.quantity),
+      "assigneeId" -> inv.assigneeId,
+      "creatorId" -> inv.creatorId,
+      "companyId" -> inv.companyId,
+      "creationTime" -> new DateTime(inv.creationTime),
+      "status" -> Integer.valueOf(InvoiceStatus.Updated.id)
     )
     o
   }
@@ -108,8 +109,28 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
     }
   }}}
 
+  private[this] val getInvoiceInfoTimer = metrics.timer("getInvoiceInfo")
+  val getInvoiceInfo = getInvoiceInfoTimer.time {
+    get { requiredSession(oneOff, usingCookies) { session =>
+      extractUnmatchedPath { invoiceId =>
+        storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
+          case Some(s) =>
+            storage.invoices.findOne(MongoDBObject("_id" -> new ObjectId(invoiceId.tail.toString))) match {
+              case Some(i) =>
+                val inv = JSON.serialize(i ++ ("id" -> i.getAs[ObjectId]("_id").get.toHexString))
+                complete(inv)
+              case None => complete(Responses.DoesntExist)
+            }
+          case None => complete(Responses.NotAuthorized)
+        }
+      }
+    }}
+  }
+
   def route = path("invoices") {
     createInvoice ~ updateInvoice ~ invoiceStatus
+  } ~ pathPrefix("invoice") {
+    getInvoiceInfo
   }
 }
 

@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h4 align="center"><strong>Общий список компаний</strong></h4>
     </div>
-    <div class="panel-blue ">
+    <div class="panel-blue" ng-show="companyCtrl.isGlobalAdminUser()">
         <a ui-sref="dashboard.addCompany"><span class="fa fa-plus-circle fa-2x"></span>Добавить</a>
     </div>
     <div class="panel-body" >

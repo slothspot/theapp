@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h4 align="center"><strong>Общий список пользователей</strong></h4>
     </div>
-    <div class="panel-blue ">
+    <div class="panel-blue" ng-show="userCtrl.isAdminUser()">
         <a ui-sref="dashboard.addUser"><span class="fa fa-plus-circle fa-2x"></span>Добавить</a>
     </div>
 

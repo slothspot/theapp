@@ -165,6 +165,10 @@ var tasksTable = [];
           });
         }
 
+        this.isGlobalAdminUser = function(){
+          return sessionService.sessionData.role === 0;
+        };
+
         this.addCompany = function () {
             var payload = $scope.company;
             $http.put('/api/v0/companies', payload).then(
@@ -236,6 +240,11 @@ var tasksTable = [];
         }
 
         var vm = this;
+
+        this.isAdminUser = function(){
+          var role = sessionService.sessionData.role;
+          return role === 0 || role === 1;
+        };
 
         this.updateUser = function (){
             var user = $scope.user;

@@ -310,7 +310,7 @@ var tasksTable = [];
       }
     }]);
 
-    app.controller("userController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function ($scope, $http, $resource, $location, $state, $stateParams, sessionService) {
+    app.controller("userController", ['$scope', '$window', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function ($scope, $window, $http, $resource, $location, $state, $stateParams, sessionService) {
         $scope.loginForm = {};
         $scope.editProfileForm = {};
 
@@ -323,6 +323,10 @@ var tasksTable = [];
         }
 
         var vm = this;
+
+        $window.onunload = function(evt){
+            $scope.logout();
+        };
 
         this.userRoles = userRoles;
 

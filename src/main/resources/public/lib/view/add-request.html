@@ -16,11 +16,8 @@
       <label>Описание</label>
       <textarea placeholder="описание" ng-model="invoice.reqDescription" required class="form-control"/>
       <label>Приоритет</label>
-      <select class="form-control" ng-model="invoice.priority" required>
-        <option value="" disabled selected>приоритет</option>
-        <option value="0">Normal</option>
-        <option value="1">High</option>
-        <option value="2">Low</option>
+      <select class="form-control" ng-model="invoice.priority" required convert-to-number>
+        <option ng-repeat="priority in invoiceCtrl.requestsPriorities" value="{{priority.id}}">{{priority.title}}</option>
       </select>
       <label>Количество</label>
       <input type="number" min="1" max="100" placeholder="1" ng-model="invoice.qty" required class="form-control"/>

@@ -11,65 +11,8 @@
             <input type="text" class="form-control" placeholder="Тип предприятия" ng-model="company.companyInfo.type" required/>
             <br>
             <label>Сфера деятельности:</label>
-            <select class="form-control" ng-model="company.companyInfo.domain">
-                <option value="Розничная торговля / Продажи">
-                    Розничная торговля / Продажи
-                </option>
-                <option value="Транспорт / логистика">
-                    Транспорт / логистика
-                </option>
-                <option value="Строительство">
-                    Строительство
-                </option>
-                <option value="Бары / рестораны">
-                    Бары / рестораны
-                </option>
-                <option value="Юриспруденция и бухгалтерия">
-                    Юриспруденция и бухгалтерия
-                </option>
-                <option value="Охрана / безопасность">
-                    Охрана / безопасность
-                </option>
-                <option value="Домашний персонал">
-                    Домашний персонал
-                </option>
-                <option  value="Красота / фитнес / спорт">
-                    Красота / фитнес / спорт
-                </option>
-                <option value="Туризм / отдых / развлечения">
-                    Туризм / отдых / развлечения
-                </option>
-                <option value="Образование">
-                    Образование
-                </option>
-                <option  value="Культура / искусство">
-                    Культура / искусство
-                </option>
-                <option value="Медицина / фармация">
-                    Медицина / фармация
-                </option>
-                <option value="ИТ / телеком / компьютеры" >
-                    ИТ / телеком / компьютеры
-                </option>
-                <option  value="Недвижимость">
-                    Недвижимость
-                </option>
-                <option  value="Маркетинг / реклама / дизайн">
-                    Маркетинг / реклама / дизайн
-                </option>
-                <option value="Производство / энергетика">
-                    Производство / энергетика
-                </option>
-                <option value="Cекретариат / АХО">
-                    Cекретариат / АХО
-                </option>
-                <option value="Сервис и быт">
-                    Сервис и быт
-                </option>
-                <option value="Другие сферы занятий">
-                    Другие сферы занятий
-                </option>
-
+            <select class="form-control" ng-model="company.companyInfo.domain" convert-to-number>
+                <option ng-repeat="domain in companyCtrl.companyDomains" value="{{domain.id}}">{{domain.title}}</option>
             </select>
         </div>
         <div class="col-md-6">

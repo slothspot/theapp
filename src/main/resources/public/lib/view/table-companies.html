@@ -21,7 +21,7 @@
                 <tr class="odd gradeX" ng-repeat="content in companyCtrl.allCompaniesList">
                     <td><a ui-sref="dashboard.editCompany({id: content.company.id})">{{content.company.name}}</a></td>
                     <td>{{content.companyInfo.type}}</td>
-                    <td>{{content.companyInfo.domain}}</td>
+                    <td>{{content.companyInfo.domain | toDomainTitle}}</td>
                     <td>{{content.companyInfo.web}}</td>
                     <td>{{content.companyInfo.address}}; {{content.companyInfo.contactPhone}}; {{content.companyInfo.contactEmail}};</td>
                 </tr>

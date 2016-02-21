@@ -17,21 +17,7 @@
             <br/>
             <label>Должность/Права:</label>
             <select class="form-control" placeholder="Должность" ng-model="user.role">
-                <option value="admin">
-                    Администратор
-                </option>
-                <option value="provider">
-                    Сотрудник отдела обеспечения
-                </option>
-                <option value="sale">
-                    Сотрудник отдела продаж
-                </option>
-                <option value="companyAdmin">
-                    Администратор компании
-                </option>
-                <option value="deptHead">
-                    Руководитель отдела
-                </option>
+                <option ng-repeat="role in userCtrl.userRoles" value="{{role.value}}">{{role.title}}</option>
             </select>
             <label>Введите пароль:</label>
             <input type="password" class="form-control" placeholder="Пароль" ng-model="user.password" required/>

@@ -13,7 +13,7 @@ object UserRole extends Enumeration {
 }
 
 case class Company(id: String, name: String)
-case class CompanyInfo(`type`: String, domain: String, web: String, contactEmail: String, address: String, contactPhone: String)
+case class CompanyInfo(`type`: String, domain: Int, web: String, contactEmail: String, address: String, contactPhone: String)
 
 
 abstract class User(name: String, passHash: String, company: Company, role: UserRole)

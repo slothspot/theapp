@@ -22,34 +22,112 @@ var tasksTable = [];
 
 (function () {
   'use strict';
+
+  var userRoles = [
+      {
+          id: 0,
+          value: 'admin',
+          title: 'Администратор'
+      },
+      {
+          id: 1,
+          value: 'companyAdmin',
+          title: 'Администратор компании'
+      },
+      {
+          id: 2,
+          value: 'deptHead',
+          title: 'Руководитель отдела'
+      },
+      {
+          id: 3,
+          value: 'sale',
+          title: 'Сотрудник отдела продаж'
+      },
+      {
+          id: 4,
+          value: 'provider',
+          title: 'Сотрудник отдела обеспечения'
+      }
+  ];
+
     function roleToId(role) {
-        if(role === 'admin') return 0;
-        if(role === 'companyAdmin') return 1;
-        if(role === 'deptHead') return 2;
-        if(role === 'sale') return 3;
-        if(role === 'provider') return 4;
+        for(var i = 0; i < userRoles.length; i++){
+            if(userRoles[i].value === role)
+                return userRoles[i].id;
+        }
     }
 
     function idToRole(id) {
-        if(id === 0) return 'admin';
-        if(id === 1) return 'companyAdmin';
-        if(id === 2) return 'deptHead';
-        if(id === 3) return 'sale';
-        if(id === 4) return 'provider';
+        for(var i = 0; i < userRoles.length; i++){
+            if(userRoles[i].id === id)
+                return userRoles[i].title;
+        }
     }
 
+    var companyDomains = [
+        {id: 0, title: 'Розничная торговля / Продажи'},
+        {id: 1, title: 'Транспорт / логистика'},
+        {id: 2, title: 'Строительство'},
+        {id: 3, title: 'Бары / рестораны'},
+        {id: 4, title: 'Юриспруденция и бухгалтерия'},
+        {id: 5, title: 'Охрана / безопасность'},
+        {id: 6, title: 'Домашний персонал'},
+        {id: 7, title: 'Красота / фитнес / спорт'},
+        {id: 8, title: 'Туризм / отдых / развлечения'},
+        {id: 9, title: 'Образование'},
+        {id: 10, title: 'Культура / искусство'},
+        {id: 11, title: 'Медицина / фармация'},
+        {id: 12, title: 'ИТ / телеком / компьютеры'},
+        {id: 13, title: 'Недвижимость'},
+        {id: 14, title: 'Маркетинг / реклама / дизайн'},
+        {id: 15, title: 'Производство / энергетика'},
+        {id: 16, title: 'Cекретариат / АХО'},
+        {id: 17, title: 'Сервис и быт'},
+        {id: 18, title: 'Другие сферы занятий'}
+        ];
+
+    var requestsPriorities = [
+        {id: 0, title: 'Нормальный'},
+        {id: 1, title: 'Высокий'},
+        {id: 2, title: 'Низкий'}
+    ];
+
     var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router']);
+
+    app.directive('convertToNumber', function(){
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(val) {
+                    return parseInt(val, 10);
+                });
+                ngModel.$formatters.push(function(val) {
+                    return '' + val;
+                });
+            }
+        };
+    });
 
     app.filter('idtorole', function(){
         return function(input){
             return idToRole(input);
         };
     });
+    app.filter('toDomainTitle', function(){
+       return function(input){
+           for(var i = 0; i < companyDomains.length; i++){
+               if(companyDomains[i].id === input)
+                   return companyDomains[i].title;
+           }
+       };
+    });
     app.filter('priorityToText', function () {
        return function(input){
-           if(input === "0") return "Normal";
-           if(input === "1") return "High";
-           if(input === "2") return "Low";
+           for(var i = 0; i < requestsPriorities.length; i++) {
+               if(requestsPriorities[i].id === input)
+                   return requestsPriorities[i].title;
+           }
        }
     });
 
@@ -165,6 +243,8 @@ var tasksTable = [];
           });
         }
 
+        this.companyDomains = companyDomains;
+
         this.isGlobalAdminUser = function(){
           return sessionService.sessionData.role === 0;
         };
@@ -203,6 +283,9 @@ var tasksTable = [];
     app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', 'sessionService', function($scope, $http, $resource, $location, sessionService){
       var vm = this;
       $scope.invoice = {};
+
+      this.requestsPriorities = requestsPriorities;
+
       this.addInvoice = function(){
         var payload = $scope.invoice;
         payload.creatorId = sessionService.sessionData.id;
@@ -240,6 +323,8 @@ var tasksTable = [];
         }
 
         var vm = this;
+
+        this.userRoles = userRoles;
 
         this.isAdminUser = function(){
           var role = sessionService.sessionData.role;

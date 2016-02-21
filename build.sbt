@@ -20,11 +20,12 @@ libraryDependencies ++= Seq(
   "org.webjars" % "jquery-knob" % "1.2.11",
   "org.webjars" % "bootstrap" % "3.3.6",
   "org.webjars" % "font-awesome" % "4.5.0",
-  "org.webjars" % "angularjs" % "1.4.9",
+  "org.webjars" % "angularjs" % "1.5.0",
   "org.webjars" % "angular-ui-router" % "0.2.17",
   "org.webjars.bower" % "md5" % "0.3.0",
   "org.webjars" % "datatables" % "1.10.10",
-  "org.webjars" % "angular-datatables" % "0.5.2"
+  "org.webjars" % "angular-datatables" % "0.5.2",
+  "org.webjars" % "angular-material" % "1.0.5"
   )
 
 scalaVersion := "2.11.7"

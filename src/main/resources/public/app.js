@@ -93,7 +93,7 @@ var tasksTable = [];
         {id: 2, title: 'Низкий'}
     ];
 
-    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router']);
+    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router', 'ngMaterial']);
 
     app.directive('convertToNumber', function(){
         return {

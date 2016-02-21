@@ -1,8 +1,19 @@
-<div class="container">
-  <form class="form-signin" ng-controller="userController" ng-submit="login()">
-    <h2 class="form-signin-heading">Войдите в систему</h2>
-    <input type="text" placeholder="Логин пользователя" class="form-control" ng-model="loginForm.login" required autofocus/>
-    <input type="password" placeholder="Пароль" class="form-control" ng-model="loginForm.password" required/>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+<div class="container" layout="column" layout-align="center center">
+  <form ng-controller="userController" ng-submit="login()">
+    <h2 class="md-display-1">Войдите в систему</h2>
+
+    <md-input-container class="md-icon-float md-block">
+      <label>Логин</label>
+      <md-icon>person</md-icon>
+      <input type="text" ng-model="loginForm.login" required autofocus>
+    </md-input-container>
+
+    <md-input-container class="md-icon-float md-block">
+      <label>Пароль</label>
+      <md-icon>lock</md-icon>
+      <input type="password" ng-model="loginForm.password" required>
+    </md-input-container>
+
+    <md-button class="btn btn-lg btn-primary btn-block" type="submit">Войти</md-button>
   </form>
 </div>

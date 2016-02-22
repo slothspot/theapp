@@ -93,7 +93,7 @@ var tasksTable = [];
         {id: 2, title: 'Низкий'}
     ];
 
-    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router', 'ngMaterial']);
+    var app = angular.module('store', ['datatables', 'ngResource', 'ngRoute', 'ui.router', 'ngMaterial', 'angularFileUpload']);
 
     app.directive('convertToNumber', function(){
         return {
@@ -108,6 +108,51 @@ var tasksTable = [];
             }
         };
     });
+
+    app.directive('ngThumb', ['$window', function($window) {
+        var helper = {
+            support: !!($window.FileReader && $window.CanvasRenderingContext2D),
+            isFile: function (item) {
+                return angular.isObject(item) && item instanceof $window.File;
+            },
+            isImage: function (file) {
+                var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        };
+
+        return {
+            restrict: 'A',
+            template: '<canvas/>',
+            link: function (scope, element, attributes) {
+                if (!helper.support) return;
+
+                var params = scope.$eval(attributes.ngThumb);
+
+                if (!helper.isFile(params.file)) return;
+                if (!helper.isImage(params.file)) return;
+
+                var canvas = element.find('canvas');
+                var reader = new FileReader();
+
+                reader.onload = onLoadFile;
+                reader.readAsDataURL(params.file);
+
+                function onLoadFile(event) {
+                    var img = new Image();
+                    img.onload = onLoadImage;
+                    img.src = event.target.result;
+                }
+
+                function onLoadImage() {
+                    var width = params.width || this.width / this.height * params.height;
+                    var height = params.height || this.height / this.width * params.width;
+                    canvas.attr({width: width, height: height});
+                    canvas[0].getContext('2d').drawImage(this, 0, 0, width, height);
+                }
+            }
+        };
+    }]);
 
     app.filter('idtorole', function(){
         return function(input){
@@ -287,9 +332,24 @@ var tasksTable = [];
         }
     }]);
 
-    app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'sessionService', function($scope, $http, $resource, $location, $state, $stateParams, sessionService){
+    app.controller("invoiceController", ['$scope', '$http', '$resource', '$location', '$state', '$stateParams', 'FileUploader', 'sessionService', function($scope, $http, $resource, $location, $state, $stateParams, FileUploader, sessionService){
       var vm = this;
       $scope.invoice = {};
+
+        $scope.fileUploader = new FileUploader({
+            url: '/api/v0/upload',
+            method: 'PUT'
+        });
+        $scope.fileUploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item, options){
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+        $scope.fileUploader.onBeforeUploadItem = function(item){
+            item.formData.push({invoiceId: $scope.invoiceId});
+        };
 
         if($stateParams.id !== undefined) {
             $scope.invoiceId = $stateParams.id;
@@ -317,7 +377,11 @@ var tasksTable = [];
         payload.companyId = sessionService.sessionData.companyId;
         $http.put('/api/v0/invoices', payload).then(
           function success(data){
-            $location.path('/dashboard/invoices').replace();
+              $scope.invoiceId = data.data.id;
+              $scope.fileUploader.onCompleteAll = function() {
+                  $location.path('/dashboard/invoices').replace();
+              };
+              $scope.fileUploader.uploadAll();
           },
           function fail(data){
             alert('Can\'t add invoice');
@@ -332,7 +396,11 @@ var tasksTable = [];
             payload.creationTime = $scope.invoice.creationTime.$date;
             $http.post('/api/v0/invoices', payload).then(
                 function success(data){
-                    $location.path('/dashboard/invoices').replace();
+                    $scope.invoiceId = data.data.id;
+                    $scope.fileUploader.onCompleteAll = function() {
+                        $location.path('/dashboard/invoices').replace();
+                    };
+                    $scope.fileUploader.uploadAll();
                 },
                 function fail(data){
                     alert('Can\'t update invoice');

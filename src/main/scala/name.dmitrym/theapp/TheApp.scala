@@ -34,7 +34,7 @@ object TheApp extends App with LazyLogging {
       redirect("public/index.html", MovedPermanently)
     } ~ pathPrefix("api") {
       pathPrefix("v0") {
-        Sessions().route ~ Calendar().route ~ Users().route ~ Companies().route ~ Invoices().route ~ CompanyEvents().route ~ Stats().route
+        Sessions().route ~ Calendar().route ~ Users().route ~ Companies().route ~ Invoices().route ~ CompanyEvents().route ~ Stats().route ~ Upload().route
       }
     }
 

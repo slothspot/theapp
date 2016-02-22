@@ -1,10 +1,10 @@
 package name.dmitrym.theapp.storage
 
-import com.mongodb.casbah.{MongoClientURI, MongoClient}
+import com.mongodb.casbah.{MongoClient, MongoClientURI}
 import com.mongodb.casbah.commons.conversions.scala._
+import com.mongodb.casbah.gridfs.GridFS
 import com.typesafe.scalalogging.LazyLogging
 import name.dmitrym.theapp.utils.Configuration
-
 
 class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
   logger.debug(s"New instance of Storage created with uri $mongoUri")
@@ -17,6 +17,7 @@ class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
   val companies = database("companies")
   val users = database("users")
   val invoices = database("invoices")
+  val attachments = GridFS(database)
 }
 
 object Storage {

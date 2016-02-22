@@ -28,7 +28,24 @@
         <option ng-repeat="user in invoiceCtrl.users" value="{{user.id}}">{{user.name}}</option>
       </select>
       <br/>
-      <button type="submit" aria-hidden="true"  class="btn btn-success">Сохранить</button>
-      <button type="submit" class="btn btn-danger" aria-hidden="true">Отмена</button>
+
+      <span>Изображения</span>
+      <br/>
+      <img ng-repeat="attachment in invoice.attachments" ng-src="/api/v0/attachment/{{::attachment}}"/>
+      <br/>
+
+      <label>Добавить</label>
+      <input type="file" nv-file-select uploader="fileUploader" multiple>
+      <br/>
+
+      <ul>
+        <li ng-repeat="item in fileUploader.queue">
+          <span ng-bind="item.file.name"></span>
+          <div ng-thumb="{ file: item._file, height: 100 }"></div>
+        </li>
+      </ul>
+
+      <button type="submit" aria-hidden="true" class="btn btn-success">Сохранить</button>
+      <button type="reset" class="btn btn-danger" aria-hidden="true">Отмена</button>
     </form>
 </div>

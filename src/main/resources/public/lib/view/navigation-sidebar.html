@@ -4,7 +4,6 @@
             <li>
                 <a ui-sref="dashboard.main"><i class="fa fa-hdd-o fa-1x"></i> Главная</a>
             </li>
-
             <li>
                 <a><i class="fa fa-gears fa-1x"></i>Администрирование</a>
                 <ul class="nav nav-second-level">
@@ -16,43 +15,9 @@
                     </li>
                 </ul>
             </li>
-
             <li>
                 <a  ui-sref="dashboard.invoices"><i class="fa fa-tasks fa-1x"></i> Запросы</a>
             </li>
-            <li ng-class="{ active:contentCtrl.isSet('contragents') }">
-                <a href="#" ng-click="contentCtrl.setTab('contragents')"><i class="fa fa-users fa-1x"></i>Контрагенты</a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#"><i class="fa fa-book fa-1x"></i>Контрагенты</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-user fa-1x"></i>Конт.лица</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-retweet fa-1x"></i>В работе</a>
-                    </li>
-                </ul>
-            </li>
-            <li ng-class="{ active:contentCtrl.isSet('statistics') }">
-                <a href="#" ng-click="contentCtrl.setTab('statistics')"><i class="fa fa-bar-chart-o fa-1x"></i>Статистика</a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#"><i class="fa fa-tasks fa-1x"></i>Задачи</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-th-list fa-1x"></i>Запросы</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-user fa-1x"></i>Клиенты</a>
-                    </li>
-                </ul>
-            </li>
-            <li ng-class="{ active:contentCtrl.isSet('calendar') }" >
-                <a  href="#" ng-click="contentCtrl.setTab('calendar')"><i class="fa fa-calendar fa-1x"></i> Календарь</a>
-            </li>
         </ul>
-
     </div>
-
 </nav>

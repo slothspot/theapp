@@ -5,10 +5,12 @@ import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.LazyLogging
 import com.softwaremill.session.SessionDirectives._
 import com.softwaremill.session.SessionOptions._
-import name.dmitrym.theapp.storage.{Company, Storage}
+import name.dmitrym.theapp.storage.NotificationType._
+import name.dmitrym.theapp.storage._
 import com.mongodb.casbah.Imports._
 import name.dmitrym.theapp.utils.Marshallers._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import com.mongodb.util.JSON
 import spray.json._
 
 class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
@@ -29,6 +31,10 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                 "companyId" -> pl.companyId,
                 "role" -> pl.role
               ))
+              val no = Notification.toMongoDB(
+                CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, CreateUser, pl.toJson.asJsObject)
+              )
+              storage.events.insert(no)
               complete(Responses.Ok)
             case Some(u) =>
               complete(Responses.AlreadyExists)
@@ -60,6 +66,10 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                   "companyId" -> u.getAs[String]("companyId"),
                   "role" -> pl.role
                 ))
+                val no = Notification.toMongoDB(
+                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateUser, JsonParser(JSON.serialize(u)).asJsObject, pl.toJson.asJsObject)
+                )
+                storage.events.insert(no)
                 complete(Responses.Ok)
             }
           } else {

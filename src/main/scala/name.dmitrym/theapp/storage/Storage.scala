@@ -18,6 +18,7 @@ class Storage private(mongoUri: String, dbName: String) extends LazyLogging {
   val users = database("users")
   val invoices = database("invoices")
   val attachments = GridFS(database)
+  val events = database("events")
 }
 
 object Storage {

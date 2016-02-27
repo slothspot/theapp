@@ -1,5 +1,6 @@
 package name.dmitrym.theapp.storage
 
+import com.mongodb.casbah.commons.Imports._
 import name.dmitrym.theapp.storage.EventType.EventType
 import name.dmitrym.theapp.storage.InvoiceType.InvoiceType
 import name.dmitrym.theapp.storage.NotificationType.NotificationType
@@ -47,28 +48,40 @@ object EventType extends Enumeration {
 
 object NotificationType extends Enumeration {
   type NotificationType = Value
-  val Create, Update = Value
+  val CreateUser, UpdateUser, CreateCompany, UpdateCompany, CreateInvoice, UpdateInvoice = Value
 }
 
 trait Notification {
-  val date:DateTime
-  val notificationType:NotificationType
+  val when:DateTime
+  val who: String
+  val action:NotificationType
   def diff:Seq[Change]
 }
 
-case class CreateNotification(newV: JsObject) extends Notification {
-  override val date: DateTime = DateTime.now()
-  override val notificationType: NotificationType = NotificationType.Create
+object Notification {
+  def toMongoDB(n: Notification): MongoDBObject = MongoDBObject(
+    "when" -> n.when,
+    "who" -> n.who,
+    "action" -> n.action.id,
+    "details" -> n.diff.map {
+      case ChangeAdd(k, v) => MongoDBObject("type" -> "add", "key" -> k, "value" -> v)
+      case ChangeDel(k) => MongoDBObject("type" -> "del", "key" -> k)
+      case ChangeMod(k, oldV, newV) => MongoDBObject("type" -> "mod", "key" -> k, "value" -> Array(oldV, newV))
+    }
+  )
+}
+
+case class CreateNotification(who: String, action: NotificationType, newV: JsObject) extends Notification {
+  override val when: DateTime = DateTime.now()
   override def diff: Seq[Change] = {
     newV.fields.map { case (k, v) =>
-      ChangeAdd(k, v)
+      ChangeAdd(k, v.toString)
     }.toSeq
   }
 }
 
-case class UpdateNotification(oldV: JsObject, newV: JsObject) extends Notification {
-  override val date: DateTime = DateTime.now()
-  override val notificationType: NotificationType = NotificationType.Update
+case class UpdateNotification(who: String, action: NotificationType, oldV: JsObject, newV: JsObject) extends Notification {
+  override val when: DateTime = DateTime.now()
   override def diff:Seq[Change] = {
     val oldF = oldV.fields
     val newF = newV.fields
@@ -80,13 +93,13 @@ case class UpdateNotification(oldV: JsObject, newV: JsObject) extends Notificati
     }.keys
 
     addedKeys.map { k =>
-      ChangeAdd(k, newF(k))
+      ChangeAdd(k, newF(k).toString())
     }.toSeq ++
     removedKeys.map { k =>
       ChangeDel(k)
     }.toSeq ++
     modifiedKeys.map { k =>
-      ChangeMod(k, oldF(k), newF(k))
+      ChangeMod(k, oldF(k).toString(), newF(k).toString())
     }.toSeq
   }
 }
@@ -94,6 +107,6 @@ case class UpdateNotification(oldV: JsObject, newV: JsObject) extends Notificati
 abstract class Change {
   def k: String
 }
-case class ChangeAdd(k: String, v: JsValue) extends Change
-case class ChangeMod(k: String, oldV: JsValue, newV: JsValue) extends Change
+case class ChangeAdd(k: String, v: String) extends Change
+case class ChangeMod(k: String, oldV: String, newV: String) extends Change
 case class ChangeDel(k: String) extends Change

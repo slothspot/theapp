@@ -5,11 +5,12 @@ import akka.stream.ActorMaterializer
 import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.util.JSON
 import com.typesafe.scalalogging.LazyLogging
-import name.dmitrym.theapp.storage.{InvoiceStatus, Storage}
+import name.dmitrym.theapp.storage._
 import com.softwaremill.session.SessionDirectives._
 import com.softwaremill.session.SessionOptions._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import name.dmitrym.theapp.utils.Marshallers._
+import spray.json._
 import org.bson.types.ObjectId
 import org.joda.time.DateTime
 import com.mongodb.casbah.Imports._
@@ -57,6 +58,10 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
         case Some(s) =>
           val obj = createInvoiceFromPayload(inv)
           storage.invoices.insert(obj)
+          val no = Notification.toMongoDB(
+            CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, NotificationType.CreateInvoice, inv.toJson.asJsObject)
+          )
+          storage.events.insert(no)
           complete(Responses.InvoiceCreated(obj.getAs[ObjectId]("_id").get.toString))
         case None => complete(Responses.NotAuthorized)
       }
@@ -66,16 +71,24 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
   private[this] val updateInvoiceTimer = metrics.timer("updateInvoice")
   val updateInvoice = updateInvoiceTimer.time { post { requiredSession(oneOff, usingCookies) { session =>
     (requestEntityPresent & entity(as[InvoiceUpdatePayload])) { (inv) =>
-      if(inv.id.isEmpty){
-        complete(Responses.Fail("Missing Id"))
-      } else {
-        storage.invoices.findOneByID(new ObjectId(inv.id)) match {
-          case Some(e) =>
-            val upd = updateInvoiceFromPayload(e, inv)
-            storage.invoices.update(e, upd)
-            complete(Responses.InvoiceUpdated(upd.getAs[ObjectId]("_id").get.toString))
-          case None => complete(Responses.Fail("Invoice with given Id doesn't exist"))
-        }
+      storage.sessions.findOne(MongoDBObject("sessionId" -> session)) match {
+        case Some(s) =>
+          if(inv.id.isEmpty){
+            complete(Responses.Fail("Missing Id"))
+          } else {
+            storage.invoices.findOneByID(new ObjectId(inv.id)) match {
+              case Some(e) =>
+                val upd = updateInvoiceFromPayload(e, inv)
+                storage.invoices.update(e, upd)
+                val no = Notification.toMongoDB(
+                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, NotificationType.UpdateInvoice, JsonParser(JSON.serialize(e)).asJsObject, JsonParser(JSON.serialize(upd)).asJsObject)
+                )
+                storage.events.insert(no)
+                complete(Responses.InvoiceUpdated(upd.getAs[ObjectId]("_id").get.toString))
+              case None => complete(Responses.Fail("Invoice with given Id doesn't exist"))
+            }
+          }
+        case None => complete(Responses.NotAuthorized)
       }
     }
   }}}

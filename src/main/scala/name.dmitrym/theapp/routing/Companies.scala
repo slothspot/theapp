@@ -4,7 +4,8 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.mongodb.util.JSON
 import com.typesafe.scalalogging.LazyLogging
-import name.dmitrym.theapp.storage.{CompanyInfo, Company, Storage}
+import name.dmitrym.theapp.storage._
+import name.dmitrym.theapp.storage.NotificationType._
 import com.softwaremill.session.SessionDirectives._
 import com.softwaremill.session.SessionOptions._
 import com.mongodb.casbah.Imports._
@@ -27,6 +28,10 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
               storage.companies.findOne(MongoDBObject("company.id" -> companyItem.company.id)) match {
                 case None =>
                   storage.companies.insert(JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
+                  val no = Notification.toMongoDB(
+                    CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, CreateCompany, companyItem.toJson.asJsObject)
+                  )
+                  storage.events.insert(no)
                   complete(Responses.Ok)
                 case Some(c) =>
                   complete(Responses.AlreadyExists)
@@ -49,6 +54,10 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
                 case None => complete(Responses.DoesntExist)
                 case Some(c) =>
                   storage.companies.update(c, JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
+                  val no = Notification.toMongoDB(
+                    UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
+                  )
+                  storage.events.insert(no)
                   complete(Responses.Ok)
               }
             case Some(1) =>
@@ -57,6 +66,9 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
                   case None => complete(Responses.DoesntExist)
                   case Some(c) =>
                     storage.companies.update(c, JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
+                    val no = Notification.toMongoDB(
+                      UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
+                    )
                     complete(Responses.Ok)
                 }
               } else {

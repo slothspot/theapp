@@ -29,7 +29,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
                 case None =>
                   storage.companies.insert(JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
                   val no = Notification.toMongoDB(
-                    CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, CreateCompany, companyItem.toJson.asJsObject)
+                    CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], CreateCompany, companyItem.toJson.asJsObject)
                   )
                   storage.events.insert(no)
                   complete(Responses.Ok)
@@ -55,7 +55,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
                 case Some(c) =>
                   storage.companies.update(c, JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
                   val no = Notification.toMongoDB(
-                    UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
+                    UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
                   )
                   storage.events.insert(no)
                   complete(Responses.Ok)
@@ -67,7 +67,7 @@ class Companies(implicit mat: ActorMaterializer) extends Router with LazyLogging
                   case Some(c) =>
                     storage.companies.update(c, JSON.parse(companyItem.toJson.toString).asInstanceOf[DBObject])
                     val no = Notification.toMongoDB(
-                      UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
+                      UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], UpdateCompany, JsonParser(JSON.serialize(c)).asJsObject, companyItem.toJson.asJsObject)
                     )
                     complete(Responses.Ok)
                 }

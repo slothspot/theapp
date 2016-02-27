@@ -59,7 +59,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
           val obj = createInvoiceFromPayload(inv)
           storage.invoices.insert(obj)
           val no = Notification.toMongoDB(
-            CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, NotificationType.CreateInvoice, inv.toJson.asJsObject)
+            CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], NotificationType.CreateInvoice, inv.toJson.asJsObject)
           )
           storage.events.insert(no)
           complete(Responses.InvoiceCreated(obj.getAs[ObjectId]("_id").get.toString))
@@ -81,7 +81,7 @@ class Invoices(implicit mat: ActorMaterializer) extends Router with LazyLogging 
                 val upd = updateInvoiceFromPayload(e, inv)
                 storage.invoices.update(e, upd)
                 val no = Notification.toMongoDB(
-                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, NotificationType.UpdateInvoice, JsonParser(JSON.serialize(e)).asJsObject, JsonParser(JSON.serialize(upd)).asJsObject)
+                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], NotificationType.UpdateInvoice, JsonParser(JSON.serialize(e)).asJsObject, JsonParser(JSON.serialize(upd)).asJsObject)
                 )
                 storage.events.insert(no)
                 complete(Responses.InvoiceUpdated(upd.getAs[ObjectId]("_id").get.toString))

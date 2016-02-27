@@ -54,6 +54,7 @@ object NotificationType extends Enumeration {
 trait Notification {
   val when:DateTime
   val who: String
+  val company: String
   val action:NotificationType
   def diff:Seq[Change]
 }
@@ -62,6 +63,7 @@ object Notification {
   def toMongoDB(n: Notification): MongoDBObject = MongoDBObject(
     "when" -> n.when,
     "who" -> n.who,
+    "company" -> n.company,
     "action" -> n.action.id,
     "details" -> n.diff.map {
       case ChangeAdd(k, v) => MongoDBObject("type" -> "add", "key" -> k, "value" -> v)
@@ -71,7 +73,7 @@ object Notification {
   )
 }
 
-case class CreateNotification(who: String, action: NotificationType, newV: JsObject) extends Notification {
+case class CreateNotification(who: String, company: String, action: NotificationType, newV: JsObject) extends Notification {
   override val when: DateTime = DateTime.now()
   override def diff: Seq[Change] = {
     newV.fields.map { case (k, v) =>
@@ -80,7 +82,7 @@ case class CreateNotification(who: String, action: NotificationType, newV: JsObj
   }
 }
 
-case class UpdateNotification(who: String, action: NotificationType, oldV: JsObject, newV: JsObject) extends Notification {
+case class UpdateNotification(who: String, company: String, action: NotificationType, oldV: JsObject, newV: JsObject) extends Notification {
   override val when: DateTime = DateTime.now()
   override def diff:Seq[Change] = {
     val oldF = oldV.fields

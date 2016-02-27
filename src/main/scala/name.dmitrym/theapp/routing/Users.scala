@@ -32,7 +32,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                 "role" -> pl.role
               ))
               val no = Notification.toMongoDB(
-                CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, CreateUser, pl.toJson.asJsObject)
+                CreateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], CreateUser, pl.toJson.asJsObject)
               )
               storage.events.insert(no)
               complete(Responses.Ok)
@@ -67,7 +67,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                   "role" -> pl.role
                 ))
                 val no = Notification.toMongoDB(
-                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, UpdateUser, JsonParser(JSON.serialize(u)).asJsObject, pl.toJson.asJsObject)
+                  UpdateNotification(s.get("userId").asInstanceOf[ObjectId].toHexString, s.get("company").asInstanceOf[String], UpdateUser, JsonParser(JSON.serialize(u)).asJsObject, pl.toJson.asJsObject)
                 )
                 storage.events.insert(no)
                 complete(Responses.Ok)

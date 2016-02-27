@@ -58,7 +58,7 @@ class Users(implicit mat: ActorMaterializer) extends Router with LazyLogging {
                   "phone" -> pl.phone,
                   "address" -> pl.address,
                   "companyId" -> u.getAs[String]("companyId"),
-                  "role" -> u.getAs[Int]("role")
+                  "role" -> pl.role
                 ))
                 complete(Responses.Ok)
             }

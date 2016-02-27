@@ -396,7 +396,6 @@ var tasksTable = [];
             $scope.userId = $stateParams.id;
             $resource('/api/v0/user/' + $scope.userId).get().$promise.then(function(user){
                 $scope.user = user;
-                $scope.user.role = idToRole(user.role);
             });
         }
 
@@ -421,6 +420,7 @@ var tasksTable = [];
                 login: user.login,
                 password: md5(user.password),
                 name: user.name,
+                role: user.role,
                 email: user.email,
                 phone: user.phone,
                 address: user.address
@@ -482,7 +482,8 @@ var tasksTable = [];
                     password: md5($scope.user.password),
                     name: $scope.user.userFirstName + ' ' + $scope.user.userLastName,
                     companyId: ($scope.user.companyId === undefined) ? "" : $scope.user.companyId,
-                    role: roleToId($scope.user.role)};
+                    role: $scope.user.role
+                };
                 $http.put('/api/v0/users', addUserPayload).then(
                     function success(data) {
                         $location.path('/dashboard/users').replace();

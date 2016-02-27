@@ -24,46 +24,12 @@ var tasksTable = [];
   'use strict';
 
   var userRoles = [
-      {
-          id: 0,
-          value: 'admin',
-          title: 'Администратор'
-      },
-      {
-          id: 1,
-          value: 'companyAdmin',
-          title: 'Администратор компании'
-      },
-      {
-          id: 2,
-          value: 'deptHead',
-          title: 'Руководитель отдела'
-      },
-      {
-          id: 3,
-          value: 'sale',
-          title: 'Сотрудник отдела продаж'
-      },
-      {
-          id: 4,
-          value: 'provider',
-          title: 'Сотрудник отдела обеспечения'
-      }
+      {id: 0, title: 'Администратор' },
+      {id: 1, title: 'Администратор компании'},
+      {id: 2, title: 'Руководитель отдела'},
+      {id: 3, title: 'Сотрудник отдела продаж'},
+      {id: 4, title: 'Сотрудник отдела обеспечения'}
   ];
-
-    function roleToId(role) {
-        for(var i = 0; i < userRoles.length; i++){
-            if(userRoles[i].value === role)
-                return userRoles[i].id;
-        }
-    }
-
-    function idToRole(id) {
-        for(var i = 0; i < userRoles.length; i++){
-            if(userRoles[i].id === id)
-                return userRoles[i].title;
-        }
-    }
 
     var companyDomains = [
         {id: 0, title: 'Розничная торговля / Продажи'},
@@ -156,7 +122,10 @@ var tasksTable = [];
 
     app.filter('idtorole', function(){
         return function(input){
-            return idToRole(input);
+            for(var i = 0; i < userRoles.length; i++){
+                if(userRoles[i].id === input)
+                    return userRoles[i].title;
+            }
         };
     });
     app.filter('toDomainTitle', function(){

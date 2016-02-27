@@ -16,8 +16,8 @@
             </select>
             <br/>
             <label>Должность/Права:</label>
-            <select class="form-control" placeholder="Должность" ng-model="user.role">
-                <option ng-repeat="role in userCtrl.userRoles" value="{{role.value}}">{{role.title}}</option>
+            <select class="form-control" placeholder="Должность" ng-model="user.role" convert-to-number="">
+                <option ng-repeat="role in userCtrl.userRoles" value="{{role.id}}">{{role.title}}</option>
             </select>
             <label>Введите пароль:</label>
             <input type="password" class="form-control" placeholder="Пароль" ng-model="user.password" required/>
